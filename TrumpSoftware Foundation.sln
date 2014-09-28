@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.Mvvm", "TrumpSoftware.Mvvm\TrumpSoftware.Mvvm.csproj", "{E9FEF855-3117-40C2-B634-F6D9B0E30848}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.RemoteResourcesLibrary", "TrumpSoftware.RemoteResourcesLibrary\TrumpSoftware.RemoteResourcesLibrary.csproj", "{7D176D10-162B-4E78-9B1F-85723992D392}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{E9FEF855-3117-40C2-B634-F6D9B0E30848}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E9FEF855-3117-40C2-B634-F6D9B0E30848}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E9FEF855-3117-40C2-B634-F6D9B0E30848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D176D10-162B-4E78-9B1F-85723992D392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D176D10-162B-4E78-9B1F-85723992D392}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D176D10-162B-4E78-9B1F-85723992D392}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D176D10-162B-4E78-9B1F-85723992D392}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
