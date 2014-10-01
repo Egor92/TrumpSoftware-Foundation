@@ -32,7 +32,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             _index = new Index(this, indexFileName);
         }
 
-        public async Task<bool> LoadIndex()
+        public async Task LoadIndex()
         {
             _resources.Clear();
             await _index.Load();
