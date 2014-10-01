@@ -1,8 +1,8 @@
 ﻿using System;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Streams;
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {
@@ -10,39 +10,32 @@ namespace TrumpSoftware.RemoteResourcesLibrary
     {
         private object _data;
         private readonly ResourceManager _resourceManager;
-        private readonly string _localPath;
-        private readonly Uri _remotePath;
+        private readonly string _relativePath;
         private int _localVersion;
         private readonly int _remoteVersion;
 
-        protected readonly static HttpClient HttpClient = new HttpClient();
+        private static readonly HttpClient HttpClient = new HttpClient();
 
         private bool HasTheNewestVersion 
         {
             get { return _localVersion >= _remoteVersion; }
         }
 
-        protected Resource(ResourceManager resourceManager, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo = null)
+        internal bool IsLoaded
+        {
+            get { return _data != null; }
+        }
+
+        internal Resource(ResourceManager resourceManager, ResourceInfo localResourceInfo, int remoteVersion = 0)
         {
             if (resourceManager == null) 
                throw new ArgumentNullException("resourceManager");
             if (localResourceInfo == null)
                 throw new ArgumentNullException("localResourceInfo");
             _resourceManager = resourceManager;
-            _localPath = localResourceInfo.LocalPath;
+            _relativePath = localResourceInfo.RelativePath;
             _localVersion = localResourceInfo.Version;
-            if (remoteResourceInfo != null)
-            {
-                if (localResourceInfo.LocalPath != remoteResourceInfo.LocalPath)
-                    throw new ArgumentException("LocalPath are not equls in local and remote ResourceInfos");
-                _remotePath = remoteResourceInfo.RemotePath;
-                _remoteVersion = remoteResourceInfo.Version;
-            }
-            else
-            {
-                _remotePath = localResourceInfo.RemotePath;
-                _remoteVersion = 0;
-            }
+            _remoteVersion = remoteVersion;
         }
 
         internal async Task<object> Get()
@@ -52,42 +45,81 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             return _data;
         }
 
-        internal async virtual Task Load()
+        internal async Task Load()
         {
             if (_data != null)
                 return;
+            if (!Uri.IsWellFormedUriString(_relativePath, UriKind.Relative))
+                return;
+
+            var remoteUri = new Uri(_resourceManager.RemoteResourcesFolderUri, _relativePath);
+            var localUri = new Uri(_resourceManager.LocalResourcesFolderUri, _relativePath);
+            var compiledUri = new Uri(_resourceManager.CompiledResourceFolderUri, _relativePath);
+
             if (_resourceManager.HasInternetConnection && !HasTheNewestVersion)
             {
-                var remoteUri = new Uri(_resourceManager.RemoteResourcesFolderUri, _remotePath);
-                try
-                {
-                    _data = await DownloadFromServer(remoteUri);
-                }
-                catch
-                {
-                    _data = null;
-                }
+                var downloadedSuccessfully = await DownloadResource(remoteUri, localUri);
+                if (downloadedSuccessfully)
+                    _data = await LoadLocalResource(localUri);
                 if (_data != null)
-                    UpdateVersion();
+                    UpdateLocalVersion();
             }
+            else if (_data == null)
+                _data = await LoadLocalResource(localUri);
+
             if (_data == null)
             {
-                _data = await LoadFromLocalStorage(_resourceManager.StorageFolder, _localPath);
-            }
-            if (_data == null)
-            {
-                var path = Path.Combine(_resourceManager.ResourcesFolderPath, _localPath);
-                _data = await LoadFromCompiledResource(path);
+                await CopyFromCompiledResource(compiledUri, localUri);
+                _data = await LoadLocalResource(localUri);
             }
         }
 
-        protected abstract Task<object> DownloadFromServer(Uri uri);
+        private static async Task<bool> DownloadResource(Uri fromUri, Uri toUri)
+        {
+            byte[] buffer;
+            try
+            {
+                buffer = await HttpClient.GetByteArrayAsync(fromUri);
+            }
+            catch
+            {
+                return false;
+            }
+            var savedSuccessfully = await SaveToLocalFile(toUri, buffer);
+            return savedSuccessfully;
+        }
 
-        protected abstract Task<object> LoadFromLocalStorage(StorageFolder storageFolder, string path);
+        protected abstract Task<object> LoadLocalResource(Uri uri);
 
-        protected abstract Task<object> LoadFromCompiledResource(string path);
+        private static async Task<bool> CopyFromCompiledResource(Uri fromUri, Uri toUri)
+        {
+            var storageFile = await StorageFile.GetFileFromApplicationUriAsync(fromUri);
+            if (storageFile == null)
+                return false;
+            byte[] buffer;
+            using (var stream = await storageFile.OpenReadAsync())
+            {
+                buffer = new byte[stream.Size];
+                using (var reader = new DataReader(stream))
+                {
+                    await reader.LoadAsync((uint)stream.Size);
+                    reader.ReadBytes(buffer);
+                }
+            }
+            var savedSuccessfully = await SaveToLocalFile(toUri, buffer);
+            return savedSuccessfully;
+        }
 
-        private void UpdateVersion()
+        private static async Task<bool> SaveToLocalFile(Uri uri, byte[] buffer)
+        {
+            var storageFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
+            if (storageFile == null)
+                return false;
+            await FileIO.WriteBytesAsync(storageFile, buffer);
+            return true;
+        }
+
+        private void UpdateLocalVersion()
         {
             _localVersion = _remoteVersion;
         }

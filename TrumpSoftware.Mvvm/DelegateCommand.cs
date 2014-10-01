@@ -13,7 +13,7 @@ namespace TrumpSoftware.Mvvm
 		public DelegateCommand(Action command, Func<bool> canExecute = null)
 		{
 			if (command == null)
-				throw new ArgumentNullException();
+                throw new ArgumentNullException("command");
 			_canExecute = canExecute;
 			_command = command;
 		}

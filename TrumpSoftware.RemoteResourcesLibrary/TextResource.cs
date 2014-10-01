@@ -6,27 +6,14 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 {
     internal class TextResource : Resource
     {
-        public TextResource(ResourceManager resourceManager, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo) 
-            : base(resourceManager, localResourceInfo, remoteResourceInfo)
+        public TextResource(ResourceManager resourceManager, ResourceInfo localResourceInfo, int remoteVersion = 0) 
+            : base(resourceManager, localResourceInfo, remoteVersion)
         {
         }
 
-        protected override async Task<object> DownloadFromServer(Uri uri)
+        protected override async Task<object> LoadLocalResource(Uri uri)
         {
-            return await HttpClient.GetStringAsync(uri);
-        }
-
-        protected override async Task<object> LoadFromLocalStorage(StorageFolder storageFolder, string path)
-        {
-            var storageFile = await storageFolder.GetFileAsync(path);
-            if (storageFile == null)
-                return null;
-            return await FileIO.ReadTextAsync(storageFile);
-        }
-
-        protected override async Task<object> LoadFromCompiledResource(string path)
-        {
-            var storageFile = await StorageFile.GetFileFromPathAsync(path);
+            var storageFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
             if (storageFile == null)
                 return null;
             return await FileIO.ReadTextAsync(storageFile);
