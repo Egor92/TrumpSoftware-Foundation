@@ -44,6 +44,7 @@
     <Compile Include="ResourceFactory.cs" />
     <Compile Include="ResourceManager.cs" />
     <Compile Include="ResourceInfo.cs" />
+    <Compile Include="ResourceFolderLocations.cs" />
     <Compile Include="TextResource.cs" />
   </ItemGroup>
   <ItemGroup>
