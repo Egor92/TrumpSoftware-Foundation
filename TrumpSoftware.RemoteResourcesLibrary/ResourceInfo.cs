@@ -1,12 +1,17 @@
 ﻿using System;
+using Newtonsoft.Json;
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {
     internal sealed class ResourceInfo
     {
-        internal string RelativePath { get; set; }
-        internal string Type { get; set; }
-        internal int Version { get; set; }
+        public string RelativePath { get; set; }
+        public string Type { get; set; }
+        public int Version { get; set; }
+
+        internal ResourceInfo()
+        {
+        }
 
         internal ResourceInfo(string relativePath, string type, int version)
         {

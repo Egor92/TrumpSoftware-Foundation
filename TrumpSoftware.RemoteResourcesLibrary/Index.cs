@@ -9,7 +9,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 {
     internal class Index
     {
-        private readonly ResourceManager _resourceManager;
+        private readonly ResourceFolderLocations _resourceFolderLocations;
         private readonly string _indexFileName;
         private static readonly HttpClient HttpClient = new HttpClient();
 
@@ -29,22 +29,22 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 
         private Uri CompiledIndexUri
         {
-            get { return new Uri(_resourceManager.CompiledResourceFolderUri, _indexFileName); }
+            get { return new Uri(_resourceFolderLocations.Compiled, _indexFileName); }
         }
 
         private Uri LocalIndexUri
         {
-            get { return new Uri(_resourceManager.RemoteResourcesFolderUri, _indexFileName); }
+            get { return new Uri(_resourceFolderLocations.Local, _indexFileName); }
         }
 
         private Uri RemoteIndexUri
         {
-            get { return new Uri(_resourceManager.RemoteResourcesFolderUri, _indexFileName); }
+            get { return new Uri(_resourceFolderLocations.Remote, _indexFileName); }
         }
 
-        internal Index(ResourceManager resourceManager, string indexFileName)
+        internal Index(ResourceFolderLocations resourceFolderLocations, string indexFileName)
         {
-            _resourceManager = resourceManager;
+            _resourceFolderLocations = resourceFolderLocations;
             _indexFileName = indexFileName;
         }
 
@@ -73,22 +73,37 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 
         private async Task<IList<ResourceInfo>> LoadLocalIndex()
         {
-            var storageFile = await StorageFile.GetFileFromApplicationUriAsync(LocalIndexUri);
-            if (storageFile == null)
+            try
+            {
+                var storageFile = await StorageFile.GetFileFromApplicationUriAsync(LocalIndexUri);
+                if (storageFile == null)
+                    return null;
+                var indexData = await FileIO.ReadTextAsync(storageFile);
+                var resourceInfos = Read(indexData);
+                return resourceInfos;
+            }
+            catch
+            {
                 return null;
-            var indexData = await FileIO.ReadTextAsync(storageFile);
-            var resourceInfos = Read(indexData);
-            return resourceInfos;
+            }
         }
 
         private async Task<IList<ResourceInfo>> GetCompiledIndex()
         {
-            var storageFile = await StorageFile.GetFileFromApplicationUriAsync(CompiledIndexUri);
-            if (storageFile == null)
+            try
+            {
+                var storageFile = await StorageFile.GetFileFromApplicationUriAsync(CompiledIndexUri);
+                if (storageFile == null)
+                    return null;
+
+                var indexData = await FileIO.ReadTextAsync(storageFile);
+                var resourceInfos = Read(indexData);
+                return resourceInfos;
+            }
+            catch
+            {
                 return null;
-            var indexData = await FileIO.ReadTextAsync(storageFile);
-            var resourceInfos = Read(indexData);
-            return resourceInfos;
+            }
         }
 
         internal static void Write(IEnumerable<ResourceInfo> resources)

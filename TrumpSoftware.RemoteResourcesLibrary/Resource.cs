@@ -9,7 +9,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
     internal abstract class Resource
     {
         private object _data;
-        private readonly ResourceManager _resourceManager;
+        private readonly ResourceFolderLocations _resourceFolderLocations;
         private readonly string _relativePath;
         private int _localVersion;
         private readonly int _remoteVersion;
@@ -26,37 +26,39 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             get { return _data != null; }
         }
 
-        internal Resource(ResourceManager resourceManager, ResourceInfo localResourceInfo, int remoteVersion = 0)
+        internal Resource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, int remoteVersion = 0)
         {
-            if (resourceManager == null) 
-               throw new ArgumentNullException("resourceManager");
+            if (resourceFolderLocations == null)
+                throw new ArgumentNullException("resourceFolderLocations");
             if (localResourceInfo == null)
                 throw new ArgumentNullException("localResourceInfo");
-            _resourceManager = resourceManager;
+            _resourceFolderLocations = resourceFolderLocations;
             _relativePath = localResourceInfo.RelativePath;
             _localVersion = localResourceInfo.Version;
             _remoteVersion = remoteVersion;
         }
 
-        internal async Task<object> Get()
+        internal async Task<object> Get(bool hasInternetConnection)
         {
             if (_data == null)
-                await Load();
+                await Load(hasInternetConnection);
             return _data;
         }
 
-        internal async Task Load()
+        internal async Task Load(bool hasInternetConnection)
         {
             if (_data != null)
                 return;
-            if (!Uri.IsWellFormedUriString(_relativePath, UriKind.Relative))
-                return;
 
-            var remoteUri = new Uri(_resourceManager.RemoteResourcesFolderUri, _relativePath);
-            var localUri = new Uri(_resourceManager.LocalResourcesFolderUri, _relativePath);
-            var compiledUri = new Uri(_resourceManager.CompiledResourceFolderUri, _relativePath);
+            var relativePath = Uri.IsWellFormedUriString(_relativePath, UriKind.Relative)
+                ? _relativePath
+                : Uri.EscapeDataString(_relativePath);
 
-            if (_resourceManager.HasInternetConnection && !HasTheNewestVersion)
+            var remoteUri = new Uri(_resourceFolderLocations.Remote, relativePath);
+            var localUri = new Uri(_resourceFolderLocations.Local, relativePath);
+            var compiledUri = new Uri(_resourceFolderLocations.Compiled, relativePath);
+
+            if (hasInternetConnection && !HasTheNewestVersion)
             {
                 var downloadedSuccessfully = await DownloadResource(remoteUri, localUri);
                 if (downloadedSuccessfully)
@@ -93,6 +95,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 
         private static async Task<bool> CopyFromCompiledResource(Uri fromUri, Uri toUri)
         {
+            //TODO: Заменить прямым копированием файла
             var storageFile = await StorageFile.GetFileFromApplicationUriAsync(fromUri);
             if (storageFile == null)
                 return false;
@@ -112,6 +115,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 
         private static async Task<bool> SaveToLocalFile(Uri uri, byte[] buffer)
         {
+            // TODO: Заменить на создание файла
             var storageFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
             if (storageFile == null)
                 return false;

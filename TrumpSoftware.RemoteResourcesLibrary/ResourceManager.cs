@@ -10,9 +10,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
         private readonly IDictionary<string, Resource> _resources = new Dictionary<string, Resource>();
         private readonly Index _index;
 
-        internal Uri CompiledResourceFolderUri { get; private set; }
-        internal Uri LocalResourcesFolderUri { get; private set; }
-        internal Uri RemoteResourcesFolderUri { get; private set; }
+        internal ResourceFolderLocations ResourceFolderLocations { get; private set; }
         public bool HasInternetConnection { get; private set; }
         public bool IsLoaded;
 
@@ -26,10 +24,8 @@ namespace TrumpSoftware.RemoteResourcesLibrary
                 throw new ArgumentNullException("remoteResourcesFolderUri");
             if (indexFileName == null) 
                 throw new ArgumentNullException("indexFileName");
-            CompiledResourceFolderUri = compiledResourceFolderUri;
-            LocalResourcesFolderUri = localResourcesFolderUri;
-            RemoteResourcesFolderUri = remoteResourcesFolderUri;
-            _index = new Index(this, indexFileName);
+            ResourceFolderLocations = new ResourceFolderLocations(compiledResourceFolderUri, localResourcesFolderUri, remoteResourcesFolderUri);
+            _index = new Index(ResourceFolderLocations, indexFileName);
         }
 
         public async Task LoadIndex()
@@ -37,26 +33,34 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             _resources.Clear();
             await _index.Load();
 
-            if (!_index.IsLocalResourceInfoLoaded)
+            var localResourceInfos = _index.LocalResourceInfos;
+            var remoteResourceInfos = new List<ResourceInfo>(_index.RemoteResourceInfos);
+            if (localResourceInfos != null)
             {
-                IsLoaded = false;
-                return;
+                foreach (var localResourceInfo in localResourceInfos)
+                {
+                    var localPath = localResourceInfo.RelativePath;
+                    int remoteResourceVersion = 0;
+                    if (_index.IsRemoteResourceInfoDownloaded)
+                    {
+                        var remoteResourceInfo =
+                            _index.RemoteResourceInfos.FirstOrDefault(x => x.RelativePath == localPath);
+                        if (remoteResourceInfo != null)
+                        {
+                            remoteResourceInfos.Remove(remoteResourceInfo);
+                            remoteResourceVersion = remoteResourceInfo.Version;
+                        }
+                    }
+                    Resource resource = ResourceFactory.CreateResource(ResourceFolderLocations, localResourceInfo,
+                        remoteResourceVersion);
+                    _resources.Add(localPath, resource);
+                }
             }
 
-            var localResourceInfos = _index.LocalResourceInfos;
-
-            foreach (var localResourceInfo in localResourceInfos)
+            foreach (var remoteResourceInfo in remoteResourceInfos)
             {
-                var localPath = localResourceInfo.RelativePath;
-                int remoteResourceVersion = 0;
-                if (_index.IsRemoteResourceInfoDownloaded)
-                {
-                    var remoteResourceInfo = _index.RemoteResourceInfos.FirstOrDefault(x => x.RelativePath == localPath);
-                    if (remoteResourceInfo != null)
-                        remoteResourceVersion = remoteResourceInfo.Version;
-                }
-                Resource resource = ResourceFactory.CreateResource(this, localResourceInfo, remoteResourceVersion);
-                _resources.Add(localPath, resource);
+                Resource resource = ResourceFactory.CreateResourceFromRemoteResourceInfo(ResourceFolderLocations, remoteResourceInfo);
+                _resources.Add(remoteResourceInfo.RelativePath, resource);
             }
 
             HasInternetConnection = _index.IsRemoteResourceInfoDownloaded;
@@ -71,7 +75,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             if (!_resources.ContainsKey(path))
                 return null;
             var resource = _resources[path];
-            var data = await resource.Get();
+            var data = await resource.Get(HasInternetConnection);
             return data as T;
         }
 
@@ -82,7 +86,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             if (!_resources.ContainsKey(path))
                 return;
             var resource = _resources[path];
-            await resource.Load();
+            await resource.Load(HasInternetConnection);
         }
     }
 }

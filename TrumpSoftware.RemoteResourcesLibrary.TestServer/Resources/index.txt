@@ -1,0 +1,7 @@
+[
+	{
+	   "RelativePath": "Songs/Irish blood.txt",
+	   "Version": 2,
+	   "Type": "text"
+	}
+]

@@ -6,8 +6,8 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 {
     internal class TextResource : Resource
     {
-        public TextResource(ResourceManager resourceManager, ResourceInfo localResourceInfo, int remoteVersion = 0) 
-            : base(resourceManager, localResourceInfo, remoteVersion)
+        public TextResource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, int remoteVersion = 0)
+            : base(resourceFolderLocations, localResourceInfo, remoteVersion)
         {
         }
 
