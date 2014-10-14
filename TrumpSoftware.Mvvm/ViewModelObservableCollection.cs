@@ -1,39 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 
 namespace TrumpSoftware.Mvvm
 {
-    public class ModelWrapperViewModelCollection<TModel, TViewModel> : ViewModelCollection<TViewModel>
-        where TViewModel : ViewModelBase
+    public class ViewModelObservableCollection<TModel, TViewModel> : ObservableCollection<TViewModel>
+        where TModel : class, IDataItem
+        where TViewModel : DataItemViewModel
     {
         private readonly IList<TModel> _modelCollection;
         private readonly Func<TModel, TViewModel> _getViewModel;
         private readonly Func<TViewModel, TModel> _getModel;
+        private readonly Predicate<TModel> _filter;
         private ChangesInitiator? _changesInitiator;
 
-        public ModelWrapperViewModelCollection(ViewModelBase parent, IList<TModel> modelCollection, Func<TModel, TViewModel> getViewModel, Func<TViewModel, TModel> getModel) 
-            : base(parent)
+        public ViewModelObservableCollection(IList<TModel> modelCollection, Func<TModel, TViewModel> getViewModel, Func<TViewModel, TModel> getModel, Predicate<TModel> filter = null)
         {
-            if (modelCollection == null) 
+            if (modelCollection == null)
                 throw new ArgumentNullException("modelCollection");
-            if (getViewModel == null) 
+            if (getViewModel == null)
                 throw new ArgumentNullException("getViewModel");
-            if (getModel == null) 
+            if (getModel == null)
                 throw new ArgumentNullException("getModel");
-            foreach (var model in modelCollection)
-            {
-                var viewModel = getViewModel(model);
-                Add(viewModel);
-            }
             _modelCollection = modelCollection;
+            _getViewModel = getViewModel;
+            _getModel = getModel;
+            _filter = filter;
+            foreach (var model in _modelCollection)
+            {
+                if (!IsSatisfiedByFilter(model))
+                    continue;
+                var viewModel = getViewModel(model);
+                Items.Add(viewModel);
+            }
             var notifyCollectionChanged = modelCollection as INotifyCollectionChanged;
             if (notifyCollectionChanged != null)
                 notifyCollectionChanged.CollectionChanged += OnModelCollectionChanged;
-            _getViewModel = getViewModel;
-            _getModel = getModel;
-            CollectionChanged += OnViewModelCollectionChanged;
         }
 
         private void OnModelCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -45,30 +49,33 @@ namespace TrumpSoftware.Mvvm
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    var newViewModels = e.NewItems.Cast<TModel>().Select(x => _getViewModel(x)).ToList();
+                    var newViewModels = e.NewItems
+                        .Cast<TModel>()
+                        .Where(IsSatisfiedByFilter)
+                        .Select(x => _getViewModel(x))
+                        .ToList();
                     foreach (var newViewModel in newViewModels)
-                        Items.Add(newViewModel);
-                    break;
-                case NotifyCollectionChangedAction.Move:
-                    throw new NotImplementedException();
+                        Add(newViewModel);
                     break;
                 case NotifyCollectionChangedAction.Remove:
-                    var oldViewModels = e.OldItems.Cast<TModel>().Select(x => _getViewModel(x)).ToList();
-                    foreach (var oldViewModel in oldViewModels)
-                        Items.Remove(oldViewModel);
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    throw new NotImplementedException();
+                    var oldModels = e.OldItems.Cast<TModel>();
+                    foreach (var oldModel in oldModels)
+                    {
+                        var oldViewModels = this.Where(x => x.Model == oldModel);
+                        foreach (var oldViewModel in oldViewModels)
+                            Remove(oldViewModel);
+                    }
                     break;
                 case NotifyCollectionChangedAction.Reset:
-                    Items.Clear();
+                    Clear();
                     break;
             }
             _changesInitiator = null;
         }
 
-        private void OnViewModelCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
+            base.OnCollectionChanged(e);
             if (_changesInitiator == ChangesInitiator.Model)
                 return;
             _changesInitiator = ChangesInitiator.ViewModel;
@@ -76,26 +83,31 @@ namespace TrumpSoftware.Mvvm
             switch (e.Action)
             {
                 case NotifyCollectionChangedAction.Add:
-                    var newModels = e.NewItems.Cast<TViewModel>().Select(x => _getModel(x)).ToList();
+                    var newModels = e.NewItems
+                        .Cast<TViewModel>()
+                        .Select(x => _getModel(x))
+                        .ToList();
                     foreach (var newModel in newModels)
                         _modelCollection.Add(newModel);
                     break;
-                case NotifyCollectionChangedAction.Move:
-                    throw new NotImplementedException();
-                    break;
                 case NotifyCollectionChangedAction.Remove:
-                    var oldModels = e.OldItems.Cast<TViewModel>().Select(x => _getModel(x)).ToList();
+                    var oldModels = e.OldItems
+                        .Cast<TViewModel>()
+                        .Select(x => _getModel(x))
+                        .ToList();
                     foreach (var oldModel in oldModels)
                         _modelCollection.Remove(oldModel);
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    throw new NotImplementedException();
                     break;
                 case NotifyCollectionChangedAction.Reset:
                     _modelCollection.Clear();
                     break;
             }
             _changesInitiator = null;
+        }
+
+        private bool IsSatisfiedByFilter(TModel model)
+        {
+            return _filter == null || _filter(model);
         }
 
         private enum ChangesInitiator
