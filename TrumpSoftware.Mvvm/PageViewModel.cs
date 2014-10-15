@@ -1,7 +1,6 @@
 ﻿using System;
-using TrumpSoftware.Mvvm;
 
-namespace TrumpSoftware.Wpf
+namespace TrumpSoftware.Mvvm
 {
     public abstract class PageViewModel : ViewModelBase
     {

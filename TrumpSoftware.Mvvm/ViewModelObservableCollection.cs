@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 
 namespace TrumpSoftware.Mvvm
 {
-    public class ViewModelObservableCollection<TModel, TViewModel> : ObservableCollection<TViewModel>
+    public class ViewModelObservableCollection<TModel, TViewModel> : ViewModelCollection<TViewModel>
         where TModel : class, IDataItem
         where TViewModel : DataItemViewModel
     {
@@ -16,7 +15,8 @@ namespace TrumpSoftware.Mvvm
         private readonly Predicate<TModel> _filter;
         private ChangesInitiator? _changesInitiator;
 
-        public ViewModelObservableCollection(IList<TModel> modelCollection, Func<TModel, TViewModel> getViewModel, Func<TViewModel, TModel> getModel, Predicate<TModel> filter = null)
+        public ViewModelObservableCollection(ViewModelBase parent, IList<TModel> modelCollection, Func<TModel, TViewModel> getViewModel, Func<TViewModel, TModel> getModel, Predicate<TModel> filter = null)
+            : base(parent)
         {
             if (modelCollection == null)
                 throw new ArgumentNullException("modelCollection");

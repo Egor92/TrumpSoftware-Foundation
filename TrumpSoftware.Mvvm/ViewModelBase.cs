@@ -10,12 +10,12 @@
         }
 
         protected TViewModel GetAncestor<TViewModel>()
-            where TViewModel : ViewModelBase
+            where TViewModel : class
         {
             if (Parent == null)
                 return null;
             if (Parent is TViewModel)
-                return (TViewModel)Parent;
+                return Parent as TViewModel;
             return Parent.GetAncestor<TViewModel>();
         }
     }
