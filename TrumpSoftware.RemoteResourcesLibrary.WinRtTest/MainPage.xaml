@@ -10,7 +10,7 @@
 
     <Grid Margin="0,50,0,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal">

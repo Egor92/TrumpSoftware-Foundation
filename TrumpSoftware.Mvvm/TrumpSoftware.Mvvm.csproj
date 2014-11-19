@@ -38,7 +38,7 @@
     <Compile Include="DelegateCommand.cs" />
     <Compile Include="IDataItem.cs" />
     <Compile Include="INavigationHost.cs" />
-    <Compile Include="PageViewModel.cs" />
+    <Compile Include="IReseter.cs" />
     <Compile Include="Relation.cs" />
     <Compile Include="ViewModelObservableCollection.cs" />
     <Compile Include="NotificationObject.cs" />

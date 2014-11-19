@@ -6,7 +6,7 @@ using System.Linq;
 namespace TrumpSoftware.Mvvm
 {
     public class ViewModelObservableCollection<TModel, TViewModel> : ViewModelCollection<TViewModel>
-        where TModel : class, IDataItem
+        where TModel : class
         where TViewModel : DataItemViewModel
     {
         private readonly IList<TModel> _modelCollection;

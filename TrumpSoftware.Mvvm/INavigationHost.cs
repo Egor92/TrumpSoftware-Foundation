@@ -2,11 +2,15 @@
 {
     public interface INavigationHost
     {
-        void Navigate<TPageVM>(TPageVM pageVM)
-            where TPageVM : PageViewModel;
-
         bool CanGoBack { get; }
 
+        bool CanGoForward { get; }
+
+        void Navigate<TPageVM>(TPageVM pageVM)
+            where TPageVM : ViewModelBase;
+
         void GoBack();
+
+        void GoForward();
     }
 }

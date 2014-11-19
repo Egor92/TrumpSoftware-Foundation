@@ -4,7 +4,7 @@
     {
         public ViewModelBase Parent { get; protected internal set; }
 
-        protected ViewModelBase(ViewModelBase parent)
+        protected ViewModelBase(ViewModelBase parent = null)
         {
             Parent = parent;
         }
