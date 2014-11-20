@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace TrumpSoftware.Wpf
+namespace TrumpSoftware.Wpf.Mvvm
 {
     public class DelegateCommand : ICommand
     {

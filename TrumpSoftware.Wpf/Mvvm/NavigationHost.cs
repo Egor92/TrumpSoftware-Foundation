@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using TrumpSoftware.Mvvm;
+using TrumpSoftware.Common.Mvvm;
 
-namespace TrumpSoftware.Wpf
+namespace TrumpSoftware.Wpf.Mvvm
 {
     public class NavigationHost : INavigationHost
     {

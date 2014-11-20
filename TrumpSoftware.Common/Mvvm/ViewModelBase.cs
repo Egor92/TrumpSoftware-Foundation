@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace TrumpSoftware.Mvvm
+namespace TrumpSoftware.Common.Mvvm
 {
     public abstract class ViewModelBase : NotificationObject
     {

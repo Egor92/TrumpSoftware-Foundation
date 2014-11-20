@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrumpSoftware.Mvvm
+namespace TrumpSoftware.Common.Mvvm
 {
     public abstract class DataItemViewModel : ViewModelBase
     {
