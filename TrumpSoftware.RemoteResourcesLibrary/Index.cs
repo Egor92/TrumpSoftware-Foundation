@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
-using Windows.Storage;
 using Newtonsoft.Json;
+using PCLStorage;
+using TrumpSoftware.Common;
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {
@@ -23,9 +25,9 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             get { return RemoteResourceInfos != null; }
         }
 
-        internal IList<ResourceInfo> LocalResourceInfos { get; private set; }
+        internal IEnumerable<ResourceInfo> LocalResourceInfos { get; private set; }
 
-        internal IList<ResourceInfo> RemoteResourceInfos { get; private set; }
+        internal IEnumerable<ResourceInfo> RemoteResourceInfos { get; private set; }
 
         private Uri CompiledIndexUri
         {
@@ -48,15 +50,22 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             _indexFileName = indexFileName;
         }
 
-        internal async Task Load()
+        internal async Task LoadAsync()
         {
-            LocalResourceInfos = await LoadLocalIndex();
+            LocalResourceInfos = await LoadLocalIndexAsync();
             if (LocalResourceInfos == null)
-                LocalResourceInfos = await GetCompiledIndex();
-            RemoteResourceInfos = await DownloadRemoteIndex();
+                LocalResourceInfos = await GetCompiledIndexAsync();
+            RemoteResourceInfos = await DownloadRemoteIndexAsync();
         }
 
-        private async Task<IList<ResourceInfo>> DownloadRemoteIndex()
+        internal async Task SaveAsync(IEnumerable<ResourceInfo> resourceInfos)
+        {
+            var indexData = Write(resourceInfos);
+            var file = await PathHelper.GetOrCreateFileAsync(LocalIndexUri.LocalPath);
+            await file.WriteAllTextAsync(indexData);
+        }
+
+        private async Task<IList<ResourceInfo>> DownloadRemoteIndexAsync()
         {
             string indexData;
             try
@@ -71,44 +80,29 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             return resourceInfos;
         }
 
-        private async Task<IList<ResourceInfo>> LoadLocalIndex()
+        private async Task<IList<ResourceInfo>> LoadLocalIndexAsync()
         {
-            try
-            {
-                var storageFile = await StorageFile.GetFileFromApplicationUriAsync(LocalIndexUri);
-                if (storageFile == null)
-                    return null;
-                var indexData = await FileIO.ReadTextAsync(storageFile);
-                var resourceInfos = Read(indexData);
-                return resourceInfos;
-            }
-            catch
-            {
+            var file = await FileSystem.Current.GetFileFromPathAsync(LocalIndexUri.LocalPath, CancellationToken.None);
+            if (file == null)
                 return null;
-            }
+            var indexData = await file.ReadAllTextAsync();
+            var resourceInfos = Read(indexData);
+            return resourceInfos;
         }
 
-        private async Task<IList<ResourceInfo>> GetCompiledIndex()
+        private async Task<IList<ResourceInfo>> GetCompiledIndexAsync()
         {
-            try
-            {
-                var storageFile = await StorageFile.GetFileFromApplicationUriAsync(CompiledIndexUri);
-                if (storageFile == null)
-                    return null;
-
-                var indexData = await FileIO.ReadTextAsync(storageFile);
-                var resourceInfos = Read(indexData);
-                return resourceInfos;
-            }
-            catch
-            {
+            var file = await FileSystem.Current.GetFileFromPathAsync(CompiledIndexUri.LocalPath, CancellationToken.None);
+            if (file == null)
                 return null;
-            }
+            var indexData = await file.ReadAllTextAsync();
+            var resourceInfos = Read(indexData);
+            return resourceInfos;
         }
 
-        internal static void Write(IEnumerable<ResourceInfo> resources)
+        internal static string Write(IEnumerable<ResourceInfo> resources)
         {
-            JsonConvert.SerializeObject(resources);
+            return JsonConvert.SerializeObject(resources);
         }
 
         internal static IList<ResourceInfo> Read(string data)

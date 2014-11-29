@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using TrumpSoftware.Common.Mvvm;
+using TrumpSoftware.Xaml.Mvvm;
 
 namespace TrumpSoftware.Wpf.Mvvm
 {

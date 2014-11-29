@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Windows.Storage;
-using Windows.Storage.Streams;
+using PCLStorage;
+using TrumpSoftware.Common;
+using TrumpSoftware.Common.PCLStorage;
+using FileExtensions = TrumpSoftware.Common.PCLStorage.FileExtensions;
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {
@@ -10,15 +12,19 @@ namespace TrumpSoftware.RemoteResourcesLibrary
     {
         private object _data;
         private readonly ResourceFolderLocations _resourceFolderLocations;
-        private readonly string _relativePath;
-        private int _localVersion;
-        private readonly int _remoteVersion;
+        private readonly ResourceInfo _localResourceInfo;
+        private readonly ResourceInfo _remoteResourceInfo;
 
         private static readonly HttpClient HttpClient = new HttpClient();
 
         private bool HasTheNewestVersion 
         {
-            get { return _localVersion >= _remoteVersion; }
+            get { return _localResourceInfo.Version >= _remoteResourceInfo.Version; }
+        }
+
+        internal string Group
+        {
+            get { return _remoteResourceInfo.Group; }
         }
 
         internal bool IsLoaded
@@ -26,33 +32,32 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             get { return _data != null; }
         }
 
-        internal Resource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, int remoteVersion = 0)
+        internal Resource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo)
         {
             if (resourceFolderLocations == null)
                 throw new ArgumentNullException("resourceFolderLocations");
             if (localResourceInfo == null)
                 throw new ArgumentNullException("localResourceInfo");
+            if (remoteResourceInfo == null)
+                throw new ArgumentNullException("remoteResourceInfo");
             _resourceFolderLocations = resourceFolderLocations;
-            _relativePath = localResourceInfo.RelativePath;
-            _localVersion = localResourceInfo.Version;
-            _remoteVersion = remoteVersion;
+            _localResourceInfo = localResourceInfo;
+            _remoteResourceInfo = remoteResourceInfo;
         }
 
-        internal async Task<object> Get(bool hasInternetConnection)
+        internal async Task<object> GetAsync(bool hasInternetConnection)
         {
             if (_data == null)
-                await Load(hasInternetConnection);
+                await LoadAsync(hasInternetConnection);
             return _data;
         }
 
-        internal async Task Load(bool hasInternetConnection)
+        internal async Task LoadAsync(bool hasInternetConnection)
         {
             if (_data != null)
                 return;
 
-            var relativePath = Uri.IsWellFormedUriString(_relativePath, UriKind.Relative)
-                ? _relativePath
-                : Uri.EscapeDataString(_relativePath);
+            var relativePath = _remoteResourceInfo.RelativePath;
 
             var remoteUri = new Uri(_resourceFolderLocations.Remote, relativePath);
             var localUri = new Uri(_resourceFolderLocations.Local, relativePath);
@@ -60,72 +65,49 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 
             if (hasInternetConnection && !HasTheNewestVersion)
             {
-                var downloadedSuccessfully = await DownloadResource(remoteUri, localUri);
+                var downloadedSuccessfully = await DownloadResourceAsync(remoteUri, localUri);
                 if (downloadedSuccessfully)
-                    _data = await LoadLocalResource(localUri);
-                if (_data != null)
-                    UpdateLocalVersion();
+                    _data = await LoadLocalResourceAsync(localUri);
             }
             else if (_data == null)
-                _data = await LoadLocalResource(localUri);
+                _data = await LoadLocalResourceAsync(localUri);
 
             if (_data == null)
             {
-                await CopyFromCompiledResource(compiledUri, localUri);
-                _data = await LoadLocalResource(localUri);
+                await CopyFromCompiledResourceAsync(compiledUri, localUri);
+                _data = await LoadLocalResourceAsync(localUri);
             }
         }
 
-        private static async Task<bool> DownloadResource(Uri fromUri, Uri toUri)
+        internal ResourceInfo GetResourceInfo()
         {
-            byte[] buffer;
+            return _data == null
+                ? _localResourceInfo
+                : _remoteResourceInfo;
+        }
+
+        private static async Task<bool> DownloadResourceAsync(Uri fromUri, Uri toUri)
+        {
+            string str;
             try
             {
-                buffer = await HttpClient.GetByteArrayAsync(fromUri);
+                str = await HttpClient.GetStringAsync(fromUri);
             }
             catch
             {
                 return false;
             }
-            var savedSuccessfully = await SaveToLocalFile(toUri, buffer);
-            return savedSuccessfully;
-        }
-
-        protected abstract Task<object> LoadLocalResource(Uri uri);
-
-        private static async Task<bool> CopyFromCompiledResource(Uri fromUri, Uri toUri)
-        {
-            //TODO: Заменить прямым копированием файла
-            var storageFile = await StorageFile.GetFileFromApplicationUriAsync(fromUri);
-            if (storageFile == null)
-                return false;
-            byte[] buffer;
-            using (var stream = await storageFile.OpenReadAsync())
-            {
-                buffer = new byte[stream.Size];
-                using (var reader = new DataReader(stream))
-                {
-                    await reader.LoadAsync((uint)stream.Size);
-                    reader.ReadBytes(buffer);
-                }
-            }
-            var savedSuccessfully = await SaveToLocalFile(toUri, buffer);
-            return savedSuccessfully;
-        }
-
-        private static async Task<bool> SaveToLocalFile(Uri uri, byte[] buffer)
-        {
-            // TODO: Заменить на создание файла
-            var storageFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
-            if (storageFile == null)
-                return false;
-            await FileIO.WriteBytesAsync(storageFile, buffer);
+            var file = await PathHelper.GetOrCreateFileAsync(toUri.LocalPath);
+            await file.WriteAllTextAsync(str);
             return true;
         }
 
-        private void UpdateLocalVersion()
+        protected abstract Task<object> LoadLocalResourceAsync(Uri uri);
+
+        private static async Task CopyFromCompiledResourceAsync(Uri fromUri, Uri toUri)
         {
-            _localVersion = _remoteVersion;
+            var copySourceFile = await FileSystem.Current.GetFileFromPathAsync(fromUri.LocalPath);
+            await copySourceFile.CopyFileAsync(toUri.LocalPath);
         }
     }
 }

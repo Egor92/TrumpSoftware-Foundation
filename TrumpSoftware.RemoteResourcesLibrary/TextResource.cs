@@ -1,22 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Windows.Storage;
+using PCLStorage;
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {
     internal class TextResource : Resource
     {
-        public TextResource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, int remoteVersion = 0)
-            : base(resourceFolderLocations, localResourceInfo, remoteVersion)
+        internal TextResource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo)
+            : base(resourceFolderLocations, localResourceInfo, remoteResourceInfo)
         {
         }
 
-        protected override async Task<object> LoadLocalResource(Uri uri)
+        protected override async Task<object> LoadLocalResourceAsync(Uri uri)
         {
-            var storageFile = await StorageFile.GetFileFromApplicationUriAsync(uri);
-            if (storageFile == null)
+            var file = await FileSystem.Current.GetFileFromPathAsync(uri.LocalPath);
+            if (file == null)
                 return null;
-            return await FileIO.ReadTextAsync(storageFile);
+            return await file.ReadAllTextAsync();
         }
     }
 }

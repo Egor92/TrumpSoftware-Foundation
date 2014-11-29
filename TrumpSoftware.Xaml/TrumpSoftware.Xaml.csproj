@@ -5,11 +5,11 @@
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}</ProjectGuid>
+    <ProjectGuid>{6416B410-4C2D-4EBF-A497-9E484F422B6C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TrumpSoftware.Common</RootNamespace>
-    <AssemblyName>TrumpSoftware.Common</AssemblyName>
+    <RootNamespace>TrumpSoftware.Xaml</RootNamespace>
+    <AssemblyName>TrumpSoftware.Xaml</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -36,19 +36,22 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="PathHelper.cs" />
-    <Compile Include="PCLStorage\FileExtensions.cs" />
-    <Compile Include="PCLStorage\FolderExtensions.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RandomHelper.cs" />
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\TrumpSoftware.Common\TrumpSoftware.Common.csproj">
+      <Project>{63e0f799-f0b6-4e21-8c5b-7a0a779f13c7}</Project>
+      <Name>TrumpSoftware.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="PCLStorage">
-      <HintPath>..\packages\PCLStorage.1.0.0\lib\portable-net45+wp8+wpa81+win8+monoandroid+monotouch+Xamarin.iOS+Xamarin.Mac\PCLStorage.dll</HintPath>
-    </Reference>
-    <Reference Include="PCLStorage.Abstractions">
-      <HintPath>..\packages\PCLStorage.1.0.0\lib\portable-net45+wp8+wpa81+win8+monoandroid+monotouch+Xamarin.iOS+Xamarin.Mac\PCLStorage.Abstractions.dll</HintPath>
-    </Reference>
+    <Compile Include="Mvvm\DataItemViewModel.cs" />
+    <Compile Include="Mvvm\DelegateCommand.cs" />
+    <Compile Include="Mvvm\INavigationHost.cs" />
+    <Compile Include="Mvvm\IReseter.cs" />
+    <Compile Include="Mvvm\NotificationObject.cs" />
+    <Compile Include="Mvvm\ViewModelBase.cs" />
+    <Compile Include="Mvvm\ViewModelCollection.cs" />
+    <Compile Include="Mvvm\ViewModelObservableCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

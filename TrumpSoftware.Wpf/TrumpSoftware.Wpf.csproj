@@ -57,8 +57,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrumpSoftware.Common\TrumpSoftware.Common.csproj">
-      <Project>{B0604A08-C90F-44A3-A8BA-9FCB4A11110B}</Project>
+      <Project>{63e0f799-f0b6-4e21-8c5b-7a0a779f13c7}</Project>
       <Name>TrumpSoftware.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TrumpSoftware.Xaml\TrumpSoftware.Xaml.csproj">
+      <Project>{6416b410-4c2d-4ebf-a497-9e484f422b6c}</Project>
+      <Name>TrumpSoftware.Xaml</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
