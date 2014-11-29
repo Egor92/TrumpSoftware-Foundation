@@ -54,6 +54,7 @@
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mvvm\NavigationHost.cs" />
+    <Compile Include="VisualTreeHelperExtended.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrumpSoftware.Common\TrumpSoftware.Common.csproj">
