@@ -15,7 +15,7 @@ using CreationCollisionOption = PCLStorage.CreationCollisionOption;
 namespace TrumpSoftware.RemoteResourcesLibrary.Test
 {
     [TestClass]
-    public class ResourceManagerTest_WithInternet
+    public class ResourceManagerTest
     {
         private const string LocalContent = @"local";
         private const string RemoteContent = @"remote";
@@ -48,8 +48,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var remoteResourcesFolderUri = new Uri(SpecialPaths.ServerPath);
             _resourceManager = new ResourceManager(compiledResourceFolderUri, localResourcesFolderUri, remoteResourcesFolderUri);
 
-            var remoteResourceStorageFolder = await StorageFolder.GetFolderFromPathAsync(_remoteResourceFolder.Path);
-            _httpServer = new HttpServer(remoteResourceStorageFolder, 5050);
+            await EnableInternetAsync();
         }
 
         [TestCleanup]
@@ -62,12 +61,116 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             await _remoteResourceFolder.DeleteAsync();
             _remoteResourceFolder = null;
 
-            _httpServer.Dispose();
+            await DisableInternetAsync();
         }
 
         [ClassCleanup]
         public static async Task ClassCleanup()
         {
+        }
+
+
+
+        [TestMethod]
+        public async Task CanReturnStringResource()
+        {
+            const string relativePath = "CanReturnStringResource.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = relativePath,
+                Version = 1
+            };
+            await AddFileToRemoteFolderAsync("string", resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+            var str = await _resourceManager.GetStringResourceAsync(relativePath);
+            Assert.AreEqual("string", str);
+        }
+
+        [TestMethod]
+        public async Task CanReturnIntegerResource()
+        {
+            const int content = 123456789;
+            const string relativePath = "CanReturnIntegerResource.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = relativePath,
+                Version = 1
+            };
+            await AddFileToRemoteFolderAsync(content.ToString(), resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+            var i = await _resourceManager.GetIntegerResourceAsync(relativePath);
+            Assert.AreEqual(content, i);
+        }
+
+        [TestMethod]
+        public async Task CanReturnDoubleResource()
+        {
+            const double content = 12345.6789;
+            const string relativePath = "CanReturnDoubleResource.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = relativePath,
+                Version = 1
+            };
+            await AddFileToRemoteFolderAsync(content.ToString(), resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+            var d = await _resourceManager.GetDoubleResourceAsync(relativePath);
+            Assert.AreEqual(content, d);
+        }
+
+        [TestMethod]
+        public async Task CanReturnUriResource()
+        {
+            const string relativePath = "CanReturnUriResource.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = relativePath,
+                Version = 1
+            };
+            await AddFileToRemoteFolderAsync("some content", resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+            var actualUri = await _resourceManager.GetUriResourceAsync(relativePath);
+            var expectedUri = new Uri(Path.Combine(_localResourceFolder.Path, relativePath));
+            Assert.AreEqual(expectedUri, actualUri);
+        }
+
+        [TestMethod]
+        public async Task CanReturnMediaObjectResource()
+        {
+            const string relativePath = "CanReturnUriResource.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = relativePath,
+                Version = 1
+            };
+            await AddFileToRemoteFolderAsync("some content", resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+            var mediaObject = await _resourceManager.GetMediaObjectResourceAsync(relativePath);
+            var actualUri = mediaObject.Uri;
+            var expectedUri = new Uri(Path.Combine(_localResourceFolder.Path, relativePath));
+            Assert.AreEqual(expectedUri, actualUri);
+        }
+
+        [TestMethod]
+        public async Task IfResourceManagerDidNotLoaded_ThrowException()
+        {
+            const string relativePath = "IfResourceManagerDidNotLoaded_ThrowException.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = relativePath,
+                Version = 1
+            };
+            await AddFileToRemoteFolderAsync(RemoteContent, resourceInfo);
+
+            await AsyncAssert.ThrowsExceptionAsync<Exception>(async () =>
+            {
+                await _resourceManager.GetStringResourceAsync(relativePath);
+            }); 
         }
 
         [TestMethod]
@@ -77,7 +180,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var resourceInfo = new ResourceInfo
             {
                 RelativePath = relativePath,
-                Type = "text",
                 Version = 1
             };
             await AddFileToCompiledFolderAsync(LocalContent, resourceInfo);
@@ -86,7 +188,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             await AddFileToRemoteFolderAsync(RemoteContent, resourceInfo);
 
             await _resourceManager.LoadIndexAsync();
-            var str = await _resourceManager.GetResourceAsync<string>(relativePath);
+            var str = await _resourceManager.GetStringResourceAsync(relativePath);
             Assert.AreEqual(LocalContent, str);
         }
 
@@ -97,7 +199,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var resourceInfo = new ResourceInfo
             {
                 RelativePath = relativePath,
-                Type = "text",
                 Version = 1
             };
             await AddFileToCompiledFolderAsync(LocalContent, resourceInfo);
@@ -106,7 +207,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             await AddFileToRemoteFolderAsync(RemoteContent, resourceInfo);
 
             await _resourceManager.LoadIndexAsync();
-            var str = await _resourceManager.GetResourceAsync<string>(relativePath);
+            var str = await _resourceManager.GetStringResourceAsync(relativePath);
             Assert.AreEqual(LocalContent, str);
         }
 
@@ -117,7 +218,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var resourceInfo = new ResourceInfo
             {
                 RelativePath = relativePath,
-                Type = "text",
                 Version = 1
             };
             await AddFileToCompiledFolderAsync(LocalContent, resourceInfo);
@@ -126,7 +226,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             await AddFileToRemoteFolderAsync(RemoteContent, resourceInfo);
 
             await _resourceManager.LoadIndexAsync();
-            var str = await _resourceManager.GetResourceAsync<string>(relativePath);
+            var str = await _resourceManager.GetStringResourceAsync(relativePath);
             Assert.AreEqual(RemoteContent, str);
         }
 
@@ -138,7 +238,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var resourceInfo1 = new ResourceInfo
             {
                 RelativePath = relativePath1,
-                Type = "text",
                 Group = "star",
                 Version = 1
             };
@@ -148,14 +247,13 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var resourceInfo2 = new ResourceInfo
             {
                 RelativePath = relativePath2,
-                Type = "text",
                 Group = "star",
                 Version = 1
             };
             await AddFileToRemoteFolderAsync(starContent, resourceInfo2);
 
             await _resourceManager.LoadIndexAsync();
-            var group = await _resourceManager.GetResourceGroupAsync<string>("star");
+            var group = await _resourceManager.GetStringResourceGroupAsync("star");
             Assert.AreEqual(2, group.Count());
             foreach (var resourceContent in group)
                 Assert.AreEqual(starContent, resourceContent);
@@ -168,7 +266,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var resourceInfo = new ResourceInfo
             {
                 RelativePath = resourceFileName,
-                Type = "text",
                 Version = 1
             };
             await AddFileToRemoteFolderAsync("first content", resourceInfo);
@@ -178,7 +275,8 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             await AddFileToRemoteFolderAsync("updated content", resourceInfo);
             await _resourceManager.LoadIndexAsync();
             await _resourceManager.LoadResourceAsync(resourceFileName);
-            var resInfo = await GetResourceInfoAsync(resourceFileName);
+            await _resourceManager.SaveIndexAsync();
+            var resInfo = await GetLocalResourceInfoAsync(resourceFileName);
 
             Assert.AreEqual(20, resInfo.Version);
         }
@@ -191,24 +289,22 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var resourceInfo = new ResourceInfo
             {
                 RelativePath = resourceFileName,
-                Type = "text",
                 Version = 1
             };
             await AddFileToRemoteFolderAsync(content, resourceInfo);
 
             await _resourceManager.LoadIndexAsync();
-            var str = await _resourceManager.GetResourceAsync<string>(resourceFileName);
+            var str = await _resourceManager.GetStringResourceAsync(resourceFileName);
             Assert.AreEqual(content, str);
         }
 
         [TestMethod]
-        public async Task IfResourceIsAbsentInRemoteIndex_ReturnNull()
+        public async Task IfResourceIsAbsentInRemoteIndex_ThrowException()
         {
-            const string resourceFileName = "IfResourceIsAbsentInRemoteIndex_ReturnNull.txt";
+            const string resourceFileName = "IfResourceIsAbsentInRemoteIndex_ThrowException.txt";
             var resourceInfo = new ResourceInfo
             {
                 RelativePath = resourceFileName,
-                Type = "text",
                 Version = 1
             };
             await AddFileToRemoteFolderAsync("Some content", resourceInfo);
@@ -218,8 +314,10 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             await RemoveFileFromRemoteFolderAsync(resourceFileName);
 
             await _resourceManager.LoadIndexAsync();
-            var str = await _resourceManager.GetResourceAsync<string>(resourceFileName);
-            Assert.IsNull(str);
+            await AsyncAssert.ThrowsExceptionAsync<Exception>(async () =>
+            {
+                await _resourceManager.GetStringResourceAsync(resourceFileName);
+            }); 
         }
 
         [TestMethod]
@@ -230,23 +328,113 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var resourceInfo = new ResourceInfo
             {
                 RelativePath = relativePath,
-                Type = "text",
                 Version = 1
             };
             await AddFileToRemoteFolderAsync(expectedContent, resourceInfo);
 
             await _resourceManager.LoadIndexAsync();
-            var str = await _resourceManager.GetResourceAsync<string>(relativePath);
+            var str = await _resourceManager.GetStringResourceAsync(relativePath);
             Assert.AreEqual(expectedContent, str);
+        }
+
+        [TestMethod]
+        public async Task IfNoInternetConnetion_ReturnLocalResource()
+        {
+            await DisableInternetAsync();
+
+            const string resourceFileName = "IfNoInternetConnetion_ReturnLocalResource.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = resourceFileName,
+                Version = 1
+            };
+            await AddFileToCompiledFolderAsync(LocalContent, resourceInfo);
+
+            resourceInfo.Version = 2;
+            await AddFileToRemoteFolderAsync(RemoteContent, resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+
+            var str = await _resourceManager.GetStringResourceAsync(resourceFileName);
+            Assert.AreEqual(LocalContent, str);
+        }
+
+        [TestMethod]
+        public async Task LoadRemoteResourceInfo_ThenDisableInternet_ReturnLocalResource()
+        {
+            const string resourceFileName = "LoadRemoteResourceInfo_ThenDisableInternet_ReturnLocalResource.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = resourceFileName,
+                Version = 1
+            };
+            await AddFileToCompiledFolderAsync(LocalContent, resourceInfo);
+
+            resourceInfo.Version = 2;
+            await AddFileToRemoteFolderAsync(RemoteContent, resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+
+            await DisableInternetAsync();
+
+            var str = await _resourceManager.GetStringResourceAsync(resourceFileName);
+            Assert.AreEqual(LocalContent, str);
+
+            await _resourceManager.SaveIndexAsync();
+            var resInfo = await GetLocalResourceInfoAsync(resourceFileName);
+            Assert.AreEqual(1, resInfo.Version);
+        }
+
+        [TestMethod]
+        public async Task PreloadResource_ThenDisableInternet_ReturnRemoteResource()
+        {
+            const string resourceFileName = "PreloadResource_ThenDisableInternet_ReturnRemoteResource.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = resourceFileName,
+                Version = 1
+            };
+            await AddFileToCompiledFolderAsync(LocalContent, resourceInfo);
+
+            resourceInfo.Version = 2;
+            await AddFileToRemoteFolderAsync(RemoteContent, resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+            await _resourceManager.LoadResourceAsync(resourceFileName);
+
+            await DisableInternetAsync();
+
+            var str = await _resourceManager.GetStringResourceAsync(resourceFileName);
+            Assert.AreEqual(RemoteContent, str);
+
+            await _resourceManager.SaveIndexAsync();
+            var resInfo = await GetLocalResourceInfoAsync(resourceFileName);
+            Assert.AreEqual(2, resInfo.Version);
         }
 
 
 
 
-
-        private static async Task<ResourceInfo> GetResourceInfoAsync(string relativePath)
+        private static async Task EnableInternetAsync()
         {
-            var indexFile = await _remoteResourceFolder.GetFileAsync("index.txt");
+            var remoteResourceStorageFolder = await StorageFolder.GetFolderFromPathAsync(_remoteResourceFolder.Path);
+            _httpServer = new HttpServer(remoteResourceStorageFolder, 5050);
+        }
+
+        private static async Task DisableInternetAsync()
+        {
+            if (_httpServer == null)
+                return;
+            _httpServer.Dispose();
+            _httpServer = null;
+        }
+
+
+
+
+        private static async Task<ResourceInfo> GetLocalResourceInfoAsync(string relativePath)
+        {
+            var indexFile = await _localResourceFolder.GetFileAsync("index.txt");
             var indexData = await indexFile.ReadAllTextAsync();
             var resourceInfos = JsonConvert.DeserializeObject<List<ResourceInfo>>(indexData);
             return resourceInfos.SingleOrDefault(x => x.RelativePath == relativePath);

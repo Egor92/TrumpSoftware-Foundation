@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using PCLStorage;
@@ -40,6 +41,18 @@ namespace TrumpSoftware.Common.PCLStorage
                 throw new ArgumentNullException("targetFilePath");
             var targetFile = await PathHelper.GetOrCreateFileAsync(targetFilePath);
             await copySource.CopyFileAsync(targetFile);
+        }
+
+        public static async Task<byte[]> ReadAsByteArrayAsync(this IFile file)
+        {
+            using (var fileStream = await file.OpenAsync(FileAccess.Read))
+            {
+                using (var memoryStream = new MemoryStream())
+                {
+                    fileStream.CopyTo(memoryStream);
+                    return memoryStream.ToArray();
+                }
+            }
         }
     }
 }

@@ -1,30 +1,27 @@
-﻿namespace TrumpSoftware.RemoteResourcesLibrary
+﻿using System;
+
+namespace TrumpSoftware.RemoteResourcesLibrary
 {
     internal static class ResourceFactory
     {
         internal static Resource CreateResource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo)
         {
-            switch (localResourceInfo.Type)
+            if (localResourceInfo == null && remoteResourceInfo == null)
+                throw new ArgumentException("Local and remote resource infos are null");
+
+            if (localResourceInfo == null)
             {
-                case @"text":
-                    return GetTextResource(resourceFolderLocations, localResourceInfo, remoteResourceInfo);
-                default:
-                    return GetTextResource(resourceFolderLocations, localResourceInfo, remoteResourceInfo);
+                localResourceInfo = new ResourceInfo(remoteResourceInfo)
+                {
+                    Version = 0
+                };
             }
-        }
-
-        internal static Resource CreateResource(ResourceFolderLocations resourceFolderLocations, ResourceInfo remoteResourceInfo)
-        {
-            var localResourceInfo = new ResourceInfo(remoteResourceInfo)
+            else if (remoteResourceInfo == null)
             {
-                Version = 0
-            };
-            return CreateResource(resourceFolderLocations, localResourceInfo, remoteResourceInfo);
-        }
+                remoteResourceInfo = localResourceInfo;
+            }
 
-        private static Resource GetTextResource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo)
-        {
-            return new TextResource(resourceFolderLocations, localResourceInfo, remoteResourceInfo);
+            return new Resource(resourceFolderLocations, localResourceInfo, remoteResourceInfo);
         }
     }
 }

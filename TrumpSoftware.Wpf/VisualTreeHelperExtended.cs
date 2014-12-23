@@ -12,7 +12,7 @@ namespace TrumpSoftware.Wpf
             return GetAncestor<T>(source, x => false, includingItself);
         }
 
-        public static T GetAncestor<T>(this DependencyObject source, Func<DependencyObject, bool> stopCondition,  bool includingItself = false)
+        public static T GetAncestor<T>(this DependencyObject source, Func<DependencyObject, bool> abortCondition,  bool includingItself = false)
             where T : DependencyObject
         {
             if (includingItself)
@@ -24,12 +24,12 @@ namespace TrumpSoftware.Wpf
             var parent = VisualTreeHelper.GetParent(source);
             if (parent == null)
                 return null;
-            if (stopCondition(parent))
+            if (abortCondition(parent))
                 return null;
             var tParent = parent as T;
             if (tParent != null)
                 return tParent;
-            return GetAncestor<T>(parent, stopCondition);
+            return GetAncestor<T>(parent, abortCondition);
         }
     }
 }

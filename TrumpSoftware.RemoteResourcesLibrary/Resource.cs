@@ -1,19 +1,19 @@
 ﻿using System;
+using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using PCLStorage;
 using TrumpSoftware.Common;
 using TrumpSoftware.Common.PCLStorage;
-using FileExtensions = TrumpSoftware.Common.PCLStorage.FileExtensions;
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {
-    internal abstract class Resource
+    internal class Resource : IResource
     {
-        private object _data;
         private readonly ResourceFolderLocations _resourceFolderLocations;
         private readonly ResourceInfo _localResourceInfo;
         private readonly ResourceInfo _remoteResourceInfo;
+        private bool _isRemoteVersionDownloaded;
 
         private static readonly HttpClient HttpClient = new HttpClient();
 
@@ -22,15 +22,27 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             get { return _localResourceInfo.Version >= _remoteResourceInfo.Version; }
         }
 
+        private Uri RemoteUri
+        {
+            get { return new Uri(_resourceFolderLocations.Remote, _remoteResourceInfo.RelativePath); }
+        }
+
+        private string LocalPath
+        {
+            get { return new Uri(_resourceFolderLocations.Local, _remoteResourceInfo.RelativePath).LocalPath; }
+        }
+
+        private string CompiledPath
+        {
+            get { return new Uri(_resourceFolderLocations.Compiled, _remoteResourceInfo.RelativePath).LocalPath; }
+        }
+
         internal string Group
         {
             get { return _remoteResourceInfo.Group; }
         }
 
-        internal bool IsLoaded
-        {
-            get { return _data != null; }
-        }
+        internal bool IsLoaded { get; private set; }
 
         internal Resource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo)
         {
@@ -45,69 +57,82 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             _remoteResourceInfo = remoteResourceInfo;
         }
 
-        internal async Task<object> GetAsync(bool hasInternetConnection)
+        internal async Task<T> GetAsync<T>(bool hasInternetConnection)
         {
-            if (_data == null)
+            if (!IsLoaded)
                 await LoadAsync(hasInternetConnection);
-            return _data;
+            var resourceConverter = ResourceConverterFactory.GetConverter<T>();
+            return resourceConverter.Convert(this);
         }
 
         internal async Task LoadAsync(bool hasInternetConnection)
         {
-            if (_data != null)
+            if (IsLoaded)
                 return;
 
-            var relativePath = _remoteResourceInfo.RelativePath;
-
-            var remoteUri = new Uri(_resourceFolderLocations.Remote, relativePath);
-            var localUri = new Uri(_resourceFolderLocations.Local, relativePath);
-            var compiledUri = new Uri(_resourceFolderLocations.Compiled, relativePath);
-
+            _isRemoteVersionDownloaded = false;
             if (hasInternetConnection && !HasTheNewestVersion)
             {
-                var downloadedSuccessfully = await DownloadResourceAsync(remoteUri, localUri);
-                if (downloadedSuccessfully)
-                    _data = await LoadLocalResourceAsync(localUri);
+                _isRemoteVersionDownloaded = await DownloadResourceAsync();
+                if (_isRemoteVersionDownloaded)
+                    IsLoaded = await CheckResourceFileExistAsync();
             }
-            else if (_data == null)
-                _data = await LoadLocalResourceAsync(localUri);
+            else if (!IsLoaded)
+                IsLoaded = await CheckResourceFileExistAsync();
 
-            if (_data == null)
+            if (!IsLoaded)
             {
-                await CopyFromCompiledResourceAsync(compiledUri, localUri);
-                _data = await LoadLocalResourceAsync(localUri);
+                await CopyFromCompiledResourceAsync();
+                IsLoaded = await CheckResourceFileExistAsync();
             }
         }
 
         internal ResourceInfo GetResourceInfo()
         {
-            return _data == null
-                ? _localResourceInfo
-                : _remoteResourceInfo;
+            return _isRemoteVersionDownloaded
+                ? _remoteResourceInfo
+                : _localResourceInfo;
         }
 
-        private static async Task<bool> DownloadResourceAsync(Uri fromUri, Uri toUri)
+        private async Task<bool> CheckResourceFileExistAsync()
+        {
+            var file = await FileSystem.Current.GetFileFromPathAsync(LocalPath);
+            return file != null;
+        }
+
+        private async Task<bool> DownloadResourceAsync()
         {
             string str;
             try
             {
-                str = await HttpClient.GetStringAsync(fromUri);
+                str = await HttpClient.GetStringAsync(RemoteUri);
             }
             catch
             {
                 return false;
             }
-            var file = await PathHelper.GetOrCreateFileAsync(toUri.LocalPath);
+            var file = await PathHelper.GetOrCreateFileAsync(LocalPath);
             await file.WriteAllTextAsync(str);
             return true;
         }
 
-        protected abstract Task<object> LoadLocalResourceAsync(Uri uri);
-
-        private static async Task CopyFromCompiledResourceAsync(Uri fromUri, Uri toUri)
+        private async Task CopyFromCompiledResourceAsync()
         {
-            var copySourceFile = await FileSystem.Current.GetFileFromPathAsync(fromUri.LocalPath);
-            await copySourceFile.CopyFileAsync(toUri.LocalPath);
+            var copySourceFile = await FileSystem.Current.GetFileFromPathAsync(CompiledPath);
+            await copySourceFile.CopyFileAsync(LocalPath);
+        }
+
+        async Task<Stream> IResource.GetStreamAsync()
+        {
+            var file = await FileSystem.Current.GetFileFromPathAsync(LocalPath);
+            if (file == null)
+                return null;
+            return await file.OpenAsync(FileAccess.Read);
+        }
+
+        Uri IResource.GetUri()
+        {
+            return new Uri(_resourceFolderLocations.Local, _remoteResourceInfo.RelativePath);
         }
     }
 }

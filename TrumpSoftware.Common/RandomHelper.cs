@@ -11,9 +11,10 @@ namespace TrumpSoftware.Common
             get { return _random ?? (_random = new Random(DateTime.Now.Millisecond)); }
         }
 
-        public static bool GetBool()
+        public static bool GetBool(double trueChance = 0.5)
         {
-            return Random.NextDouble() > 0.5;
+            trueChance = trueChance > 1.0 ? 1.0 : (trueChance < 0.0 ? 0.0 : trueChance);
+            return Random.NextDouble() < trueChance;
         }
 
         public static int GetInt(int min, int max)

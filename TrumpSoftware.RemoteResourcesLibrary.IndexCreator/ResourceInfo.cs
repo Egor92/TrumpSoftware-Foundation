@@ -3,7 +3,6 @@
     internal class ResourceInfo
     {
         public string RelativePath { get; set; }
-        public string Type { get; set; }
         public string Group { get; set; }
         public int Version { get; set; }
 
@@ -19,9 +18,6 @@
                 case "RelativePath":
                     AddRelativePath(value);
                     break;
-                case "Type":
-                    AddType(value);
-                    break;
                 case "Group":
                     AddGroup(value);
                     break;
@@ -34,11 +30,6 @@
         private void AddRelativePath(string value)
         {
             RelativePath = value;
-        }
-
-        private void AddType(string value)
-        {
-            Type = value;
         }
 
         private void AddGroup(string value)

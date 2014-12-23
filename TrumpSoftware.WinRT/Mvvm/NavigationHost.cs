@@ -1,31 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Controls;
-using System.Windows.Navigation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using TrumpSoftware.Xaml.Mvvm;
 
-namespace TrumpSoftware.Wpf.Mvvm
+namespace TrumpSoftware.WinRT.Mvvm
 {
     public class NavigationHost : INavigationHost
     {
-        private readonly NavigationService _navigationService;
-        private readonly IDictionary<Type, Page> _pages = new Dictionary<Type, Page>();
+        private readonly object _syncRoot = new object();
+        private ViewModelBase _navigationQueue;
+        private readonly Frame _frame;
+        private readonly IDictionary<Type, Type> _pageTypes = new Dictionary<Type, Type>();
         private readonly IList<ViewModelBase> _history = new List<ViewModelBase>();
         private int _currentPageIndex = -1;
 
-        public NavigationHost(NavigationService navigationService)
+        public NavigationHost(Frame frame)
         {
-            if (navigationService == null)
-                throw new ArgumentNullException("navigationService");
-            _navigationService = navigationService;
+            if (frame == null)
+                throw new ArgumentNullException("frame");
+            _frame = frame;
         }
 
-        public void Register<TPageVM>(Page page)
+        public void Register<TPageVM, TPage>()
             where TPageVM : ViewModelBase
+            where TPage : Page
         {
-            if (_pages.ContainsKey(typeof(TPageVM)))
+            if (_pageTypes.ContainsKey(typeof(TPageVM)))
                 throw new Exception(string.Format("PageViewModel of type {0} has been registered", typeof(TPageVM).FullName));
-            _pages.Add(typeof (TPageVM), page);
+            _pageTypes.Add(typeof(TPageVM), typeof(TPage));
         }
 
         public bool CanGoBack
@@ -48,23 +51,27 @@ namespace TrumpSoftware.Wpf.Mvvm
             where TPageVM : ViewModelBase
         {
             var navigatingPageVMType = pageVM.GetType();
-            if (!_pages.ContainsKey(navigatingPageVMType))
+            if (!_pageTypes.ContainsKey(navigatingPageVMType))
                 throw new Exception(string.Format("PageViewModel of type {0} hasn't been registered", navigatingPageVMType.FullName));
             if (toRememberInHistory)
-            {
                 RememberInHistory(pageVM);
-            }
             else
-            {
                 ViewModelResetHelper.ResetFields(pageVM);
-            }
-            var page = _pages[navigatingPageVMType];
-            page.Dispatcher.Invoke(() =>
+            var pageType = _pageTypes[navigatingPageVMType];
+            lock (_syncRoot)
             {
-                page.DataContext = null;
-                page.DataContext = pageVM;
-                _navigationService.Navigate(page, pageVM);
-            });
+                _navigationQueue = pageVM;
+                _frame.Navigated += Frame_Navigated;
+                _frame.Navigate(pageType, pageVM);
+                _frame.Navigated -= Frame_Navigated;
+            }
+        }
+
+        private void Frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            var frameworkElement = e.Content as FrameworkElement;
+            if (frameworkElement != null)
+                frameworkElement.DataContext = _navigationQueue;
         }
 
         public void GoBack()
