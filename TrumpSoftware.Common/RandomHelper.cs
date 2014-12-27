@@ -8,7 +8,12 @@ namespace TrumpSoftware.Common
 
         private static Random Random
         {
-            get { return _random ?? (_random = new Random(DateTime.Now.Millisecond)); }
+            get { return _random ?? (_random = new Random(GetSeed())); }
+        }
+
+        private static int GetSeed()
+        {
+            return (int)(DateTime.Now.ToFileTime() % int.MaxValue);
         }
 
         public static bool GetBool(double trueChance = 0.5)
@@ -17,9 +22,14 @@ namespace TrumpSoftware.Common
             return Random.NextDouble() < trueChance;
         }
 
+        public static int GetInt(int max)
+        {
+            return GetInt(0, max);
+        }
+
         public static int GetInt(int min, int max)
         {
-            return Random.Next(min, max + 1);
+            return Random.Next(min, max);
         }
 
         public static double GetDouble(double min, double max)

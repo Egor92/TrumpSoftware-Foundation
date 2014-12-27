@@ -9,6 +9,8 @@
         void Navigate<TPageVM>(TPageVM pageVM)
             where TPageVM : ViewModelBase;
 
+        void RefreshPage();
+
         void GoBack();
 
         void GoForward();

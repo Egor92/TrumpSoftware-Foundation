@@ -41,23 +41,23 @@ namespace TrumpSoftware.Wpf.Mvvm
         public void Navigate<TPageVM>(TPageVM pageVM)
             where TPageVM : ViewModelBase
         {
-            Navigate(pageVM, true);
+            Navigate(pageVM, true, false);
         }
 
-        private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory)
+        public void RefreshPage()
+        {
+        }
+
+        private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
             where TPageVM : ViewModelBase
         {
             var navigatingPageVMType = pageVM.GetType();
             if (!_pages.ContainsKey(navigatingPageVMType))
                 throw new Exception(string.Format("PageViewModel of type {0} hasn't been registered", navigatingPageVMType.FullName));
             if (toRememberInHistory)
-            {
                 RememberInHistory(pageVM);
-            }
-            else
-            {
+            if (toResetViewModel)
                 ViewModelResetHelper.ResetFields(pageVM);
-            }
             var page = _pages[navigatingPageVMType];
             page.Dispatcher.Invoke(() =>
             {
@@ -74,7 +74,7 @@ namespace TrumpSoftware.Wpf.Mvvm
             var previousPageVM = _history[_currentPageIndex-1];
             if (previousPageVM == null)
                 return;
-            Navigate(previousPageVM, false);
+            Navigate(previousPageVM, false, true);
             _currentPageIndex--;
         }
 
@@ -85,7 +85,7 @@ namespace TrumpSoftware.Wpf.Mvvm
             var nextPageVM = _history[_currentPageIndex+1];
             if (nextPageVM == null)
                 return;
-            Navigate(nextPageVM, false);
+            Navigate(nextPageVM, false, true);
             _currentPageIndex++;
         }
 

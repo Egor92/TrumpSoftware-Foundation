@@ -37,6 +37,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncAssert.cs" />
+    <Compile Include="EnumerableExtentions.cs" />
+    <Compile Include="Json\UniversalJsonConverter.cs" />
+    <Compile Include="Json\UniversalJsonPropertyAttribute.cs" />
     <Compile Include="PathHelper.cs" />
     <Compile Include="PCLStorage\FileExtensions.cs" />
     <Compile Include="PCLStorage\FolderExtensions.cs" />
@@ -46,6 +49,9 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.UnitTestFramework">
       <HintPath>C:\Program Files (x86)\Microsoft SDKs\Windows\v8.1\ExtensionSDKs\MSTestFramework\11.0\References\CommonConfiguration\Neutral\Microsoft.VisualStudio.TestPlatform.UnitTestFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.7\lib\portable-net45+wp80+win8+wpa81+aspnetcore50\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PCLStorage">
       <HintPath>..\packages\PCLStorage.1.0.0\lib\portable-net45+wp8+wpa81+win8+monoandroid+monotouch+Xamarin.iOS+Xamarin.Mac\PCLStorage.dll</HintPath>
