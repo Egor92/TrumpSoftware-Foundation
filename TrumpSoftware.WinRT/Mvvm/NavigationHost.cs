@@ -12,6 +12,7 @@ namespace TrumpSoftware.WinRT.Mvvm
         private ViewModelBase _currentViewModel;
         private readonly Frame _frame;
         private readonly IDictionary<Type, Type> _pageTypes = new Dictionary<Type, Type>();
+        private readonly IDictionary<Type, object> _parameters = new Dictionary<Type, object>();
         private readonly IList<ViewModelBase> _history = new List<ViewModelBase>();
         private int _currentPageIndex = -1;
 
@@ -22,13 +23,15 @@ namespace TrumpSoftware.WinRT.Mvvm
             _frame = frame;
         }
 
-        public void Register<TPageVM, TPage>()
+        public void Register<TPageVM, TPage>(object parameter = null)
             where TPageVM : ViewModelBase
             where TPage : Page
         {
             if (_pageTypes.ContainsKey(typeof(TPageVM)))
                 throw new Exception(string.Format("PageViewModel of type {0} has been registered", typeof(TPageVM).FullName));
             _pageTypes.Add(typeof(TPageVM), typeof(TPage));
+            if (parameter != null)
+                _parameters.Add(typeof(TPageVM), parameter);
         }
 
         public bool CanGoBack
@@ -49,7 +52,8 @@ namespace TrumpSoftware.WinRT.Mvvm
 
         public void RefreshPage()
         {
-            Navigate(_currentViewModel, false, false);
+            if (_currentViewModel != null)
+                Navigate(_currentViewModel, false, false);
         }
 
         private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
@@ -63,11 +67,14 @@ namespace TrumpSoftware.WinRT.Mvvm
             if (toResetViewModel)
                 ViewModelResetHelper.ResetFields(pageVM);
             var pageType = _pageTypes[navigatingPageVMType];
+            var parameter = _parameters.ContainsKey(navigatingPageVMType)
+                ? _parameters[navigatingPageVMType]
+                : null;
             lock (_syncRoot)
             {
                 _currentViewModel = pageVM;
                 _frame.Navigated += Frame_Navigated;
-                _frame.Navigate(pageType, pageVM);
+                _frame.Navigate(pageType, parameter);
                 _frame.Navigated -= Frame_Navigated;
             }
         }

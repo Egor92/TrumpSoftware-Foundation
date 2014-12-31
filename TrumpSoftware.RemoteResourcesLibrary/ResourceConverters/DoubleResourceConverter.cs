@@ -1,8 +1,6 @@
-﻿using System.Threading.Tasks;
-
-namespace TrumpSoftware.RemoteResourcesLibrary
+﻿namespace TrumpSoftware.RemoteResourcesLibrary
 {
-    internal class DoubleResourceConverter : StringResourceConverter, IResourceConverter<double>, IResourceConverter<object>
+    internal class DoubleResourceConverter : StringResourceConverter, IResourceConverter<double>
     {
         double IResourceConverter<double>.Convert(IResource resource)
         {
@@ -11,11 +9,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             if (double.TryParse(str, out value))
                 return value;
             throw new ResourceConvertionException(string.Format("Couldn't convert string \"{0}\" to type \"{1}\"", str, typeof(double)));
-        }
-
-        object IResourceConverter<object>.Convert(IResource resource)
-        {
-            return (this as IResourceConverter<double>).Convert(resource);
         }
     }
 }

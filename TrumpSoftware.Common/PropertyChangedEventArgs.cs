@@ -1,4 +1,4 @@
-﻿namespace TrumpSoftware.Xaml
+﻿namespace TrumpSoftware.Common
 {
     public class PropertyChangedEventArgs<T>
     {

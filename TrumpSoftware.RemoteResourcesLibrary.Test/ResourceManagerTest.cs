@@ -157,6 +157,44 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
         }
 
         [TestMethod]
+        public async Task IfCanNotParseIntegerResource_ThrowException()
+        {
+            const string content = "2.3";
+            const string relativePath = "IfCanNotParseIntegerResource_ThrowException.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = relativePath,
+                Version = 1
+            };
+            await AddFileToRemoteFolderAsync(content, resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+            await AsyncAssert.ThrowsExceptionAsync<ResourceConvertionException>(async () =>
+            {
+                await _resourceManager.GetIntegerResourceAsync(relativePath);
+            });
+        }
+
+        [TestMethod]
+        public async Task IfCanNotParseDoubleResource_ThrowException()
+        {
+            const string content = "Abc";
+            const string relativePath = "IfCanNotParseDoubleResource_ThrowException.txt";
+            var resourceInfo = new ResourceInfo
+            {
+                RelativePath = relativePath,
+                Version = 1
+            };
+            await AddFileToRemoteFolderAsync(content, resourceInfo);
+
+            await _resourceManager.LoadIndexAsync();
+            await AsyncAssert.ThrowsExceptionAsync<ResourceConvertionException>(async () =>
+            {
+                await _resourceManager.GetDoubleResourceAsync(relativePath);
+            });
+        }
+
+        [TestMethod]
         public async Task IfResourceManagerDidNotLoaded_ThrowException()
         {
             const string relativePath = "IfResourceManagerDidNotLoaded_ThrowException.txt";
