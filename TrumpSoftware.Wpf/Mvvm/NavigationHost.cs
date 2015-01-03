@@ -10,7 +10,8 @@ namespace TrumpSoftware.Wpf.Mvvm
     {
         private readonly NavigationService _navigationService;
         private readonly IDictionary<Type, Page> _pages = new Dictionary<Type, Page>();
-        private readonly IList<ViewModelBase> _history = new List<ViewModelBase>();
+        private readonly IList<PageViewModel> _history = new List<PageViewModel>();
+        private PageViewModel _currentPageVM;
         private int _currentPageIndex = -1;
 
         public NavigationHost(NavigationService navigationService)
@@ -21,7 +22,7 @@ namespace TrumpSoftware.Wpf.Mvvm
         }
 
         public void Register<TPageVM>(Page page)
-            where TPageVM : ViewModelBase
+            where TPageVM : PageViewModel
         {
             if (_pages.ContainsKey(typeof(TPageVM)))
                 throw new Exception(string.Format("PageViewModel of type {0} has been registered", typeof(TPageVM).FullName));
@@ -39,17 +40,18 @@ namespace TrumpSoftware.Wpf.Mvvm
         }
 
         public void Navigate<TPageVM>(TPageVM pageVM)
-            where TPageVM : ViewModelBase
+            where TPageVM : PageViewModel
         {
             Navigate(pageVM, true, false);
         }
 
         public void RefreshPage()
         {
+            _navigationService.Refresh();
         }
 
         private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
-            where TPageVM : ViewModelBase
+            where TPageVM : PageViewModel
         {
             var navigatingPageVMType = pageVM.GetType();
             if (!_pages.ContainsKey(navigatingPageVMType))
@@ -61,9 +63,13 @@ namespace TrumpSoftware.Wpf.Mvvm
             var page = _pages[navigatingPageVMType];
             page.Dispatcher.Invoke(() =>
             {
+                if (_currentPageVM != null)
+                    _currentPageVM.OnNavigatedFrom();
                 page.DataContext = null;
                 page.DataContext = pageVM;
-                _navigationService.Navigate(page, pageVM);
+                _currentPageVM = pageVM;
+                _navigationService.Navigate(page);
+                pageVM.OnNavigatedTo();
             });
         }
 
@@ -90,7 +96,7 @@ namespace TrumpSoftware.Wpf.Mvvm
         }
 
         private void RememberInHistory<TPageVM>(TPageVM pageVM)
-            where TPageVM : ViewModelBase
+            where TPageVM : PageViewModel
         {
             for (int i = _history.Count - 1; i > _currentPageIndex; i--)
                 _history.RemoveAt(i);

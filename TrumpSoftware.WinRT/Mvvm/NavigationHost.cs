@@ -9,11 +9,11 @@ namespace TrumpSoftware.WinRT.Mvvm
     public class NavigationHost : INavigationHost
     {
         private readonly object _syncRoot = new object();
-        private ViewModelBase _currentViewModel;
+        private PageViewModel _currentViewModel;
         private readonly Frame _frame;
         private readonly IDictionary<Type, Type> _pageTypes = new Dictionary<Type, Type>();
         private readonly IDictionary<Type, object> _parameters = new Dictionary<Type, object>();
-        private readonly IList<ViewModelBase> _history = new List<ViewModelBase>();
+        private readonly IList<PageViewModel> _history = new List<PageViewModel>();
         private int _currentPageIndex = -1;
 
         public NavigationHost(Frame frame)
@@ -24,7 +24,7 @@ namespace TrumpSoftware.WinRT.Mvvm
         }
 
         public void Register<TPageVM, TPage>(object parameter = null)
-            where TPageVM : ViewModelBase
+            where TPageVM : PageViewModel
             where TPage : Page
         {
             if (_pageTypes.ContainsKey(typeof(TPageVM)))
@@ -45,7 +45,7 @@ namespace TrumpSoftware.WinRT.Mvvm
         }
 
         public void Navigate<TPageVM>(TPageVM pageVM)
-            where TPageVM : ViewModelBase
+            where TPageVM : PageViewModel
         {
             Navigate(pageVM, true, false);
         }
@@ -57,8 +57,10 @@ namespace TrumpSoftware.WinRT.Mvvm
         }
 
         private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
-            where TPageVM : ViewModelBase
+            where TPageVM : PageViewModel
         {
+            if (pageVM == null)
+                throw new ArgumentNullException("pageVM");
             var navigatingPageVMType = pageVM.GetType();
             if (!_pageTypes.ContainsKey(navigatingPageVMType))
                 throw new Exception(string.Format("PageViewModel of type {0} hasn't been registered", navigatingPageVMType.FullName));
@@ -72,6 +74,8 @@ namespace TrumpSoftware.WinRT.Mvvm
                 : null;
             lock (_syncRoot)
             {
+                if (_currentViewModel != null)
+                    _currentViewModel.OnNavigatedFrom();
                 _currentViewModel = pageVM;
                 _frame.Navigated += Frame_Navigated;
                 _frame.Navigate(pageType, parameter);
@@ -82,8 +86,10 @@ namespace TrumpSoftware.WinRT.Mvvm
         private void Frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             var frameworkElement = e.Content as FrameworkElement;
-            if (frameworkElement != null)
-                frameworkElement.DataContext = _currentViewModel;
+            if (frameworkElement == null)
+                return;
+            frameworkElement.DataContext = _currentViewModel;
+            _currentViewModel.OnNavigatedTo();
         }
 
         public void GoBack()
@@ -109,7 +115,7 @@ namespace TrumpSoftware.WinRT.Mvvm
         }
 
         private void RememberInHistory<TPageVM>(TPageVM pageVM)
-            where TPageVM : ViewModelBase
+            where TPageVM : PageViewModel
         {
             for (int i = _history.Count - 1; i > _currentPageIndex; i--)
                 _history.RemoveAt(i);

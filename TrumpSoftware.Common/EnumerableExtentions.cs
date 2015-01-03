@@ -12,7 +12,7 @@ namespace TrumpSoftware.Common
                 throw new ArgumentNullException("enumerable");
             if (count < 0)
                 throw new ArgumentException("Count must be not negative", "count");
-            if (enumerable.Count() > count)
+            if (enumerable.Count() < count)
                 throw new ArgumentException("Requested count is greater than existing", "enumerable");
             var list = enumerable.ToList();
 			var result = new List<T>();

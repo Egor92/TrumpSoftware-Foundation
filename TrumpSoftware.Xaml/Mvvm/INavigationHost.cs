@@ -7,7 +7,7 @@
         bool CanGoForward { get; }
 
         void Navigate<TPageVM>(TPageVM pageVM)
-            where TPageVM : ViewModelBase;
+            where TPageVM : PageViewModel;
 
         void RefreshPage();
 

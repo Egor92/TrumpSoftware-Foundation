@@ -49,7 +49,9 @@
     <Compile Include="Converters\BoolToBrushConverter.cs" />
     <Compile Include="Converters\BoolToNegativeConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Converters\ByteArrayToBitmapImageConverter.cs" />
     <Compile Include="Converters\ChainConverter.cs" />
+    <Compile Include="Converters\StringToBrushConverter.cs" />
     <Compile Include="Mvvm\NavigationHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

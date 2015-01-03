@@ -37,7 +37,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncAssert.cs" />
+    <Compile Include="Log\DebugHelper.cs" />
     <Compile Include="EnumerableExtentions.cs" />
+    <Compile Include="Log\ILogger.cs" />
+    <Compile Include="Log\StreamLogger.cs" />
     <Compile Include="ObservableQueue.cs" />
     <Compile Include="PathHelper.cs" />
     <Compile Include="PCLStorage\FileExtensions.cs" />
