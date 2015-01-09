@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
-    public class ViewModelObservableCollection<TModel, TViewModel> : HierarchicalViewModelCollection<TViewModel>
+    public class HierarchicalViewModelObservableCollection<TModel, TViewModel> : HierarchicalViewModelCollection<TViewModel>
         where TModel : class
         where TViewModel : HierarchicalViewModel, IModelPresenter<TModel>
     {
@@ -15,7 +15,7 @@ namespace TrumpSoftware.Xaml.Mvvm
         private readonly Predicate<TModel> _filter;
         private ChangesInitiator? _changesInitiator;
 
-        public ViewModelObservableCollection(HierarchicalViewModel parent, IList<TModel> modelCollection, Func<TModel, TViewModel> getViewModel, Func<TViewModel, TModel> getModel, Predicate<TModel> filter = null)
+        public HierarchicalViewModelObservableCollection(HierarchicalViewModel parent, IList<TModel> modelCollection, Func<TModel, TViewModel> getViewModel, Func<TViewModel, TModel> getModel, Predicate<TModel> filter = null)
             : base(parent)
         {
             if (modelCollection == null)
