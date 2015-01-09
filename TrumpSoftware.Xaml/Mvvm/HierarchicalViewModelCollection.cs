@@ -2,12 +2,12 @@
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
-    public class ViewModelCollection<TViewModel> : ObservableCollection<TViewModel>
-        where TViewModel : ViewModelBase
+    public class HierarchicalViewModelCollection<TViewModel> : ObservableCollection<TViewModel>
+        where TViewModel : HierarchicalViewModel
     {
-        private readonly ViewModelBase _parent;
+        private readonly HierarchicalViewModel _parent;
 
-        public ViewModelCollection(ViewModelBase parent)
+        public HierarchicalViewModelCollection(HierarchicalViewModel parent)
         {
             _parent = parent;
         }

@@ -4,11 +4,11 @@ using System.Reflection;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
-    public static class ViewModelResetHelper
+    public static class ResetFieldsHelper
     {
-        public static void ResetFields(ViewModelBase viewModel)
+        public static void ResetFields(object obj)
         {
-            var type = viewModel.GetType();
+            var type = obj.GetType();
             var runtimeFields = type.GetRuntimeFields();
             var fieldsForReset = runtimeFields.Where(x => x.IsDefined(typeof (ResetWhenNavigatingAttribute)));
             foreach (var fieldInfo in fieldsForReset)
@@ -17,7 +17,7 @@ namespace TrumpSoftware.Xaml.Mvvm
                 var defaultValue = resetWhenNavigatingAttribute.ToUseCustomDefaultValue
                     ? resetWhenNavigatingAttribute.CustomDefaultValue
                     : GetDefaultValue(fieldInfo.FieldType);
-                fieldInfo.SetValue(viewModel, defaultValue);
+                fieldInfo.SetValue(obj, defaultValue);
             }
         }
 

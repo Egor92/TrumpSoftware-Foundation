@@ -45,17 +45,17 @@
   <ItemGroup>
     <Compile Include="Media\MediaObject.cs" />
     <Compile Include="Media\MediaState.cs" />
-    <Compile Include="Mvvm\DataItemViewModel.cs" />
+    <Compile Include="Mvvm\IModelPresenter.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Mvvm\DummyCommand.cs" />
     <Compile Include="Mvvm\PageViewModel.cs" />
-    <Compile Include="Mvvm\ViewModelResetHelper.cs" />
+    <Compile Include="Mvvm\ResetFieldsHelper.cs" />
     <Compile Include="Mvvm\ICommunicator.cs" />
     <Compile Include="Mvvm\INavigationHost.cs" />
     <Compile Include="Mvvm\ResetWhenNavigatingAttribute.cs" />
     <Compile Include="Mvvm\NotificationObject.cs" />
-    <Compile Include="Mvvm\ViewModelBase.cs" />
-    <Compile Include="Mvvm\ViewModelCollection.cs" />
+    <Compile Include="Mvvm\HierarchicalViewModel.cs" />
+    <Compile Include="Mvvm\HierarchicalViewModelCollection.cs" />
     <Compile Include="Mvvm\ViewModelObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

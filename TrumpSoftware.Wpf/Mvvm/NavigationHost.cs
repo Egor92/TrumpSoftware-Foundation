@@ -62,7 +62,7 @@ namespace TrumpSoftware.Wpf.Mvvm
             if (toRememberInHistory)
                 RememberInHistory(pageVM);
             if (toResetViewModel)
-                ViewModelResetHelper.ResetFields(pageVM);
+                ResetFieldsHelper.ResetFields(pageVM);
             var page = _pages[navigatingPageVMType];
             page.Dispatcher.Invoke(() =>
             {

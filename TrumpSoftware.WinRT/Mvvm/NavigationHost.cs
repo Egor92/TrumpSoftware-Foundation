@@ -68,7 +68,7 @@ namespace TrumpSoftware.WinRT.Mvvm
             if (toRememberInHistory)
                 RememberInHistory(pageVM);
             if (toResetViewModel)
-                ViewModelResetHelper.ResetFields(pageVM);
+                ResetFieldsHelper.ResetFields(pageVM);
             var pageType = _pageTypes[navigatingPageVMType];
             var parameter = _parameters.ContainsKey(navigatingPageVMType)
                 ? _parameters[navigatingPageVMType]

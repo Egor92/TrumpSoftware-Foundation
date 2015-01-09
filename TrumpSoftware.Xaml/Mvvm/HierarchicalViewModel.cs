@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
-    public abstract class ViewModelBase : NotificationObject
+    public abstract class HierarchicalViewModel : NotificationObject
     {
-        public ViewModelBase Parent { get; protected internal set; }
+        public HierarchicalViewModel Parent { get; protected internal set; }
 
-        protected ViewModelBase(ViewModelBase parent = null)
+        protected HierarchicalViewModel(HierarchicalViewModel parent = null)
         {
             Parent = parent;
         }
@@ -23,13 +23,13 @@ namespace TrumpSoftware.Xaml.Mvvm
             return Parent.GetAncestor<TViewModel>();
         }
 
-        protected virtual IEnumerable<ViewModelBase> GetChildren()
+        protected virtual IEnumerable<HierarchicalViewModel> GetChildren()
         {
             yield break;
         }
 
         protected IEnumerable<TViewModel> GetDescendants<TViewModel>(Func<TViewModel, bool> condition = null)
-            where TViewModel : ViewModelBase
+            where TViewModel : HierarchicalViewModel
         {
             condition = condition ?? (x => true);
             var children = GetChildren().OfType<TViewModel>();
@@ -44,7 +44,7 @@ namespace TrumpSoftware.Xaml.Mvvm
         }
 
         protected void ForEach<TViewModel>(Action<TViewModel> action, Func<TViewModel, bool> condition = null)
-            where TViewModel : ViewModelBase
+            where TViewModel : HierarchicalViewModel
         {
             var descendants = GetDescendants(condition);
             foreach (var descendant in descendants)
