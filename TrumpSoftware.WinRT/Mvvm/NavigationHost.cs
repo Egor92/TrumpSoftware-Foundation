@@ -9,7 +9,8 @@ namespace TrumpSoftware.WinRT.Mvvm
     public class NavigationHost : INavigationHost
     {
         private readonly object _syncRoot = new object();
-        private PageViewModel _currentViewModel;
+        private PageViewModel _currentPageVM;
+        private PageViewModel _previousPageVM;
         private readonly Frame _frame;
         private readonly IDictionary<Type, Type> _pageTypes = new Dictionary<Type, Type>();
         private readonly IDictionary<Type, object> _parameters = new Dictionary<Type, object>();
@@ -52,8 +53,8 @@ namespace TrumpSoftware.WinRT.Mvvm
 
         public void RefreshPage()
         {
-            if (_currentViewModel != null)
-                Navigate(_currentViewModel, false, false);
+            if (_currentPageVM != null)
+                Navigate(_currentPageVM, false, false);
         }
 
         private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
@@ -74,9 +75,12 @@ namespace TrumpSoftware.WinRT.Mvvm
                 : null;
             lock (_syncRoot)
             {
-                if (_currentViewModel != null)
-                    _currentViewModel.OnNavigatedFrom();
-                _currentViewModel = pageVM;
+                if (_currentPageVM != null)
+                {
+                    _currentPageVM.OnNavigatedFrom(pageVM);
+                    _previousPageVM = _currentPageVM;
+                }
+                _currentPageVM = pageVM;
                 _frame.Navigated += Frame_Navigated;
                 _frame.Navigate(pageType, parameter);
                 _frame.Navigated -= Frame_Navigated;
@@ -88,8 +92,8 @@ namespace TrumpSoftware.WinRT.Mvvm
             var frameworkElement = e.Content as FrameworkElement;
             if (frameworkElement == null)
                 return;
-            frameworkElement.DataContext = _currentViewModel;
-            _currentViewModel.OnNavigatedTo();
+            frameworkElement.DataContext = _currentPageVM;
+            _currentPageVM.OnNavigatedTo(_previousPageVM);
         }
 
         public void GoBack()

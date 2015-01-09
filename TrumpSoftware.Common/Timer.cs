@@ -75,11 +75,15 @@ namespace TrumpSoftware.Common
             {
                 if (!_isRunning)
                     return;
-                var delayTask = Task.Delay(Interval);
+                var delayInterval = Interval < Time
+                    ? Interval
+                    : Time;
+                await Task.Delay(delayInterval);
+                if (!_isRunning)
+                    return;
                 var currentDateTime = DateTime.Now;
                 Time -= (currentDateTime - _intervalStartTime);
                 _intervalStartTime = currentDateTime;
-                await delayTask;
             }
         }
 

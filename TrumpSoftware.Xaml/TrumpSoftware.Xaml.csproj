@@ -47,6 +47,7 @@
     <Compile Include="Media\MediaState.cs" />
     <Compile Include="Mvvm\DataItemViewModel.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
+    <Compile Include="Mvvm\DummyCommand.cs" />
     <Compile Include="Mvvm\PageViewModel.cs" />
     <Compile Include="Mvvm\ViewModelResetHelper.cs" />
     <Compile Include="Mvvm\ICommunicator.cs" />

@@ -12,6 +12,7 @@ namespace TrumpSoftware.Wpf.Mvvm
         private readonly IDictionary<Type, Page> _pages = new Dictionary<Type, Page>();
         private readonly IList<PageViewModel> _history = new List<PageViewModel>();
         private PageViewModel _currentPageVM;
+        private PageViewModel _previousPageVM;
         private int _currentPageIndex = -1;
 
         public NavigationHost(NavigationService navigationService)
@@ -53,6 +54,8 @@ namespace TrumpSoftware.Wpf.Mvvm
         private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
             where TPageVM : PageViewModel
         {
+            if (pageVM == null)
+                throw new ArgumentNullException("pageVM");
             var navigatingPageVMType = pageVM.GetType();
             if (!_pages.ContainsKey(navigatingPageVMType))
                 throw new Exception(string.Format("PageViewModel of type {0} hasn't been registered", navigatingPageVMType.FullName));
@@ -64,12 +67,15 @@ namespace TrumpSoftware.Wpf.Mvvm
             page.Dispatcher.Invoke(() =>
             {
                 if (_currentPageVM != null)
-                    _currentPageVM.OnNavigatedFrom();
+                {
+                    _currentPageVM.OnNavigatedFrom(pageVM);
+                    _previousPageVM = pageVM;
+                }
                 page.DataContext = null;
                 page.DataContext = pageVM;
                 _currentPageVM = pageVM;
                 _navigationService.Navigate(page);
-                pageVM.OnNavigatedTo();
+                pageVM.OnNavigatedTo(_previousPageVM);
             });
         }
 
