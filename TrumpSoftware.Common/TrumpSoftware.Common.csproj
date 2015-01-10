@@ -41,6 +41,7 @@
     <Compile Include="EnumerableExtentions.cs" />
     <Compile Include="Log\ILogger.cs" />
     <Compile Include="Log\StreamLogger.cs" />
+    <Compile Include="ListExtensions.cs" />
     <Compile Include="ObservableQueue.cs" />
     <Compile Include="PathHelper.cs" />
     <Compile Include="PCLStorage\FileExtensions.cs" />
