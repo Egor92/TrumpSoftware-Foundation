@@ -47,11 +47,12 @@
   <ItemGroup>
     <Compile Include="Converters\BoolConverter.cs" />
     <Compile Include="Converters\BoolToBrushConverter.cs" />
+    <Compile Include="Converters\BoolToDoubleConverter.cs" />
     <Compile Include="Converters\BoolToNegativeConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ByteArrayToBitmapImageConverter.cs" />
     <Compile Include="Converters\ChainConverter.cs" />
-    <Compile Include="Converters\VisibilityConverter.cs" />
+    <Compile Include="Converters\ContainsValueBoolConverter.cs" />
     <Compile Include="Converters\StringToBrushConverter.cs" />
     <Compile Include="Mvvm\NavigationHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

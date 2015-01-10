@@ -31,8 +31,7 @@ namespace TrumpSoftware.WinRT.Mvvm
             if (_pageTypes.ContainsKey(typeof(TPageVM)))
                 throw new Exception(string.Format("PageViewModel of type {0} has been registered", typeof(TPageVM).FullName));
             _pageTypes.Add(typeof(TPageVM), typeof(TPage));
-            if (parameter != null)
-                _parameters.Add(typeof(TPageVM), parameter);
+            _parameters.Add(typeof(TPageVM), parameter);
         }
 
         public bool CanGoBack
@@ -70,9 +69,7 @@ namespace TrumpSoftware.WinRT.Mvvm
             if (toResetViewModel)
                 ResetFieldsHelper.ResetFields(pageVM);
             var pageType = _pageTypes[navigatingPageVMType];
-            var parameter = _parameters.ContainsKey(navigatingPageVMType)
-                ? _parameters[navigatingPageVMType]
-                : null;
+            var parameter = _parameters[navigatingPageVMType];
             lock (_syncRoot)
             {
                 if (_currentPageVM != null)
