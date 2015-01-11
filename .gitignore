@@ -105,6 +105,7 @@ csx
 
 # Windows Store app package directory
 AppPackages/
+packages/
 
 # Others
 sql/
@@ -155,5 +156,5 @@ $RECYCLE.BIN/
 # Mac desktop service store files
 .DS_Store
 
-#tmp folder
-_tmp/
+# DotSettings
+*.DotSettings

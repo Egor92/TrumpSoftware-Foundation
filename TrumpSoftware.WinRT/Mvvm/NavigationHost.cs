@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using TrumpSoftware.Xaml.Mvvm;
@@ -78,9 +79,12 @@ namespace TrumpSoftware.WinRT.Mvvm
                     _previousPageVM = _currentPageVM;
                 }
                 _currentPageVM = pageVM;
-                _frame.Navigated += Frame_Navigated;
-                _frame.Navigate(pageType, parameter);
-                _frame.Navigated -= Frame_Navigated;
+                _frame.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    _frame.Navigated += Frame_Navigated;
+                    _frame.Navigate(pageType, parameter);
+                    _frame.Navigated -= Frame_Navigated;
+                });
             }
         }
 
