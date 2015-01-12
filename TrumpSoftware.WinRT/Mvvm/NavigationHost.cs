@@ -73,21 +73,17 @@ namespace TrumpSoftware.WinRT.Mvvm
                 ResetFieldsHelper.ResetFields(pageVM);
             var pageType = _pageTypes[navigatingPageVMType];
             var parameter = _parameters[navigatingPageVMType];
-            Task.Run(() =>
+            _frame.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                Monitor.Enter(_syncRoot);
-                _frame.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                if (_currentPageVM != null)
                 {
-                    if (_currentPageVM != null)
-                    {
-                        _currentPageVM.OnNavigatedFrom(pageVM);
-                        _previousPageVM = _currentPageVM;
-                    }
-                    _currentPageVM = pageVM;
-                    _frame.Navigated += Frame_Navigated;
-                    _frame.Navigate(pageType, parameter);
-                    _frame.Navigated -= Frame_Navigated;
-                });
+                    _currentPageVM.OnNavigatedFrom(pageVM);
+                    _previousPageVM = _currentPageVM;
+                }
+                _currentPageVM = pageVM;
+                _frame.Navigated += Frame_Navigated;
+                _frame.Navigate(pageType, parameter);
+                _frame.Navigated -= Frame_Navigated;
             });
         }
 
@@ -98,7 +94,6 @@ namespace TrumpSoftware.WinRT.Mvvm
                 return;
             frameworkElement.DataContext = _currentPageVM;
             _currentPageVM.OnNavigatedTo(_previousPageVM);
-            Monitor.Exit(_syncRoot);
         }
 
         public void GoBack()
