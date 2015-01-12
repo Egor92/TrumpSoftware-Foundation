@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -71,21 +73,22 @@ namespace TrumpSoftware.WinRT.Mvvm
                 ResetFieldsHelper.ResetFields(pageVM);
             var pageType = _pageTypes[navigatingPageVMType];
             var parameter = _parameters[navigatingPageVMType];
-            lock (_syncRoot)
+            Task.Run(() =>
             {
-                if (_currentPageVM != null)
-                {
-                    _currentPageVM.OnNavigatedFrom(pageVM);
-                    _previousPageVM = _currentPageVM;
-                }
-                _currentPageVM = pageVM;
+                Monitor.Enter(_syncRoot);
                 _frame.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
+                    if (_currentPageVM != null)
+                    {
+                        _currentPageVM.OnNavigatedFrom(pageVM);
+                        _previousPageVM = _currentPageVM;
+                    }
+                    _currentPageVM = pageVM;
                     _frame.Navigated += Frame_Navigated;
                     _frame.Navigate(pageType, parameter);
                     _frame.Navigated -= Frame_Navigated;
                 });
-            }
+            });
         }
 
         private void Frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
@@ -95,6 +98,7 @@ namespace TrumpSoftware.WinRT.Mvvm
                 return;
             frameworkElement.DataContext = _currentPageVM;
             _currentPageVM.OnNavigatedTo(_previousPageVM);
+            Monitor.Exit(_syncRoot);
         }
 
         public void GoBack()
