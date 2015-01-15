@@ -51,6 +51,7 @@
     <Compile Include="PropertyChangedEventHandler.cs" />
     <Compile Include="RandomHelper.cs" />
     <Compile Include="Timer.cs" />
+    <Compile Include="TimeSpanHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.UnitTestFramework">

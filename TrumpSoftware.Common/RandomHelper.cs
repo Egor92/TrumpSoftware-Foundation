@@ -41,5 +41,11 @@ namespace TrumpSoftware.Common
         {
             return (byte)Random.Next(0, 256);
         }
+
+        public static TimeSpan GetTimeSpan(TimeSpan min, TimeSpan max)
+        {
+            var randMilliseconds = GetDouble(min.TotalMilliseconds, max.TotalMilliseconds);
+            return TimeSpan.FromMilliseconds(randMilliseconds);
+        }
     }
 }
