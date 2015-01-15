@@ -6,15 +6,15 @@ namespace TrumpSoftware.Common
 {
 	public static class EnumerableExtentions
 	{
-		public static IEnumerable<T> GetRandom<T>(this IEnumerable<T> enumerable, int count)
+		public static IEnumerable<T> GetRandom<T>(this IEnumerable<T> source, int count)
 		{
-            if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
+            if (source == null)
+                throw new ArgumentNullException("source");
             if (count < 0)
                 throw new ArgumentException("Count must be not negative", "count");
-            if (enumerable.Count() < count)
-                throw new ArgumentException("Requested count is greater than existing", "enumerable");
-            var list = enumerable.ToList();
+            if (source.Count() < count)
+                throw new ArgumentException("Requested count is greater than existing", "source");
+            var list = source.ToList();
 			var result = new List<T>();
 			for (int i = 0; i < count; i++)
 			{
@@ -25,25 +25,25 @@ namespace TrumpSoftware.Common
 			return result;
 		}
 
-        public static T GetRandom<T>(this IEnumerable<T> enumerable)
+        public static T GetRandom<T>(this IEnumerable<T> source)
         {
-            if (enumerable == null)
-                throw new ArgumentNullException("enumerable");
-            if (!enumerable.Any())
-                throw new ArgumentException("Enumerable is empty", "enumerable");
-            return enumerable.GetRandom(1).Single();
+            if (source == null)
+                throw new ArgumentNullException("source");
+            if (!source.Any())
+                throw new ArgumentException("Enumerable is empty", "source");
+            return source.GetRandom(1).Single();
         }
 
-		public static IEnumerable<T> Mix<T>(this IEnumerable<T> originalArray)
+		public static IEnumerable<T> Mix<T>(this IEnumerable<T> source)
 		{
-		    if (originalArray == null)
-		        throw new ArgumentNullException("originalArray");
+		    if (source == null)
+		        throw new ArgumentNullException("source");
 
 		    var randDictionary = new Dictionary<int, T>();
-		    int count = originalArray.Count();
+		    int count = source.Count();
 		    for (int i = 0; i < count; i++)
 		    {
-		        T t = originalArray.ElementAt(i);
+		        T t = source.ElementAt(i);
 		        randDictionary.Add(RandomHelper.GetInt(0, int.MaxValue), t);
 		    }
 
