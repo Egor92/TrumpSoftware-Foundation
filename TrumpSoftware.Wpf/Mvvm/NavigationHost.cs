@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using TrumpSoftware.Xaml.Mvvm;
@@ -99,6 +100,19 @@ namespace TrumpSoftware.Wpf.Mvvm
                 return;
             Navigate(nextPageVM, false, true);
             _currentPageIndex++;
+        }
+
+        public void GoHome()
+        {
+            if (_currentPageIndex == -1)
+                throw new Exception("There is no first page to navigate home");
+            var firstPageVM = _history.First();
+            _history.Clear();
+            _history.Add(firstPageVM);
+            if (_currentPageIndex == 0)
+                return;
+            _currentPageIndex = 0;
+            Navigate(firstPageVM, false, false);
         }
 
         private void RememberInHistory<TPageVM>(TPageVM pageVM)

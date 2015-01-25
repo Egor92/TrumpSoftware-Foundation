@@ -14,5 +14,7 @@
         void GoBack();
 
         void GoForward();
+
+        void GoHome();
     }
 }

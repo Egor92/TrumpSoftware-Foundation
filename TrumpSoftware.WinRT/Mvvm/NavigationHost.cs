@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -9,7 +10,6 @@ namespace TrumpSoftware.WinRT.Mvvm
 {
     public class NavigationHost : INavigationHost
     {
-        private readonly object _syncRoot = new object();
         private PageViewModel _currentPageVM;
         private PageViewModel _previousPageVM;
         private readonly Frame _frame;
@@ -114,6 +114,19 @@ namespace TrumpSoftware.WinRT.Mvvm
                 return;
             Navigate(nextPageVM, false, true);
             _currentPageIndex++;
+        }
+
+        public void GoHome()
+        {
+            if (_currentPageIndex == -1)
+                throw new Exception("There is no first page to navigate home");
+            var firstPageVM = _history.First();
+            _history.Clear();
+            _history.Add(firstPageVM);
+            if (_currentPageIndex == 0)
+                return;
+            _currentPageIndex = 0;
+            Navigate(firstPageVM, false, false);
         }
 
         private void RememberInHistory<TPageVM>(TPageVM pageVM)
