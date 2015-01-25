@@ -37,6 +37,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncAssert.cs" />
+    <Compile Include="HttpByteArrayLoader.cs" />
+    <Compile Include="ICancelable.cs" />
+    <Compile Include="ILoader.cs" />
     <Compile Include="Log\DebugHelper.cs" />
     <Compile Include="EnumerableExtentions.cs" />
     <Compile Include="Log\ILogger.cs" />
