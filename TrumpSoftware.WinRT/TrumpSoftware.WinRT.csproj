@@ -53,6 +53,9 @@
     <Compile Include="Converters\ByteArrayToBitmapImageConverter.cs" />
     <Compile Include="Converters\ChainConverter.cs" />
     <Compile Include="Converters\ContainsValueBoolConverter.cs" />
+    <Compile Include="Converters\DoubleToGridLenghtConverter.cs" />
+    <Compile Include="Converters\DoubleMultiplierConverter.cs" />
+    <Compile Include="Converters\MultiplierConverter.cs" />
     <Compile Include="Converters\StringToBrushConverter.cs" />
     <Compile Include="Mvvm\NavigationHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -61,6 +64,7 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

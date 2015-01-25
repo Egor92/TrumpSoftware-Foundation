@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace TrumpSoftware.WinRT.Converters
 {
-    public class ContainsValueBoolConverter : ChainConverter
+    public class ContainsValueBoolConverter : ChainConverter<object,bool>
     {
         public IList<object> Values { get; set; }
 
@@ -12,7 +12,7 @@ namespace TrumpSoftware.WinRT.Converters
             Values = new List<object>();
         }
 
-        protected override object Convert(object value, Type targetType, object parameter, string language)
+        protected override bool Convert(object value, Type targetType, object parameter, string language)
         {
             if (Values == null)
                 return false;
@@ -29,7 +29,7 @@ namespace TrumpSoftware.WinRT.Converters
             return false;
         }
 
-        protected override object ConvertBack(object value, Type targetType, object parameter, string language)
+        protected override object ConvertBack(bool value, Type targetType, object parameter, string language)
         {
             throw new NotSupportedException();
         }
