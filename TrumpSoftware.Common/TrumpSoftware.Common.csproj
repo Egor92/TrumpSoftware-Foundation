@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncAssert.cs" />
+    <Compile Include="HttpByteArrayImageLoader.cs" />
     <Compile Include="HttpByteArrayLoader.cs" />
     <Compile Include="ICancelable.cs" />
     <Compile Include="ILoader.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="PropertyChangedEventArgs.cs" />
     <Compile Include="PropertyChangedEventHandler.cs" />
     <Compile Include="RandomHelper.cs" />
+    <Compile Include="RandomStringHelper.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="TimeSpanHelper.cs" />
   </ItemGroup>

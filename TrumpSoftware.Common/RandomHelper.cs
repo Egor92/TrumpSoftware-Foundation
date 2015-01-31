@@ -37,6 +37,11 @@ namespace TrumpSoftware.Common
             return min + (max - min)*Random.NextDouble();
         }
 
+        public static char GetChar(char min, char max)
+        {
+            return (char) GetInt(min, max + 1);
+        }
+
         public static byte GetByte()
         {
             return (byte)Random.Next(0, 256);

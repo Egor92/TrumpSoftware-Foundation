@@ -8,12 +8,12 @@ namespace TrumpSoftware.Common
     {
         private HttpClient _httpClient;
 
-        private HttpClient HttpClient
+        protected HttpClient HttpClient
         {
             get { return _httpClient ?? (_httpClient = new HttpClient()); }
         }
 
-        public async Task<byte[]> Load(Uri uri)
+        public virtual async Task<byte[]> Load(Uri uri)
         {
             return await HttpClient.GetByteArrayAsync(uri);
         }
