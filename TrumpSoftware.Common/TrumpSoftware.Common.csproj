@@ -55,7 +55,9 @@
     <Compile Include="PropertyChangedEventHandler.cs" />
     <Compile Include="RandomHelper.cs" />
     <Compile Include="RandomStringHelper.cs" />
-    <Compile Include="Timer.cs" />
+    <Compile Include="ReverseTimer.cs" />
+    <Compile Include="Stopwatch.cs" />
+    <Compile Include="TimerBase.cs" />
     <Compile Include="TimeSpanHelper.cs" />
   </ItemGroup>
   <ItemGroup>

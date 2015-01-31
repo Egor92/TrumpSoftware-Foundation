@@ -6,6 +6,8 @@ namespace TrumpSoftware.Xaml
     {
         public static readonly string White = FromRgb(255, 255, 255);
         public static readonly string Green = FromRgb(0, 255, 0);
+        public static readonly string DarkGreen = FromRgb(0, 180, 0);
+        public static readonly string Red = FromRgb(255, 0, 0);
 
         public static string FromRgb(byte r, byte g, byte b)
         {

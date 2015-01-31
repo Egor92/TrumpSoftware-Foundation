@@ -3,12 +3,25 @@ using System.Threading.Tasks;
 
 namespace TrumpSoftware.Common
 {
-    public sealed class Timer
+    public abstract class TimerBase
     {
         private static readonly object SyncRoot = new object();
         private TimeSpan _time;
         private bool _isRunning;
         private DateTime _intervalStartTime;
+
+        #region TimeFunc
+
+        private Func<TimeSpan, TimeSpan, TimeSpan> _timeFunc;
+
+        public Func<TimeSpan, TimeSpan, TimeSpan> TimeFunc
+        {
+            get { return _timeFunc ?? (_timeFunc = GetTimeFunc()); }
+        }
+
+        protected abstract Func<TimeSpan, TimeSpan, TimeSpan> GetTimeFunc();
+
+        #endregion
 
         public TimeSpan Time
         {
@@ -22,23 +35,32 @@ namespace TrumpSoftware.Common
                     _time = value.Ticks > 0
                         ? value
                         : new TimeSpan();
-                    OnTimeChanged();
+                    OnTimeChangedInternal();
                 }
             }
         }
 
         public TimeSpan Interval { get; set; }
 
+        #region TimeChanged
+
         public event EventHandler TimeChanged;
 
-        public event EventHandler TimeHasExpired;
+        private void RaiseTimeChanged()
+        {
+            var handler = TimeChanged;
+            if (handler != null)
+                handler(this, EventArgs.Empty);
+        }
 
-        public Timer()
+        #endregion
+
+        public TimerBase()
             : this(new TimeSpan(100))
         {
         }
 
-        public Timer(TimeSpan interval)
+        public TimerBase(TimeSpan interval)
         {
             Interval = interval;
         }
@@ -49,12 +71,6 @@ namespace TrumpSoftware.Common
                 return;
             _isRunning = true;
             StartTimerAsync();
-        }
-
-        public void Start(TimeSpan newTime)
-        {
-            Time = newTime;
-            Start();
         }
 
         public void Pause()
@@ -68,6 +84,13 @@ namespace TrumpSoftware.Common
             Time = new TimeSpan();
         }
 
+        protected virtual void OnTimeChanged()
+        {
+
+        }
+
+        protected abstract TimeSpan GetDelayInterval();
+
         private async Task StartTimerAsync()
         {
             _intervalStartTime = DateTime.Now;
@@ -75,37 +98,20 @@ namespace TrumpSoftware.Common
             {
                 if (!_isRunning)
                     return;
-                var delayInterval = Interval < Time
-                    ? Interval
-                    : Time;
+                var delayInterval = GetDelayInterval();
                 await Task.Delay(delayInterval);
                 if (!_isRunning)
                     return;
                 var currentDateTime = DateTime.Now;
-                Time -= (currentDateTime - _intervalStartTime);
+                Time = TimeFunc(Time, (currentDateTime - _intervalStartTime));
                 _intervalStartTime = currentDateTime;
             }
         }
 
-        private void OnTimeChanged()
+        private void OnTimeChangedInternal()
         {
             RaiseTimeChanged();
-            if (Time.Ticks <= 0)
-                RaiseTimeHasExpired();
-        }
-
-        private void RaiseTimeChanged()
-        {
-            var handler = TimeChanged;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
-        }
-
-        private void RaiseTimeHasExpired()
-        {
-            var handler = TimeHasExpired;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
+            OnTimeChanged();
         }
     }
 }
