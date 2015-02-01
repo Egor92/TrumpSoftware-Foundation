@@ -14,7 +14,7 @@ namespace TrumpSoftware.Common
 
         private Func<TimeSpan, TimeSpan, TimeSpan> _timeFunc;
 
-        public Func<TimeSpan, TimeSpan, TimeSpan> TimeFunc
+        private Func<TimeSpan, TimeSpan, TimeSpan> TimeFunc
         {
             get { return _timeFunc ?? (_timeFunc = GetTimeFunc()); }
         }

@@ -15,7 +15,25 @@ namespace TrumpSoftware.Xaml.Mvvm
             RaisePropertyChanged(propertyName);
             return true;
         }
-        
+
+        protected virtual bool SetProperty<T>(ref T? storage, T value, [CallerMemberName] string propertyName = null)
+            where T : struct
+        {
+            if (Equals(storage, value))
+                return false;
+            storage = value;
+            RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        protected virtual T GetProperty<T>(ref T? storage, T defaultValue)
+            where T : struct
+        {
+            if (!storage.HasValue)
+                storage = defaultValue;
+            return storage.Value;
+        }
+
         protected void RaisePropertyChanged<T>(Expression<Func<T>> action)
 		{
 			var propertyName = GetPropertyName(action);

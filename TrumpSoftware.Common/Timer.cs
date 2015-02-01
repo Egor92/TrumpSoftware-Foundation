@@ -2,15 +2,15 @@
 
 namespace TrumpSoftware.Common
 {
-    public sealed class ReverseTimer : TimerBase
+    public sealed class Timer : TimerBase
     {
         public event EventHandler TimeHasExpired;
 
-        public ReverseTimer()
+        public Timer()
         {
         }
 
-        public ReverseTimer(TimeSpan interval)
+        public Timer(TimeSpan interval)
             : base(interval)
         {
         }
