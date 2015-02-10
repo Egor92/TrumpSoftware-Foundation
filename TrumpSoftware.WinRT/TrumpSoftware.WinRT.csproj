@@ -60,6 +60,7 @@
     <Compile Include="Mvvm\NavigationHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisibilityExtensions.cs" />
+    <Compile Include="WindowOrientationObserver.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

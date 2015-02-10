@@ -71,6 +71,9 @@ namespace TrumpSoftware.WinRT.Mvvm
                 ResetFieldsHelper.ResetFields(pageVM);
             var pageType = _pageTypes[navigatingPageVMType];
             var parameter = _parameters[navigatingPageVMType];
+            var lastPage = _frame.Content as Page;
+            if (lastPage != null)
+                WindowOrientationObserver.RemoveSubscriber(lastPage);
             _frame.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 if (_currentPageVM != null)
@@ -87,10 +90,11 @@ namespace TrumpSoftware.WinRT.Mvvm
 
         private void Frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            var frameworkElement = e.Content as FrameworkElement;
-            if (frameworkElement == null)
+            var control = e.Content as Control;
+            if (control == null)
                 return;
-            frameworkElement.DataContext = _currentPageVM;
+            WindowOrientationObserver.AddSubscriber(control);
+            control.DataContext = _currentPageVM;
             _currentPageVM.OnNavigatedTo(_previousPageVM);
         }
 
