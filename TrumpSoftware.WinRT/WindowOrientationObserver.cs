@@ -10,6 +10,8 @@ namespace TrumpSoftware.WinRT
     {
         private readonly IList<Control> _subscribers = new List<Control>();
 
+        private ApplicationViewOrientation _currentOrientation;
+
         #region Instance
 
         private static WindowOrientationObserver _instance;
@@ -20,8 +22,6 @@ namespace TrumpSoftware.WinRT
         }
 
         #endregion
-
-        private ApplicationViewOrientation _currentOrientation;
 
         private WindowOrientationObserver()
         {
