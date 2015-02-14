@@ -8,6 +8,8 @@ namespace TrumpSoftware.Xaml.Mvvm
 
         bool CanGoForward { get; }
 
+        event EventHandler<NavigatedEventArgs> Navigated;
+
         void Navigate<TPageVM>(TPageVM pageVM)
             where TPageVM : PageViewModel;
 
@@ -18,7 +20,5 @@ namespace TrumpSoftware.Xaml.Mvvm
         void GoForward();
 
         void GoHome();
-
-        event EventHandler<NavigatedEventArgs> Navigated;
     }
 }

@@ -16,6 +16,18 @@ namespace TrumpSoftware.Wpf.Mvvm
         private PageViewModel _previousPageVM;
         private int _currentPageIndex = -1;
 
+        public bool CanGoBack
+        {
+            get { return _currentPageIndex > 0; }
+        }
+
+        public bool CanGoForward
+        {
+            get { return _currentPageIndex < _history.Count - 1; }
+        }
+
+        public event EventHandler<NavigatedEventArgs> Navigated;
+
         public NavigationHost(NavigationService navigationService)
         {
             if (navigationService == null)
@@ -29,16 +41,6 @@ namespace TrumpSoftware.Wpf.Mvvm
             if (_pages.ContainsKey(typeof(TPageVM)))
                 throw new Exception(string.Format("PageViewModel of type {0} has been registered", typeof(TPageVM).FullName));
             _pages.Add(typeof (TPageVM), page);
-        }
-
-        public bool CanGoBack
-        {
-            get { return _currentPageIndex > 0; }
-        }
-
-        public bool CanGoForward
-        {
-            get { return _currentPageIndex < _history.Count - 1; }
         }
 
         public void Navigate<TPageVM>(TPageVM pageVM)
@@ -77,6 +79,7 @@ namespace TrumpSoftware.Wpf.Mvvm
                 _currentPageVM = pageVM;
                 _navigationService.Navigate(page);
                 pageVM.OnNavigatedTo(_previousPageVM);
+                RaiseNavigated(_currentPageVM, page);
             });
         }
 
@@ -122,6 +125,13 @@ namespace TrumpSoftware.Wpf.Mvvm
                 _history.RemoveAt(i);
             _history.Add(pageVM);
             _currentPageIndex++;
+        }
+
+        protected void RaiseNavigated(PageViewModel pageVM, object page)
+        {
+            var handler = Navigated;
+            if (handler != null)
+                handler(this, new NavigatedEventArgs(pageVM, page));
         }
     }
 }

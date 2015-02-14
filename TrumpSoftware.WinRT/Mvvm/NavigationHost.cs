@@ -18,6 +18,18 @@ namespace TrumpSoftware.WinRT.Mvvm
         private readonly IList<PageViewModel> _history = new List<PageViewModel>();
         private int _currentPageIndex = -1;
 
+        public bool CanGoBack
+        {
+            get { return _currentPageIndex > 0; }
+        }
+
+        public bool CanGoForward
+        {
+            get { return _currentPageIndex < _history.Count - 1; }
+        }
+
+        public event EventHandler<NavigatedEventArgs> Navigated;
+
         public NavigationHost(Frame frame)
         {
             if (frame == null)
@@ -34,18 +46,6 @@ namespace TrumpSoftware.WinRT.Mvvm
             _pageTypes.Add(typeof(TPageVM), typeof(TPage));
             _parameters.Add(typeof(TPageVM), parameter);
         }
-
-        public bool CanGoBack
-        {
-            get { return _currentPageIndex > 0; }
-        }
-
-        public bool CanGoForward
-        {
-            get { return _currentPageIndex < _history.Count - 1; }
-        }
-
-        public event EventHandler<NavigatedEventArgs> Navigated;
 
         public void Navigate<TPageVM>(TPageVM pageVM)
             where TPageVM : PageViewModel
@@ -132,7 +132,6 @@ namespace TrumpSoftware.WinRT.Mvvm
             Navigate(firstPageVM, false, false);
         }
 
-
         private void RememberInHistory<TPageVM>(TPageVM pageVM)
             where TPageVM : PageViewModel
         {
@@ -142,7 +141,6 @@ namespace TrumpSoftware.WinRT.Mvvm
             _currentPageIndex++;
         }
         
-
         private void RaiseNavigated(PageViewModel pageVM, Page page)
         {
             var handler = Navigated;
