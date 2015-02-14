@@ -45,6 +45,8 @@ namespace TrumpSoftware.WinRT.Mvvm
             get { return _currentPageIndex < _history.Count - 1; }
         }
 
+        public event EventHandler<NavigatedEventArgs> Navigated;
+
         public void Navigate<TPageVM>(TPageVM pageVM)
             where TPageVM : PageViewModel
         {
@@ -71,9 +73,6 @@ namespace TrumpSoftware.WinRT.Mvvm
                 ResetFieldsHelper.ResetFields(pageVM);
             var pageType = _pageTypes[navigatingPageVMType];
             var parameter = _parameters[navigatingPageVMType];
-            var lastPage = _frame.Content as Page;
-            if (lastPage != null)
-                WindowOrientationObserver.RemoveSubscriber(lastPage);
             _frame.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 if (_currentPageVM != null)
@@ -90,12 +89,12 @@ namespace TrumpSoftware.WinRT.Mvvm
 
         private void Frame_Navigated(object sender, Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            var control = e.Content as Control;
-            if (control == null)
+            var page = e.Content as Page;
+            if (page == null)
                 return;
-            WindowOrientationObserver.AddSubscriber(control);
-            control.DataContext = _currentPageVM;
+            page.DataContext = _currentPageVM;
             _currentPageVM.OnNavigatedTo(_previousPageVM);
+            RaiseNavigated(_currentPageVM, page);
         }
 
         public void GoBack()
@@ -133,6 +132,7 @@ namespace TrumpSoftware.WinRT.Mvvm
             Navigate(firstPageVM, false, false);
         }
 
+
         private void RememberInHistory<TPageVM>(TPageVM pageVM)
             where TPageVM : PageViewModel
         {
@@ -140,6 +140,14 @@ namespace TrumpSoftware.WinRT.Mvvm
                 _history.RemoveAt(i);
             _history.Add(pageVM);
             _currentPageIndex++;
+        }
+        
+
+        private void RaiseNavigated(PageViewModel pageVM, Page page)
+        {
+            var handler = Navigated;
+            if (handler != null)
+                handler(this, new NavigatedEventArgs(pageVM, page));
         }
     }
 }

@@ -49,6 +49,7 @@
     <Compile Include="Mvvm\IModelPresenter.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Mvvm\DummyCommand.cs" />
+    <Compile Include="Mvvm\NavigatedEventArgs.cs" />
     <Compile Include="Mvvm\PageViewModel.cs" />
     <Compile Include="Mvvm\ResetFieldsHelper.cs" />
     <Compile Include="Mvvm\INavigationHost.cs" />

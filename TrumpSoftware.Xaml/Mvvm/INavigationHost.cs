@@ -1,4 +1,6 @@
-﻿namespace TrumpSoftware.Xaml.Mvvm
+﻿using System;
+
+namespace TrumpSoftware.Xaml.Mvvm
 {
     public interface INavigationHost
     {
@@ -16,5 +18,7 @@
         void GoForward();
 
         void GoHome();
+
+        event EventHandler<NavigatedEventArgs> Navigated;
     }
 }

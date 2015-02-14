@@ -1,6 +1,6 @@
 ﻿namespace TrumpSoftware.Xaml.Mvvm
 {
-    public class PageViewModel : NotificationObject
+    public abstract class PageViewModel : NotificationObject
     {
         public virtual void OnNavigatedTo(PageViewModel previousPageVM)
         {
