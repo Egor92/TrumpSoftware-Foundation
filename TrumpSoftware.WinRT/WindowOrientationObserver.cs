@@ -6,10 +6,9 @@ using Windows.UI.Xaml.Controls;
 
 namespace TrumpSoftware.WinRT
 {
-    internal class WindowOrientationObserver
+    public class WindowOrientationObserver
     {
         private readonly IList<Control> _subscribers = new List<Control>();
-
         private ApplicationViewOrientation _currentOrientation;
 
         #region Instance
@@ -29,7 +28,7 @@ namespace TrumpSoftware.WinRT
             _currentOrientation = ApplicationView.GetForCurrentView().Orientation;
         }
 
-        internal static void AddSubscriber(Control control)
+        public static void AddSubscriber(Control control)
         {
             if (control == null)
                 throw new ArgumentNullException("control");
@@ -38,7 +37,7 @@ namespace TrumpSoftware.WinRT
             SetOrientation(control);
         }
 
-        internal static void RemoveSubscriber(Control control)
+        public static void RemoveSubscriber(Control control)
         {
             if (control == null)
                 throw new ArgumentNullException("control");
@@ -48,9 +47,9 @@ namespace TrumpSoftware.WinRT
         private void Window_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
         {
             var newOrientation = ApplicationView.GetForCurrentView().Orientation;
-            if (_currentOrientation == newOrientation)
+            if (Instance._currentOrientation == newOrientation)
                 return;
-            _currentOrientation = newOrientation;
+            Instance._currentOrientation = newOrientation;
             foreach (var subscriber in _subscribers)
                 SetOrientation(subscriber);
         }

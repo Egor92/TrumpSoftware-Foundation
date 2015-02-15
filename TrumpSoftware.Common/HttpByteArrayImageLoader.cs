@@ -1,10 +1,20 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace TrumpSoftware.Common
 {
     public class HttpByteArrayImageLoader : HttpByteArrayLoader
     {
+        public HttpByteArrayImageLoader()
+        {
+        }
+
+        public HttpByteArrayImageLoader(HttpClient httpClient)
+            : base(httpClient)
+        {
+        }
+
         public override async Task<byte[]> Load(Uri uri)
         {
             var httpResponseMessage = await HttpClient.GetAsync(uri);

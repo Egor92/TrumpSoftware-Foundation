@@ -35,6 +35,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .NET Framework is automatically included -->
+    <ProjectReference Include="..\TrumpSoftware.Common\TrumpSoftware.Common.csproj">
+      <Project>{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}</Project>
+      <Name>TrumpSoftware.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TrumpSoftware.Xaml\TrumpSoftware.Xaml.csproj">
       <Project>{6416b410-4c2d-4ebf-a497-9e484f422b6c}</Project>
       <Name>TrumpSoftware.Xaml</Name>
@@ -58,7 +62,7 @@
     <Compile Include="Converters\MultiplierConverter.cs" />
     <Compile Include="Converters\StringToBrushConverter.cs" />
     <Compile Include="Mvvm\NavigationHost.cs" />
-    <Compile Include="OrientationAwarePage.cs" />
+    <Compile Include="LayoutAwarePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VisibilityExtensions.cs" />
     <Compile Include="WindowOrientationObserver.cs" />

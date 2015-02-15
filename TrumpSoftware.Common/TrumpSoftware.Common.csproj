@@ -59,6 +59,7 @@
     <Compile Include="Stopwatch.cs" />
     <Compile Include="TimerBase.cs" />
     <Compile Include="TimeSpanHelper.cs" />
+    <Compile Include="UnhandledCaseException.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.TestPlatform.UnitTestFramework">
