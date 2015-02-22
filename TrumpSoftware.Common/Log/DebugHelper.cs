@@ -35,9 +35,9 @@ namespace TrumpSoftware.Common.Log
 
         private static string GetTaskIdString()
         {
-            var teskId = Task.CurrentId;
-            return teskId != null
-                ? string.Format("Task='{0}'.", teskId)
+            var taskId = Task.CurrentId;
+            return taskId != null
+                ? string.Format("Task='{0}'.", taskId)
                 : string.Empty;
         }
     }

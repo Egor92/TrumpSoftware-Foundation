@@ -59,7 +59,7 @@ namespace TrumpSoftware.Common
                         : 'z';
                     break;
                 default:
-                    throw new Exception();
+                    throw new UnhandledCaseException(typeof(WordCase), wordCase);
             }
             return RandomHelper.GetChar(minChar, maxChar);
         }

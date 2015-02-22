@@ -6,21 +6,27 @@ namespace TrumpSoftware.Common
 {
     public class HttpByteArrayImageLoader : HttpByteArrayLoader
     {
-        public HttpByteArrayImageLoader()
+        private readonly bool _throwExceptionOnFail;
+
+        public HttpByteArrayImageLoader(bool throwExceptionOnFail = true)
+            : this(null, throwExceptionOnFail)
         {
         }
 
-        public HttpByteArrayImageLoader(HttpClient httpClient)
+        public HttpByteArrayImageLoader(HttpClient httpClient, bool throwExceptionOnFail = true)
             : base(httpClient)
         {
+            _throwExceptionOnFail = throwExceptionOnFail;
         }
 
         public override async Task<byte[]> Load(Uri uri)
         {
             var httpResponseMessage = await HttpClient.GetAsync(uri);
-            if (!httpResponseMessage.Content.Headers.ContentType.MediaType.StartsWith("image"))
+            if (httpResponseMessage.Content.Headers.ContentType.MediaType.StartsWith("image"))
+                return await httpResponseMessage.Content.ReadAsByteArrayAsync();
+            if (_throwExceptionOnFail)
                 throw new Exception("Content is not image");
-            return await httpResponseMessage.Content.ReadAsByteArrayAsync();
+            return null;
         }
     }
 }
