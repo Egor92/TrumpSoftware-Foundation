@@ -29,8 +29,6 @@ namespace TrumpSoftware.Common
 
         public HttpByteArrayLoader(HttpClient httpClient)
         {
-            if (httpClient == null)
-                throw new ArgumentNullException("httpClient");
             _httpClient = httpClient;
         }
 

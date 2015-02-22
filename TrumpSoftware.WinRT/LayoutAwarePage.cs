@@ -9,6 +9,7 @@ namespace TrumpSoftware.WinRT
     public abstract class LayoutAwarePage : Page
     {
         private bool _isViewContainerSearchCompleted;
+        private bool _isLoaded;
         private ContentControl _viewContainer;
         private UIElement _landscapeView;
         private UIElement _portraitView;
@@ -74,6 +75,7 @@ namespace TrumpSoftware.WinRT
         protected LayoutAwarePage()
         {
             Loaded += OnLoaded;
+            Unloaded += OnUnloaded;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -93,7 +95,14 @@ namespace TrumpSoftware.WinRT
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Loaded -= OnLoaded;
+            _isLoaded = true;
             SetActualOrientation();
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            Unloaded -= OnUnloaded;
+            _isLoaded = false;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
@@ -103,6 +112,8 @@ namespace TrumpSoftware.WinRT
 
         private void SetActualOrientation()
         {
+            if (!_isLoaded)
+                return;
             if (Windows.ApplicationModel.DesignMode.DesignModeEnabled)
             {
                 CurrentOrientation = DesignTimeOrientation;
