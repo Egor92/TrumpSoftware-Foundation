@@ -49,6 +49,9 @@
     <TargetPlatform Include="Windows, Version=8.1" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ColorHelper.cs" />
+    <Compile Include="Converters\StringToColorConverter.cs" />
+    <Compile Include="WindowOrientation.cs" />
     <Compile Include="Converters\BoolConverter.cs" />
     <Compile Include="Converters\BoolToBrushConverter.cs" />
     <Compile Include="Converters\BoolToDoubleConverter.cs" />

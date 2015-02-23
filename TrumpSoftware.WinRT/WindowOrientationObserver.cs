@@ -9,7 +9,7 @@ namespace TrumpSoftware.WinRT
     public class WindowOrientationObserver
     {
         private readonly IList<Control> _subscribers = new List<Control>();
-        private ApplicationViewOrientation _currentOrientation;
+        private Windows.UI.ViewManagement.ApplicationViewOrientation _currentOrientation;
 
         #region Instance
 
