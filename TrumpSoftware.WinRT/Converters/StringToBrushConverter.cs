@@ -10,11 +10,8 @@ namespace TrumpSoftware.WinRT.Converters
         {
             if (value == null)
                 return null;
-            byte a = GetByte(value.Substring(1, 2));
-            byte r = GetByte(value.Substring(3, 2));
-            byte g = GetByte(value.Substring(5, 2));
-            byte b = GetByte(value.Substring(7, 2));
-            return new SolidColorBrush(Color.FromArgb(a, r, g, b));
+            var color = ColorHelper.ConvertFromString(value);
+            return new SolidColorBrush(color);
         }
 
         protected override string ConvertBack(SolidColorBrush value, Type targetType, object parameter, string language)
@@ -22,11 +19,6 @@ namespace TrumpSoftware.WinRT.Converters
             return value != null
                 ? value.Color.ToString()
                 : null;
-        }
-
-        private static byte GetByte(string source)
-        {
-            return System.Convert.ToByte(source, 16);
         }
     }
 }
