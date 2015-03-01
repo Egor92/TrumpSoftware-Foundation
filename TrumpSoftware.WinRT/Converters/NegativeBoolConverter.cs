@@ -2,7 +2,7 @@
 
 namespace TrumpSoftware.WinRT.Converters
 {
-    public class BoolToNegativeConverter : ChainConverter<bool,bool>
+    public class NegativeBoolConverter : ChainConverter<bool,bool>
     {
         protected override bool Convert(bool value, Type targetType, object parameter, string language)
         {

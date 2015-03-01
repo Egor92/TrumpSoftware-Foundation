@@ -55,7 +55,7 @@
     <Compile Include="Converters\BoolConverter.cs" />
     <Compile Include="Converters\BoolToBrushConverter.cs" />
     <Compile Include="Converters\BoolToDoubleConverter.cs" />
-    <Compile Include="Converters\BoolToNegativeConverter.cs" />
+    <Compile Include="Converters\NegativeBoolConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ByteArrayToBitmapImageConverter.cs" />
     <Compile Include="Converters\ChainConverter.cs" />
