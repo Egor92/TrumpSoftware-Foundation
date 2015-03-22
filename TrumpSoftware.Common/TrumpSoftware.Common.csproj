@@ -61,6 +61,7 @@
     <Compile Include="Stopwatch.cs" />
     <Compile Include="TimerBase.cs" />
     <Compile Include="TimeSpanHelper.cs" />
+    <Compile Include="TreeHelper.cs" />
     <Compile Include="UnhandledCaseException.cs" />
   </ItemGroup>
   <ItemGroup>
