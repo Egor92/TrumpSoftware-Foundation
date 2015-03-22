@@ -52,7 +52,6 @@
     <Compile Include="FtpItem.cs" />
     <Compile Include="FtpResponser.cs" />
     <Compile Include="HeliohostFtpResponser.cs" />
-    <Compile Include="InfoFileWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ResourceInfo.cs" />

@@ -134,7 +134,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
                     var ftpFileUri = directoryUri.Combine(ftpFile.Name);
                     var ftpFileRelativePathLength = ftpFileUri.AbsoluteUri.Length - _selectedDirectoryUri.AbsoluteUri.Length - 1;
                     var ftpFileRelativePath = ftpFileUri.AbsoluteUri.Substring(_selectedDirectoryUri.AbsoluteUri.Length + 1, ftpFileRelativePathLength);
-                    var infoFtpFileTemplate = InfoFileWorker.GetInfoFtpFileTemplate(ftpFileRelativePath, extension);
+                    var infoFtpFileTemplate = GetDefaultInfoFtpFile(ftpFileRelativePath);
                     var ftpInfoFileUri = new Uri(string.Format("{0}.info", ftpFileUri.AbsoluteUri));
                     FtpResponser.CreateFile(ftpInfoFileUri, infoFtpFileTemplate);
                     Console.WriteLine(ftpFileRelativePath);
@@ -146,6 +146,12 @@ namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
                 var subdirectoryUri = directoryUri.Combine(ftpDirectory.Name);
                 CreateInfoFiles(subdirectoryUri, ref createdInfoFilesCount);
             }
+        }
+
+        private static string GetDefaultInfoFtpFile(string relativePath)
+        {
+            var resourceInfo = new ResourceInfo(relativePath);
+            return JsonConvert.SerializeObject(resourceInfo);
         }
 
         private static void CreateIndexFile()
@@ -173,8 +179,8 @@ namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
                 var extension = Path.GetExtension(ftpFile.Name);
                 if (extension != ".info")
                     continue;
-                var info = FtpResponser.ReadFileAsText(ftpFile.Uri);
-                var resourceInfo = InfoFileWorker.GetResourceInfo(info);
+                var data = FtpResponser.ReadFileAsText(ftpFile.Uri);
+                var resourceInfo = JsonConvert.DeserializeObject<ResourceInfo>(data);
                 if (resourceInfo != null)
                     resourceInfos.Add(resourceInfo);
             }

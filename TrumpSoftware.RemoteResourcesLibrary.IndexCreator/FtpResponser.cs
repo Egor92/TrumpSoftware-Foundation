@@ -42,19 +42,20 @@ namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
             response.Close();
         }
 
-        public IEnumerable<string> ReadFileAsText(Uri fileUri)
+        public string ReadFileAsText(Uri fileUri)
         {
             return GetResponseResult(fileUri, WebRequestMethods.Ftp.DownloadFile);
         }
 
         private IEnumerable<string> GetDirectoryDetails(Uri directoryUri)
         {
-            return GetResponseResult(directoryUri, WebRequestMethods.Ftp.ListDirectoryDetails);
+            return GetResponseResult(directoryUri, WebRequestMethods.Ftp.ListDirectoryDetails)
+                    .Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
         }
 
-        private IEnumerable<string> GetResponseResult(Uri uri, string method)
+        private string GetResponseResult(Uri uri, string method)
         {
-            var result = new string[0];
+            string result = string.Empty;
             try
             {
                 FtpWebRequest ftpRequest = (FtpWebRequest)WebRequest.Create(uri);
@@ -65,7 +66,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
                     var responseStream = response.GetResponseStream();
                     using (var streamReader = new StreamReader(responseStream))
                     {
-                        result = streamReader.ReadToEnd().Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                        result = streamReader.ReadToEnd();
                     }
                 }
             }

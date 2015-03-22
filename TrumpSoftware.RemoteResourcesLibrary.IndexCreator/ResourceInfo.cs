@@ -1,4 +1,6 @@
-﻿namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
+﻿using System;
+
+namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
 {
     internal class ResourceInfo
     {
@@ -6,42 +8,13 @@
         public string Group { get; set; }
         public int Version { get; set; }
 
-        public bool IsAvailable()
+        public ResourceInfo(string relativePath)
         {
-            return RelativePath != null && Version > -1;
-        }
-
-        public void AddValue(string key, string value)
-        {
-            switch (key)
-            {
-                case "RelativePath":
-                    AddRelativePath(value);
-                    break;
-                case "Group":
-                    AddGroup(value);
-                    break;
-                case "Version":
-                    AddVersion(value);
-                    break;
-            }
-        }
-
-        private void AddRelativePath(string value)
-        {
-            RelativePath = value;
-        }
-
-        private void AddGroup(string value)
-        {
-            Group = value;
-        }
-
-        private void AddVersion(string value)
-        {
-            int version;
-            if (int.TryParse(value, out version))
-                Version = version;
+            if (string.IsNullOrWhiteSpace(relativePath))
+                throw new ArgumentException("relativePath");
+            RelativePath = relativePath;
+            Group = null;
+            Version = 0;
         }
     }
 }

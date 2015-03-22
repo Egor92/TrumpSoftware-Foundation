@@ -1,4 +1,5 @@
 ﻿using System;
+using TrumpSoftware.Common;
 
 namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
 {
@@ -16,7 +17,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
                 return FtpItemType.File;
             if (str.EndsWith("d"))
                 return FtpItemType.Directory;
-            throw new Exception();
+            throw new UnhandledCaseException();
         }
     }
 
