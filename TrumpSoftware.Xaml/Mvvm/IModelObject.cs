@@ -1,6 +1,6 @@
 ﻿namespace TrumpSoftware.Xaml.Mvvm
 {
-    public interface IModelPresenter<out T>
+    public interface IModelObject<out T>
     {
         T Model { get; }
     }

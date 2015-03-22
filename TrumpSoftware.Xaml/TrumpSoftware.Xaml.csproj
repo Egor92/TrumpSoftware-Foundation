@@ -46,7 +46,7 @@
     <Compile Include="BrushStrings.cs" />
     <Compile Include="Media\MediaObject.cs" />
     <Compile Include="Media\MediaState.cs" />
-    <Compile Include="Mvvm\IModelPresenter.cs" />
+    <Compile Include="Mvvm\IModelObject.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Mvvm\DummyCommand.cs" />
     <Compile Include="Mvvm\NavigatedEventArgs.cs" />
@@ -55,8 +55,7 @@
     <Compile Include="Mvvm\INavigationHost.cs" />
     <Compile Include="Mvvm\ResetWhenNavigatingAttribute.cs" />
     <Compile Include="Mvvm\NotificationObject.cs" />
-    <Compile Include="Mvvm\HierarchicalViewModel.cs" />
-    <Compile Include="Mvvm\HierarchicalViewModelCollection.cs" />
+    <Compile Include="Mvvm\HierarchicalObjectCollection.cs" />
     <Compile Include="Mvvm\HierarchicalViewModelObservableCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

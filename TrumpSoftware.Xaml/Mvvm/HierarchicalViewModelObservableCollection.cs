@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+using TrumpSoftware.Common;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
-    public class HierarchicalViewModelObservableCollection<TModel, TViewModel> : HierarchicalViewModelCollection<TViewModel>
+    public class HierarchicalViewModelObservableCollection<TModel, TViewModel> : HierarchicalObjectCollection<TViewModel>
         where TModel : class
-        where TViewModel : HierarchicalViewModel, IModelPresenter<TModel>
+        where TViewModel : IHierarchical, IModelObject<TModel>
     {
         private readonly IList<TModel> _modelCollection;
         private readonly Func<TModel, TViewModel> _getViewModel;
@@ -15,7 +16,7 @@ namespace TrumpSoftware.Xaml.Mvvm
         private readonly Predicate<TModel> _filter;
         private ChangesInitiator? _changesInitiator;
 
-        public HierarchicalViewModelObservableCollection(HierarchicalViewModel parent, IList<TModel> modelCollection, Func<TModel, TViewModel> getViewModel, Func<TViewModel, TModel> getModel, Predicate<TModel> filter = null)
+        public HierarchicalViewModelObservableCollection(IHierarchical parent, IList<TModel> modelCollection, Func<TModel, TViewModel> getViewModel, Func<TViewModel, TModel> getModel, Predicate<TModel> filter = null)
             : base(parent)
         {
             if (modelCollection == null)

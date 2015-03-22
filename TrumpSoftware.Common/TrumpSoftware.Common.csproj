@@ -41,6 +41,7 @@
     <Compile Include="HttpByteArrayImageLoader.cs" />
     <Compile Include="HttpByteArrayLoader.cs" />
     <Compile Include="ICancelable.cs" />
+    <Compile Include="IHierarchical.cs" />
     <Compile Include="ILoader.cs" />
     <Compile Include="Log\DebugHelper.cs" />
     <Compile Include="EnumerableExtentions.cs" />

@@ -1,13 +1,14 @@
 ﻿using System.Collections.ObjectModel;
+using TrumpSoftware.Common;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
-    public class HierarchicalViewModelCollection<TViewModel> : ObservableCollection<TViewModel>
-        where TViewModel : HierarchicalViewModel
+    public class HierarchicalObjectCollection<TViewModel> : ObservableCollection<TViewModel>
+        where TViewModel : IHierarchical
     {
-        private readonly HierarchicalViewModel _parent;
+        private readonly IHierarchical _parent;
 
-        public HierarchicalViewModelCollection(HierarchicalViewModel parent)
+        public HierarchicalObjectCollection(IHierarchical parent)
         {
             _parent = parent;
         }

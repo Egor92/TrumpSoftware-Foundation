@@ -12,7 +12,7 @@ namespace TrumpSoftware.Wpf
             return GetAncestor<T>(source, x => false, includingItself);
         }
 
-        public static T GetAncestor<T>(this DependencyObject source, Func<DependencyObject, bool> abortCondition,  bool includingItself = false)
+        public static T GetAncestor<T>(this DependencyObject source, Func<DependencyObject, bool> abortCondition, bool includingItself = false)
             where T : DependencyObject
         {
             if (includingItself)
