@@ -7,6 +7,9 @@
     {
         private readonly double _value;
 
+        public static FractionalOne MinValue = new FractionalOne(0.0);
+        public static FractionalOne MaxValue = new FractionalOne(1.0);
+
         public FractionalOne(double value = 0)
         {
             if (value > 1.0)
