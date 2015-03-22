@@ -25,5 +25,9 @@ namespace TrumpSoftware.Common
         {
             _message = message;
         }
+
+        public UnhandledCaseException()
+        {
+        }
     }
 }
