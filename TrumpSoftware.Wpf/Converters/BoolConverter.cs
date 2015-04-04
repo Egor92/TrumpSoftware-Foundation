@@ -4,7 +4,20 @@ using TrumpSoftware.WPF.Converters;
 
 namespace TrumpSoftware.Wpf.Converters
 {
-    public class BoolConverter<T> : ChainConverter<bool,T>
+    public class BoolConverter : BoolConverter<object>
+    {
+        protected override object GetDefaultTrueValue()
+        {
+            return null;
+        }
+
+        protected override object GetDefaultFalseValue()
+        {
+            return null;
+        }
+    }
+
+    public abstract class BoolConverter<T> : ChainConverter<bool,T>
     {
         private bool _isTrueValueInitialized;
         private bool _isFalseValueInitialized;
