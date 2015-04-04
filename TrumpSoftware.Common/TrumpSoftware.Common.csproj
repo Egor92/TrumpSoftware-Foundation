@@ -38,6 +38,7 @@
   <ItemGroup>
     <Compile Include="AsyncAssert.cs" />
     <Compile Include="FractionalOne.cs" />
+    <Compile Include="GluedNode.cs" />
     <Compile Include="HttpByteArrayImageLoader.cs" />
     <Compile Include="HttpByteArrayLoader.cs" />
     <Compile Include="ICancelable.cs" />

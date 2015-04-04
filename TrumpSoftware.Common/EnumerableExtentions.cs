@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -49,5 +50,12 @@ namespace TrumpSoftware.Common
 
 		    return randDictionary.OrderBy(x => x.Key).Select(x => x.Value).ToArray();
 		}
+
+	    public static int GetCountOrZero(this IEnumerable source)
+	    {
+	        return source != null
+                ? source.OfType<object>().Count()
+                : 0;
+	    }
 	}
 }
