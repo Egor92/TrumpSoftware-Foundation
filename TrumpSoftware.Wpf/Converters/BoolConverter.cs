@@ -4,7 +4,7 @@ using TrumpSoftware.WPF.Converters;
 
 namespace TrumpSoftware.Wpf.Converters
 {
-    public class BoolConverter<T> : ChainConverter
+    public class BoolConverter<T> : ChainConverter<bool,T>
     {
         private bool _isTrueValueInitialized;
         private bool _isFalseValueInitialized;
@@ -59,27 +59,21 @@ namespace TrumpSoftware.Wpf.Converters
             return default (T);
         }
 
-        protected override sealed object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override sealed T Convert(bool value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is bool))
-                return null;
-            var b = (bool)value;
-            return ConvertFromBool(b);
+            return ConvertFromBool(value);
         }
 
-        protected override sealed object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override sealed bool ConvertBack(T value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is T))
-                return null;
-            var t = (T)value;
-            return ConvertToBool(t);
+            return ConvertToBool(value);
         }
 
         private T ConvertFromBool(bool value)
         {
             return value
-            ? TrueValue
-            : FalseValue;
+                ? TrueValue
+                : FalseValue;
         }
 
         private bool ConvertToBool(T value)

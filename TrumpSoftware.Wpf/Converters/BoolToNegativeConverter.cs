@@ -4,22 +4,16 @@ using TrumpSoftware.WPF.Converters;
 
 namespace TrumpSoftware.Wpf.Converters
 {
-    public class BoolToNegativeConverter : ChainConverter
+    public class BoolToNegativeConverter : ChainConverter<bool,bool>
     {
-        protected override object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override bool Convert(bool value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is bool))
-                return null;
-            var b = (bool)value;
-            return !b;
+            return !value;
         }
 
-        protected override object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        protected override bool ConvertBack(bool value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (!(value is bool))
-                return null;
-            var b = (bool)value;
-            return !b;
+            return !value;
         }
     }
 }
