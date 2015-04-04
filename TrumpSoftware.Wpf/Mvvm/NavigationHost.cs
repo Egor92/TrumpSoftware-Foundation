@@ -1,20 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 using TrumpSoftware.Xaml.Mvvm;
 
 namespace TrumpSoftware.Wpf.Mvvm
 {
     public class NavigationHost : INavigationHost
     {
-        private readonly NavigationService _navigationService;
-        private readonly IDictionary<Type, Page> _pages = new Dictionary<Type, Page>();
+        private readonly ContentControl _hostControl;
+        private readonly IDictionary<Type, FrameworkElement> _pages = new Dictionary<Type, FrameworkElement>();
         private readonly IList<PageViewModel> _history = new List<PageViewModel>();
         private PageViewModel _currentPageVM;
         private PageViewModel _previousPageVM;
         private int _currentPageIndex = -1;
+        private FrameworkElement _currentPage;
 
         public bool CanGoBack
         {
@@ -28,14 +29,14 @@ namespace TrumpSoftware.Wpf.Mvvm
 
         public event EventHandler<NavigatedEventArgs> Navigated;
 
-        public NavigationHost(NavigationService navigationService)
+        public NavigationHost(ContentControl hostControl)
         {
-            if (navigationService == null)
-                throw new ArgumentNullException("navigationService");
-            _navigationService = navigationService;
+            if (hostControl == null)
+                throw new ArgumentNullException("hostControl");
+            _hostControl = hostControl;
         }
 
-        public void Register<TPageVM>(Page page)
+        public void Register<TPageVM>(FrameworkElement page)
             where TPageVM : PageViewModel
         {
             if (_pages.ContainsKey(typeof(TPageVM)))
@@ -51,7 +52,8 @@ namespace TrumpSoftware.Wpf.Mvvm
 
         public void RefreshPage()
         {
-            _navigationService.Refresh();
+            _currentPage.DataContext = null;
+            _currentPage.DataContext = _currentPageVM;
         }
 
         private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
@@ -66,20 +68,20 @@ namespace TrumpSoftware.Wpf.Mvvm
                 RememberInHistory(pageVM);
             if (toResetViewModel)
                 ResetFieldsHelper.ResetFields(pageVM);
-            var page = _pages[navigatingPageVMType];
-            page.Dispatcher.Invoke(() =>
+            _currentPage = _pages[navigatingPageVMType];
+            _hostControl.Dispatcher.Invoke(() =>
             {
                 if (_currentPageVM != null)
                 {
                     _currentPageVM.OnNavigatedFrom(pageVM);
                     _previousPageVM = pageVM;
                 }
-                page.DataContext = null;
-                page.DataContext = pageVM;
+                _currentPage.DataContext = null;
+                _currentPage.DataContext = pageVM;
                 _currentPageVM = pageVM;
-                _navigationService.Navigate(page);
+                _hostControl.Content = _currentPage;
                 pageVM.OnNavigatedTo(_previousPageVM);
-                RaiseNavigated(_currentPageVM, page);
+                RaiseNavigated(_currentPageVM, _currentPage);
             });
         }
 
