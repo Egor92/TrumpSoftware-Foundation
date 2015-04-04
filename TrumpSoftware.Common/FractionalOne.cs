@@ -94,5 +94,10 @@
         {
             return _value.ToString();
         }
+
+        public string ToString(string format)
+        {
+            return _value.ToString(format);
+        }
     }
 }
