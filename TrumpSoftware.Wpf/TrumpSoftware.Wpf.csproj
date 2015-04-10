@@ -48,9 +48,11 @@
   <ItemGroup>
     <Compile Include="Converters\BoolConverter.cs" />
     <Compile Include="Converters\BoolToBrushConverter.cs" />
+    <Compile Include="Converters\BoolToFontWeightConverter.cs" />
     <Compile Include="Converters\BoolToNegativeConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChainConverter.cs" />
+    <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mvvm\NavigationHost.cs" />
