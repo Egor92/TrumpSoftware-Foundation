@@ -39,10 +39,13 @@
     <Compile Include="AsyncAssert.cs" />
     <Compile Include="FractionalOne.cs" />
     <Compile Include="GluedNode.cs" />
+    <Compile Include="Hierarchical\EventDirection.cs" />
+    <Compile Include="Hierarchical\HierarchcalEventHandler.cs" />
+    <Compile Include="Hierarchical\HierarchicalEvent.cs" />
     <Compile Include="HttpByteArrayImageLoader.cs" />
     <Compile Include="HttpByteArrayLoader.cs" />
     <Compile Include="ICancelable.cs" />
-    <Compile Include="IHierarchical.cs" />
+    <Compile Include="Hierarchical\IHierarchical.cs" />
     <Compile Include="ILoader.cs" />
     <Compile Include="Log\DebugHelper.cs" />
     <Compile Include="EnumerableExtentions.cs" />

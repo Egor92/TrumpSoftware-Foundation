@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace TrumpSoftware.Common
+namespace TrumpSoftware.Common.Hierarchical
 {
     public interface IHierarchical
     {

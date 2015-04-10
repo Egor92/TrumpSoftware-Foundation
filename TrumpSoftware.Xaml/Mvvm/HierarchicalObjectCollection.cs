@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-using TrumpSoftware.Common;
+using TrumpSoftware.Common.Hierarchical;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using TrumpSoftware.Common;
+using TrumpSoftware.Common.Hierarchical;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
