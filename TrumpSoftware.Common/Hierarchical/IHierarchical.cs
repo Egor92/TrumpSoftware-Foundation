@@ -30,6 +30,25 @@ namespace TrumpSoftware.Common.Hierarchical
             return t ?? GetAncestor<T>(source.Parent);
         }
 
+        public static IEnumerable<T> GetAncestors<T>(this IHierarchical source, bool includingItselt = false)
+            where T : class
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+            var ancestors = new Collection<T>();
+            IHierarchical target = includingItselt
+                ? source
+                : source.Parent;
+            while (target != null)
+            {
+                var t = target as T;
+                if (t != null)
+                    ancestors.Add(t);
+                target = target.Parent;
+            }
+            return ancestors;
+        }
+
         public static IEnumerable<T> GetDescendants<T>(this IHierarchical source, bool includingItselt = true)
             where T : class
         {
