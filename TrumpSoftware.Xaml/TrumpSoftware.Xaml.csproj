@@ -57,6 +57,7 @@
     <Compile Include="Mvvm\NotificationObject.cs" />
     <Compile Include="Mvvm\HierarchicalObjectCollection.cs" />
     <Compile Include="Mvvm\HierarchicalViewModelObservableCollection.cs" />
+    <Compile Include="Mvvm\WindowViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
