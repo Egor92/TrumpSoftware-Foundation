@@ -7,22 +7,37 @@ namespace TrumpSoftware.Xaml.Mvvm
 {
 	public class NotificationObject : INotifyPropertyChanged
 	{
-        protected virtual bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            return SetProperty(ref storage, value, null, propertyName);
+        }
+
+        protected virtual bool SetProperty<T>(ref T storage, T value, Action callback, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value))
                 return false;
             storage = value;
             RaisePropertyChanged(propertyName);
+            if (callback != null)
+                callback();
             return true;
         }
 
-        protected virtual bool SetProperty<T>(ref T? storage, T value, [CallerMemberName] string propertyName = null)
+        protected bool SetProperty<T>(ref T? storage, T value, [CallerMemberName] string propertyName = null)
+            where T : struct
+        {
+            return SetProperty(ref storage, value, null, propertyName);
+        }
+
+        protected virtual bool SetProperty<T>(ref T? storage, T value, Action callback, [CallerMemberName] string propertyName = null)
             where T : struct
         {
             if (Equals(storage, value))
                 return false;
             storage = value;
             RaisePropertyChanged(propertyName);
+            if (callback != null)
+                callback();
             return true;
         }
 
