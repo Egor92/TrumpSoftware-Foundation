@@ -52,6 +52,7 @@
     <Compile Include="Converters\BoolToNegativeConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChainConverter.cs" />
+    <Compile Include="Converters\ObjectIsNullToVisibilityConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
