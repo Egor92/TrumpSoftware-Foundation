@@ -51,11 +51,14 @@ namespace TrumpSoftware.Common
 		    return randDictionary.OrderBy(x => x.Key).Select(x => x.Value).ToArray();
 		}
 
+	    public static IEnumerable<T> GetSelfOrEmpty<T>(this IEnumerable<T> source)
+	    {
+	        return source ?? Enumerable.Empty<T>();
+	    }
+
 	    public static int GetCountOrZero(this IEnumerable source)
 	    {
-	        return source != null
-                ? source.OfType<object>().Count()
-                : 0;
+	        return source.OfType<object>().GetSelfOrEmpty().Count();
 	    }
 	}
 }
