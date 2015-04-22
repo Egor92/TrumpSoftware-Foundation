@@ -62,6 +62,7 @@
     <Compile Include="PropertyChangedEventHandler.cs" />
     <Compile Include="RandomHelper.cs" />
     <Compile Include="RandomStringHelper.cs" />
+    <Compile Include="Ref.cs" />
     <Compile Include="Timer.cs" />
     <Compile Include="Stopwatch.cs" />
     <Compile Include="TimerBase.cs" />
