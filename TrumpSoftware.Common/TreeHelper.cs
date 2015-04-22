@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -70,6 +71,7 @@ namespace TrumpSoftware.Common
         }
 
         public static IEnumerable<GluedNode<T>> GlueEnumerables<T>(IEnumerable<T>[] source, GetChildrenDelegate<T> getChildren)
+            where T : class
         {
             if (source == null)
                 throw new ArgumentNullException("source");
@@ -97,6 +99,86 @@ namespace TrumpSoftware.Common
             }
 
             return gluedNodes;
+        }
+
+        public static IEnumerable<T> MakeTrees<T>(IEnumerable<T> source, Func<T,T> getParent, GetChildrenCollectionDelegate<T> getChildren)
+            where T : class
+        {
+            var parentOfItems = source.ToDictionary(x => x, getParent);
+            var rootItems = parentOfItems.Where(x => x.Value == null).Select(x => x.Key).ToArray();
+            if (!rootItems.Any())
+                throw new Exception("It's impossible to create trees. There is no items which parent is null");
+            var notRootItems = source.Except(rootItems).ToArray();
+            if (notRootItems.Any(x => !source.Contains(parentOfItems[x])))
+                throw new Exception("It's impossible to create trees. At least one item has parent that doesn't contain in source enumerable");
+            var childrenOfItems = source.ToDictionary(x => x, x => getChildren(x));
+            foreach (var item in source)
+                getChildren(item).Clear();
+            foreach (var item in notRootItems)
+            {
+                var parent = parentOfItems[item];
+                var children = childrenOfItems[parent];
+                children.Add(item);
+            }
+            return rootItems;
+        }
+
+        public static IEnumerable<T> MakeTrees<T>(IEnumerable<T> source, Func<T,int> getId, Func<T,int> getParentId, Action<T,T> setParent, GetChildrenCollectionDelegate<T> getChildren, int defaultId)
+            where T : class
+        {
+            var idOfItems = source.ToDictionary(x => x, getId);
+            var parentIdOfItems = source.ToDictionary(x => x, getParentId);
+            var rootItems = source.Where(x => parentIdOfItems[x] == defaultId).ToArray();
+            if (!rootItems.Any())
+                throw new Exception("It's impossible to create trees. There is no items which parent is null");
+            var notRootItems = source.Except(rootItems).ToArray();
+            if (notRootItems.Any(x => !idOfItems.Values.Contains(parentIdOfItems[x])))
+                throw new Exception("It's impossible to create trees. At least one item has parent that doesn't contain in source enumerable");
+            foreach (var item in source)
+                getChildren(item).Clear();
+            foreach (var item in rootItems)
+                setParent(item, null);
+            foreach (var item in notRootItems)
+            {
+                var parentId = parentIdOfItems[item];
+                var parent = source.Single(x => idOfItems[x] == parentId);
+                setParent(item, parent);
+                getChildren(parent).Add(item);
+            }
+            return rootItems;
+        }
+
+        public static IEnumerable<T> GetNodes<T>(T rootNode, GetChildrenDelegate<T> getChildren, Action<T,T[]> collectedNodeAction, bool includeRoot, bool leafsOnly)
+        {
+            if (rootNode == null) throw new ArgumentNullException("rootNode");
+            if (getChildren == null) throw new ArgumentNullException("getChildren");
+            var nodes = new List<T>();
+            var ancestorsByNode = new Dictionary<T, T[]>();
+            CollectNodes(rootNode, getChildren, nodes, new Stack<T>(), ancestorsByNode, includeRoot, leafsOnly);
+            foreach (var pair in ancestorsByNode)
+            {
+                var node = pair.Key;
+                var ancestors = pair.Value;
+                collectedNodeAction(node, ancestors);
+            }
+            return nodes;
+        }
+
+        private static void CollectNodes<T>(T node, GetChildrenDelegate<T> getChildren, ICollection<T> nodes, Stack<T> ancestors, IDictionary<T, T[]> ancestorsByNode, bool includeRoot, bool leafsOnly)
+        {
+            var children = getChildren(node);
+            if (includeRoot)
+            {
+                if (leafsOnly && !children.Any())
+                    nodes.Add(node);
+                if (!leafsOnly)
+                    nodes.Add(node);
+            }
+            ancestorsByNode.Add(node, ancestors.ToArray());
+            ancestors.Push(node);
+            foreach (var child in children)
+                CollectNodes(child, getChildren, nodes, ancestors, ancestorsByNode, true, leafsOnly);
+            ancestors.Pop();
         }
     }
 }
