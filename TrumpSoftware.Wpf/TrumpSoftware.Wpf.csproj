@@ -52,8 +52,11 @@
     <Compile Include="Converters\BoolToNegativeConverter.cs" />
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Converters\ChainConverter.cs" />
+    <Compile Include="Converters\HasEnumerableItemsConverter.cs" />
     <Compile Include="Converters\SwitchConverter.cs" />
+    <Compile Include="EnumValues.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
+    <Compile Include="PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Mvvm\NavigationHost.cs" />
     <Compile Include="VisualTreeHelperExtended.cs" />
