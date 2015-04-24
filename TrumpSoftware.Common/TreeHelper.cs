@@ -173,12 +173,13 @@ namespace TrumpSoftware.Common
                     nodes.Add(node);
                 if (!leafsOnly)
                     nodes.Add(node);
+                ancestorsByNode.Add(node, ancestors.ToArray());
+                ancestors.Push(node);
             }
-            ancestorsByNode.Add(node, ancestors.ToArray());
-            ancestors.Push(node);
             foreach (var child in children)
                 CollectNodes(child, getChildren, nodes, ancestors, ancestorsByNode, true, leafsOnly);
-            ancestors.Pop();
+            if (ancestors.Any())
+                ancestors.Pop();
         }
     }
 }
