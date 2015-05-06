@@ -159,7 +159,8 @@ namespace TrumpSoftware.Common
             {
                 var node = pair.Key;
                 var ancestors = pair.Value;
-                collectedNodeAction(node, ancestors);
+                if (collectedNodeAction != null)
+                    collectedNodeAction(node, ancestors);
             }
             return nodes;
         }
