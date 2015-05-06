@@ -124,10 +124,10 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 
         async Task<Stream> IResource.GetStreamAsync()
         {
-            var file = await FileSystem.Current.GetFileFromPathAsync(LocalPath);
+            var file = await FileSystem.Current.GetFileFromPathAsync(LocalPath).ConfigureAwait(false);
             if (file == null)
                 return null;
-            return await file.OpenAsync(FileAccess.Read);
+            return await file.OpenAsync(FileAccess.Read).ConfigureAwait(false);
         }
 
         Uri IResource.GetUri()
