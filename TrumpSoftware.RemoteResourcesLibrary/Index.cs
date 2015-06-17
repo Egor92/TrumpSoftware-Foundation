@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using PCLStorage;
 using TrumpSoftware.Common;
+using TrumpSoftware.Common.Helpers;
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {

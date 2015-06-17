@@ -3,6 +3,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using PCLStorage;
+using TrumpSoftware.Common.Helpers;
 
 namespace TrumpSoftware.Common.PCLStorage
 {

@@ -1,9 +1,11 @@
-﻿namespace TrumpSoftware.Common
+﻿using System;
+
+namespace TrumpSoftware.Common
 {
     /// <summary>
     /// Представляет вещественное число от 0 до 1
     /// </summary>
-    public struct FractionalOne
+    public struct FractionalOne : IComparable<FractionalOne>
     {
         private readonly double _value;
 
@@ -88,6 +90,11 @@
         public static FractionalOne operator /(double a, FractionalOne b)
         {
             return new FractionalOne(a / b._value);
+        }
+
+        public int CompareTo(FractionalOne other)
+        {
+            return _value.CompareTo(other._value);
         }
 
         public override string ToString()

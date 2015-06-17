@@ -43,7 +43,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BrushStrings.cs" />
+    <Compile Include="Media\ColorStrings.cs" />
     <Compile Include="Media\MediaObject.cs" />
     <Compile Include="Media\MediaState.cs" />
     <Compile Include="Mvvm\IModelObject.cs" />
@@ -53,7 +53,7 @@
     <Compile Include="Mvvm\PageViewModel.cs" />
     <Compile Include="Mvvm\ResetFieldsHelper.cs" />
     <Compile Include="Mvvm\INavigationHost.cs" />
-    <Compile Include="Mvvm\ResetWhenNavigatingAttribute.cs" />
+    <Compile Include="Mvvm\ResetOnNavigationAttribute.cs" />
     <Compile Include="Mvvm\NotificationObject.cs" />
     <Compile Include="Mvvm\HierarchicalObjectCollection.cs" />
     <Compile Include="Mvvm\HierarchicalViewModelObservableCollection.cs" />

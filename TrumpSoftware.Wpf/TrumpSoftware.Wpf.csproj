@@ -18,7 +18,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;WPF</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
@@ -46,23 +46,76 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ColorHelper.cs" />
-    <Compile Include="Converters\BoolConverter.cs" />
-    <Compile Include="Converters\BoolToBrushConverter.cs" />
-    <Compile Include="Converters\BoolToFontWeightConverter.cs" />
-    <Compile Include="Converters\BoolToNegativeConverter.cs" />
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Converters\ChainConverter.cs" />
-    <Compile Include="Converters\HasEnumerableItemsConverter.cs" />
-    <Compile Include="Converters\IsObjectNullConverter.cs" />
-    <Compile Include="Converters\StringToBrushConverter.cs" />
-    <Compile Include="Converters\SwitchConverter.cs" />
+    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolConverter.cs">
+      <Link>Converters\BoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolConverterBase.cs">
+      <Link>Converters\BoolConverterBase.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolToBrushConverter.cs">
+      <Link>Converters\BoolToBrushConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolToDoubleConverter.cs">
+      <Link>Converters\BoolToDoubleConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolToFontWeightConverter.cs">
+      <Link>Converters\BoolToFontWeightConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolToVisibilityConverter.cs">
+      <Link>Converters\BoolToVisibilityConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\ByteArrayToBitmapImageConverter.cs">
+      <Link>Converters\ByteArrayToBitmapImageConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\ChainConverter.cs">
+      <Link>Converters\ChainConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\ContainsValueBoolConverter.cs">
+      <Link>Converters\ContainsValueBoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleMultiplierConverter.cs">
+      <Link>Converters\DoubleMultiplierConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleToGridLenghtConverter.cs">
+      <Link>Converters\DoubleToGridLenghtConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\HasItemsConverter.cs">
+      <Link>Converters\HasItemsConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\IsObjectNullConverter.cs">
+      <Link>Converters\IsObjectNullConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\MultiplierConverter.cs">
+      <Link>Converters\MultiplierConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\NegativeBoolConverter.cs">
+      <Link>Converters\NegativeBoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\StringToBrushConverter.cs">
+      <Link>Converters\StringToBrushConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\StringToColorConverter.cs">
+      <Link>Converters\StringToColorConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\SwitchConverter.cs">
+      <Link>Converters\SwitchConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Media\ColorHelper.cs">
+      <Link>Media\ColorHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Mvvm\NavigationHost.cs">
+      <Link>Mvvm\NavigationHost.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\TypeExtensions.cs">
+      <Link>TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\VisualTreeHelperExtended.cs">
+      <Link>VisualTreeHelperExtended.cs</Link>
+    </Compile>
     <Compile Include="EnumValues.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Mvvm\NavigationHost.cs" />
-    <Compile Include="VisualTreeHelperExtended.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrumpSoftware.Common\TrumpSoftware.Common.csproj">
@@ -74,6 +127,7 @@
       <Name>TrumpSoftware.Xaml</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

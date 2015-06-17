@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>ba9ed5fb-a6f4-4926-ad68-5e1ba53aa098</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>TrumpSoftware.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolConverterBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToDoubleConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToFontWeightConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ByteArrayToBitmapImageConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ChainConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\ContainsValueBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\DoubleMultiplierConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\DoubleToGridLenghtConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\HasItemsConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IsObjectNullConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\MultiplierConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\NegativeBoolConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToBrushConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToColorConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\SwitchConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Media\ColorHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Mvvm\NavigationHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)TypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)VisualTreeHelperExtended.cs" />
+  </ItemGroup>
+</Project>

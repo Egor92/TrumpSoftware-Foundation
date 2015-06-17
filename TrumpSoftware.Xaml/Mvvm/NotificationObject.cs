@@ -9,7 +9,7 @@ namespace TrumpSoftware.Xaml.Mvvm
 	{
         protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
-            return SetProperty(ref storage, value, null, propertyName);
+            return SetProperty(ref storage, value, (Action)null, propertyName);
         }
 
         protected virtual bool SetProperty<T>(ref T storage, T value, Action callback, [CallerMemberName] string propertyName = null)
@@ -23,10 +23,22 @@ namespace TrumpSoftware.Xaml.Mvvm
             return true;
         }
 
+        protected virtual bool SetProperty<T>(ref T storage, T value, Action<T,T> callback, [CallerMemberName] string propertyName = null)
+        {
+            var oldValue = storage;
+            if (Equals(storage, value))
+                return false;
+            storage = value;
+            RaisePropertyChanged(propertyName);
+            if (callback != null)
+                callback(oldValue, value);
+            return true;
+        }
+
         protected bool SetProperty<T>(ref T? storage, T value, [CallerMemberName] string propertyName = null)
             where T : struct
         {
-            return SetProperty(ref storage, value, null, propertyName);
+            return SetProperty(ref storage, value, (Action)null, propertyName);
         }
 
         protected virtual bool SetProperty<T>(ref T? storage, T value, Action callback, [CallerMemberName] string propertyName = null)
@@ -41,7 +53,20 @@ namespace TrumpSoftware.Xaml.Mvvm
             return true;
         }
 
-        protected virtual T GetProperty<T>(ref T? storage, T defaultValue)
+        protected virtual bool SetProperty<T>(ref T? storage, T value, T defaultValue, Action<T, T> callback, [CallerMemberName] string propertyName = null)
+            where T : struct
+        {
+            var oldValue = GetProperty(storage, defaultValue);
+            if (Equals(storage, value))
+                return false;
+            storage = value;
+            RaisePropertyChanged(propertyName);
+            if (callback != null)
+                callback(oldValue, value);
+            return true;
+        }
+
+        protected virtual T GetProperty<T>(T? storage, T defaultValue)
             where T : struct
         {
             if (!storage.HasValue)

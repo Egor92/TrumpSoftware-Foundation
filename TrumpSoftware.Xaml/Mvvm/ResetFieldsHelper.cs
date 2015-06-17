@@ -10,10 +10,10 @@ namespace TrumpSoftware.Xaml.Mvvm
         {
             var type = obj.GetType();
             var runtimeFields = type.GetRuntimeFields();
-            var fieldsForReset = runtimeFields.Where(x => x.IsDefined(typeof (ResetWhenNavigatingAttribute)));
+            var fieldsForReset = runtimeFields.Where(x => x.IsDefined(typeof (ResetOnNavigationAttribute)));
             foreach (var fieldInfo in fieldsForReset)
             {
-                var resetWhenNavigatingAttribute = fieldInfo.GetCustomAttribute<ResetWhenNavigatingAttribute>();
+                var resetWhenNavigatingAttribute = fieldInfo.GetCustomAttribute<ResetOnNavigationAttribute>();
                 var defaultValue = resetWhenNavigatingAttribute.ToUseCustomDefaultValue
                     ? resetWhenNavigatingAttribute.CustomDefaultValue
                     : GetDefaultValue(fieldInfo.FieldType);

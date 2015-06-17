@@ -1,5 +1,6 @@
 ﻿using System;
 using TrumpSoftware.Common;
+using TrumpSoftware.Common.Exceptions;
 
 namespace TrumpSoftware.RemoteResourcesLibrary.IndexCreator
 {

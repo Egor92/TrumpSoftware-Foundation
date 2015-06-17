@@ -14,8 +14,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{96E82F
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.RemoteResourcesLibrary.Test", "TrumpSoftware.RemoteResourcesLibrary.Test\TrumpSoftware.RemoteResourcesLibrary.Test.csproj", "{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.RemoteResourcesLibrary.IndexCreator", "TrumpSoftware.RemoteResourcesLibrary.IndexCreator\TrumpSoftware.RemoteResourcesLibrary.IndexCreator.csproj", "{61EC9F63-E6BA-482A-BF41-42E576ED3F35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.Common", "TrumpSoftware.Common\TrumpSoftware.Common.csproj", "{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}"
@@ -28,7 +26,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.WinRT", "Trum
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Foundation", "Foundation", "{12DA78B5-4873-4BB2-A7E2-DE4BC820F156}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TrumpSoftware.Shared", "TrumpSoftware.Shared\TrumpSoftware.Shared.shproj", "{BA9ED5FB-A6F4-4926-AD68-5E1BA53AA098}"
+EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TrumpSoftware.Shared\TrumpSoftware.Shared.projitems*{ba9ed5fb-a6f4-4926-ad68-5e1ba53aa098}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
@@ -50,30 +53,6 @@ Global
 		{7D176D10-162B-4E78-9B1F-85723992D392}.Release|ARM.ActiveCfg = Release|Any CPU
 		{7D176D10-162B-4E78-9B1F-85723992D392}.Release|x64.ActiveCfg = Release|Any CPU
 		{7D176D10-162B-4E78-9B1F-85723992D392}.Release|x86.ActiveCfg = Release|Any CPU
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|ARM.ActiveCfg = Debug|ARM
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|ARM.Build.0 = Debug|ARM
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|ARM.Deploy.0 = Debug|ARM
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|x64.ActiveCfg = Debug|x64
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|x64.Build.0 = Debug|x64
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|x64.Deploy.0 = Debug|x64
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|x86.ActiveCfg = Debug|x86
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|x86.Build.0 = Debug|x86
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|x86.Deploy.0 = Debug|x86
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|ARM.ActiveCfg = Release|ARM
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|ARM.Build.0 = Release|ARM
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|ARM.Deploy.0 = Release|ARM
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x64.ActiveCfg = Release|x64
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x64.Build.0 = Release|x64
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x64.Deploy.0 = Release|x64
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x86.ActiveCfg = Release|x86
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x86.Build.0 = Release|x86
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x86.Deploy.0 = Release|x86
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -130,11 +109,11 @@ Global
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{7D176D10-162B-4E78-9B1F-85723992D392} = {5623FB83-EFCC-4FF4-BF96-C83D03CFC768}
-		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826} = {5623FB83-EFCC-4FF4-BF96-C83D03CFC768}
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35} = {5623FB83-EFCC-4FF4-BF96-C83D03CFC768}
 		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7} = {12DA78B5-4873-4BB2-A7E2-DE4BC820F156}
 		{6416B410-4C2D-4EBF-A497-9E484F422B6C} = {12DA78B5-4873-4BB2-A7E2-DE4BC820F156}
 		{DCF6E040-379E-4C4D-AB33-0C075E040355} = {12DA78B5-4873-4BB2-A7E2-DE4BC820F156}
 		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0} = {12DA78B5-4873-4BB2-A7E2-DE4BC820F156}
+		{BA9ED5FB-A6F4-4926-AD68-5E1BA53AA098} = {12DA78B5-4873-4BB2-A7E2-DE4BC820F156}
 	EndGlobalSection
 EndGlobal
