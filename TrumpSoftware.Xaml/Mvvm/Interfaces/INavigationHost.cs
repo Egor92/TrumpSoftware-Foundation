@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrumpSoftware.Xaml.Mvvm
+namespace TrumpSoftware.Xaml.Mvvm.Interfaces
 {
     public interface INavigationHost
     {
@@ -10,8 +10,7 @@ namespace TrumpSoftware.Xaml.Mvvm
 
         event EventHandler<NavigatedEventArgs> Navigated;
 
-        void Navigate<TPageVM>(TPageVM pageVM)
-            where TPageVM : PageViewModel;
+        void Navigate<TPageVM>(TPageVM pageVM);
 
         void RefreshPage();
 

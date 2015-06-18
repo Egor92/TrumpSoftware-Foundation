@@ -1,4 +1,4 @@
-﻿namespace TrumpSoftware.Xaml.Mvvm
+﻿namespace TrumpSoftware.Xaml.Mvvm.Interfaces
 {
     public interface IModelObject<out T>
     {

@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #endif
 using TrumpSoftware.Xaml.Mvvm;
+using TrumpSoftware.Xaml.Mvvm.Interfaces;
 
 #if WPF
 namespace TrumpSoftware.Wpf.Mvvm
@@ -19,25 +20,50 @@ namespace TrumpSoftware.WinRT.Mvvm
 {
     public class NavigationHost : INavigationHost
     {
+        #region Fields
+
         private readonly ContentControl _hostControl;
-        private readonly IDictionary<Type, FrameworkElement> _pages = new Dictionary<Type, FrameworkElement>();
-        private readonly IList<PageViewModel> _history = new List<PageViewModel>();
-        private PageViewModel _currentPageVM;
-        private PageViewModel _previousPageVM;
+        private readonly IDictionary<Type, Func<FrameworkElement>> _pageFuncsByViewModelType = new Dictionary<Type, Func<FrameworkElement>>();
+        private readonly IList<object> _history = new List<object>();
+        private object _currentPageVM;
+        private object _previousPageVM;
         private int _currentPageIndex = -1;
         private FrameworkElement _currentPage;
+
+        #endregion
+
+        #region CanGoBack
 
         public bool CanGoBack
         {
             get { return _currentPageIndex > 0; }
         }
 
+        #endregion
+
+        #region CanGoForward
+
         public bool CanGoForward
         {
             get { return _currentPageIndex < _history.Count - 1; }
         }
 
+        #endregion
+
+        #region Navigated
+
         public event EventHandler<NavigatedEventArgs> Navigated;
+
+        protected void RaiseNavigated(object pageVM, object page)
+        {
+            var handler = Navigated;
+            if (handler != null)
+                handler(this, new NavigatedEventArgs(pageVM, page));
+        }
+
+        #endregion
+
+        #region Ctor
 
         public NavigationHost(ContentControl hostControl)
         {
@@ -46,16 +72,23 @@ namespace TrumpSoftware.WinRT.Mvvm
             _hostControl = hostControl;
         }
 
-        public void Register<TPageVM>(FrameworkElement page)
-            where TPageVM : PageViewModel
+        #endregion
+
+        public void Register<TPageVM>(Func<FrameworkElement> getPageFunc)
         {
-            if (_pages.ContainsKey(typeof(TPageVM)))
-                throw new Exception(string.Format("PageViewModel of type {0} has been registered", typeof(TPageVM).FullName));
-            _pages.Add(typeof (TPageVM), page);
+            if (getPageFunc == null)
+                throw new ArgumentNullException("getPageFunc");
+            if (_pageFuncsByViewModelType.ContainsKey(typeof(TPageVM)))
+                throw new Exception(string.Format("ViewModel of type {0} has been registered", typeof(TPageVM).FullName));
+            _pageFuncsByViewModelType.Add(typeof(TPageVM), getPageFunc);
+        }
+
+        public void Register<TPageVM>(FrameworkElement page)
+        {
+            Register<TPageVM>(() => page);
         }
 
         public void Navigate<TPageVM>(TPageVM pageVM)
-            where TPageVM : PageViewModel
         {
             Navigate(pageVM, true, true);
         }
@@ -67,34 +100,61 @@ namespace TrumpSoftware.WinRT.Mvvm
         }
 
         private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
-            where TPageVM : PageViewModel
         {
             if (pageVM == null)
                 throw new ArgumentNullException("pageVM");
             var navigatingPageVMType = pageVM.GetType();
-            if (!_pages.ContainsKey(navigatingPageVMType))
-                throw new Exception(string.Format("PageViewModel of type {0} hasn't been registered", navigatingPageVMType.FullName));
+            if (!_pageFuncsByViewModelType.ContainsKey(navigatingPageVMType))
+                throw new Exception(string.Format("ViewModel of type {0} hasn't been registered", navigatingPageVMType.FullName));
             if (toRememberInHistory)
                 RememberInHistory(pageVM);
             if (toResetViewModel)
                 ResetFieldsHelper.ResetFields(pageVM);
-            _currentPage = _pages[navigatingPageVMType];
+            _currentPage = _pageFuncsByViewModelType[navigatingPageVMType].Invoke();
 #if WPF
             _hostControl.Dispatcher.Invoke(() =>
 #elif WINRT
             _hostControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 #endif
             {
+                var navigationAware = _currentPageVM as INavigationAware;
+                if (navigationAware != null)
+                {
+                    navigationAware.OnNavigatedFrom(pageVM);
+                }
+
+                navigationAware = _currentPage as INavigationAware;
+                if (navigationAware != null)
+                {
+                    navigationAware.OnNavigatedFrom(pageVM);
+                }
+
+                if (_currentPage != null)
+                {
+                    _currentPage.DataContext = null;
+                    _currentPage.DataContext = pageVM;
+                }
+
                 if (_currentPageVM != null)
                 {
-                    _currentPageVM.OnNavigatedFrom(pageVM);
-                    _previousPageVM = pageVM;
+                    _previousPageVM = _currentPageVM;
                 }
-                _currentPage.DataContext = null;
-                _currentPage.DataContext = pageVM;
+
                 _currentPageVM = pageVM;
                 _hostControl.Content = _currentPage;
-                pageVM.OnNavigatedTo(_previousPageVM);
+
+                navigationAware = pageVM as INavigationAware;
+                if (navigationAware != null)
+                {
+                    navigationAware.OnNavigatedTo(_previousPageVM);
+                }
+
+                navigationAware = _currentPage as INavigationAware;
+                if (navigationAware != null)
+                {
+                    navigationAware.OnNavigatedTo(_previousPageVM);
+                }
+
                 RaiseNavigated(_currentPageVM, _currentPage);
             });
         }
@@ -135,19 +195,11 @@ namespace TrumpSoftware.WinRT.Mvvm
         }
 
         private void RememberInHistory<TPageVM>(TPageVM pageVM)
-            where TPageVM : PageViewModel
         {
             for (int i = _history.Count - 1; i > _currentPageIndex; i--)
                 _history.RemoveAt(i);
             _history.Add(pageVM);
             _currentPageIndex++;
-        }
-
-        protected void RaiseNavigated(PageViewModel pageVM, object page)
-        {
-            var handler = Navigated;
-            if (handler != null)
-                handler(this, new NavigatedEventArgs(pageVM, page));
         }
     }
 }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using TrumpSoftware.Common;
 using TrumpSoftware.Common.Hierarchical;
+using TrumpSoftware.Xaml.Mvvm.Interfaces;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
