@@ -7,10 +7,11 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using TrumpSoftware.Common;
 using TrumpSoftware.Common.Exceptions;
+using TrumpSoftware.Xaml.Mvvm.Interfaces;
 
 namespace TrumpSoftware.WinRT
 {
-    public abstract class LayoutAwarePage : Page
+    public abstract class LayoutAwarePage : Page, INavigationAware
     {
         private bool _isViewContainerSearchCompleted;
         private bool _isLoaded;
@@ -270,22 +271,54 @@ namespace TrumpSoftware.WinRT
 
         #endregion
 
+        #region Ctor
+
         protected LayoutAwarePage()
         {
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
         }
 
+        #endregion
+
+        #region Overridenn methods
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (!DesignMode.DesignModeEnabled)
-                SizeChanged += OnSizeChanged;
+            SubscribeToSizeChanged();
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
+            UnsubscribeFromSizeChanged();
+        }
+
+        #endregion
+
+        #region Implementation of INavigationAware
+
+        public virtual void OnNavigatedTo(object previousPageVM)
+        {
+            SubscribeToSizeChanged();
+        }
+
+        public virtual void OnNavigatedFrom(object nextPageVM)
+        {
+            UnsubscribeFromSizeChanged();
+        }
+
+        #endregion
+
+        private void SubscribeToSizeChanged()
+        {
+            if (!DesignMode.DesignModeEnabled)
+                SizeChanged += OnSizeChanged;
+        }
+
+        private void UnsubscribeFromSizeChanged()
+        {
             if (!DesignMode.DesignModeEnabled)
                 SizeChanged -= OnSizeChanged;
         }
