@@ -37,6 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncAssert.cs" />
+    <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="FractionalOne.cs" />
     <Compile Include="GluedNode.cs" />
     <Compile Include="Hierarchical\EventsPropagationDirection.cs" />
