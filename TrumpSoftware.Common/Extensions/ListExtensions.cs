@@ -12,5 +12,11 @@ namespace TrumpSoftware.Common.Extensions
             foreach (var item in list)
                 sourceCollection.Add(item);
         }
+
+        public static void AddRange<T>(this IList<T> sourceCollection, IEnumerable<T> newItems)
+        {
+            foreach (var newItem in newItems)
+                sourceCollection.Add(newItem);
+        }
     }
 }
