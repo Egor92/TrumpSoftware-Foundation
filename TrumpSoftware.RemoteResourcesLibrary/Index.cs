@@ -12,7 +12,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 {
     internal class Index
     {
-        private readonly ResourceFolderLocations _resourceFolderLocations;
+        private readonly IResourceFolderLocations _resourceFolderLocations;
         private readonly string _indexFileName;
         private static readonly HttpClient HttpClient = new HttpClient();
 
@@ -45,7 +45,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             get { return new Uri(_resourceFolderLocations.Remote, _indexFileName); }
         }
 
-        internal Index(ResourceFolderLocations resourceFolderLocations, string indexFileName)
+        internal Index(IResourceFolderLocations resourceFolderLocations, string indexFileName)
         {
             _resourceFolderLocations = resourceFolderLocations;
             _indexFileName = indexFileName;
@@ -72,13 +72,13 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             try
             {
                 indexData = await HttpClient.GetStringAsync(RemoteIndexUri);
+                var resourceInfos = Read(indexData);
+                return resourceInfos;
             }
             catch
             {
                 return null;
             }
-            var resourceInfos = Read(indexData);
-            return resourceInfos;
         }
 
         private async Task<IList<ResourceInfo>> LoadLocalIndexAsync()

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Media;
 #elif WINRT
+using TrumpSoftware.WinRT.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 #endif

@@ -1,4 +1,5 @@
 ﻿using System;
+using TrumpSoftware.Common.Helpers;
 
 namespace TrumpSoftware.Common
 {
@@ -14,12 +15,7 @@ namespace TrumpSoftware.Common
 
         public FractionalOne(double value = 0)
         {
-            if (value > 1.0)
-                _value = 1.0;
-            else if (value < 0.0)
-                _value = 0.0;
-            else
-                _value = value;
+            _value = NumberHelper.Limit(value, 0.0, 1.0);
         }
 
         public static implicit operator double(FractionalOne fractionalOne)

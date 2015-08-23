@@ -1,9 +1,11 @@
 ﻿using System;
 #if WPF
+using TrumpSoftware.Wpf.Extensions;
 using System.Windows.Data;
 using System.Windows.Markup;
 using CultureArgumentType = System.Globalization.CultureInfo;
 #elif WINRT
+using TrumpSoftware.WinRT.Extensions;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
 using CultureArgumentType = System.String;

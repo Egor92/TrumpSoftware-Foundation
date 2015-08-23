@@ -100,14 +100,14 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\SwitchConverter.cs">
       <Link>Converters\SwitchConverter.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Extensions\TypeExtensions.cs">
+      <Link>Extensions\TypeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Media\ColorHelper.cs">
       <Link>Media\ColorHelper.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Mvvm\NavigationHost.cs">
       <Link>Mvvm\NavigationHost.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\TypeExtensions.cs">
-      <Link>TypeExtensions.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\VisualTreeHelperExtended.cs">
       <Link>VisualTreeHelperExtended.cs</Link>

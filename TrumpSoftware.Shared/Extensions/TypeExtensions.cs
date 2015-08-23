@@ -4,9 +4,9 @@ using System.Reflection;
 #endif
 
 #if WPF
-namespace TrumpSoftware.Wpf
+namespace TrumpSoftware.Wpf.Extensions
 #elif WINRT
-namespace TrumpSoftware.WinRT
+namespace TrumpSoftware.WinRT.Extensions
 #endif
 {
     public static class TypeExtensions

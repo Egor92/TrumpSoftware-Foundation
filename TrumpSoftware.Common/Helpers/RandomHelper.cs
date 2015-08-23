@@ -18,7 +18,7 @@ namespace TrumpSoftware.Common.Helpers
 
         public static bool GetBool(double trueChance = 0.5)
         {
-            trueChance = trueChance > 1.0 ? 1.0 : (trueChance < 0.0 ? 0.0 : trueChance);
+            trueChance = NumberHelper.Limit(trueChance, 0.0, 1.0);
             return Random.NextDouble() < trueChance;
         }
 
@@ -29,7 +29,7 @@ namespace TrumpSoftware.Common.Helpers
 
         public static int GetInt(int min, int max)
         {
-            return Random.Next(min, max);
+            return Random.Next(min, max + 1);
         }
 
         public static double GetDouble(double min, double max)
@@ -39,7 +39,7 @@ namespace TrumpSoftware.Common.Helpers
 
         public static char GetChar(char min, char max)
         {
-            return (char) GetInt(min, max + 1);
+            return (char) GetInt(min, max);
         }
 
         public static byte GetByte()

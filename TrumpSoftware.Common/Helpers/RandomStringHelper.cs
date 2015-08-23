@@ -1,4 +1,5 @@
 ﻿using System;
+using TrumpSoftware.Common.Enums;
 using TrumpSoftware.Common.Exceptions;
 
 namespace TrumpSoftware.Common.Helpers
@@ -18,7 +19,7 @@ namespace TrumpSoftware.Common.Helpers
                 throw new ArgumentException("maxLength must be positive", "maxLength");
             if (minLength > maxLength)
                 throw new ArgumentException("maxLength must be more than minLength");
-            var length = RandomHelper.GetInt(minLength, maxLength + 1);
+            var length = RandomHelper.GetInt(minLength, maxLength);
             var signs = new char[length];
             for (int i = 0; i < length; i++)
                 signs[i] = GetChar(i, wordCase);
@@ -51,6 +52,7 @@ namespace TrumpSoftware.Common.Helpers
                         maxChar = 'Z';
                     }
                     break;
+                case WordCase.Default:
                 case WordCase.WithACapitalLetter:
                     minChar = index == 0
                         ? 'A'
@@ -64,13 +66,5 @@ namespace TrumpSoftware.Common.Helpers
             }
             return RandomHelper.GetChar(minChar, maxChar);
         }
-    }
-
-    public enum WordCase
-    {
-        LowerCase,
-        UpperCase,
-        Mixed,
-        WithACapitalLetter
     }
 }

@@ -6,6 +6,7 @@ using System.Windows;
 using System.Windows.Markup;
 using CultureArgumentType = System.Globalization.CultureInfo;
 #elif WINRT
+using TrumpSoftware.WinRT.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Markup;
 using CultureArgumentType = System.String;

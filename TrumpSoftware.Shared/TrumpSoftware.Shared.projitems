@@ -27,9 +27,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\SwitchConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\Localizing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\NavigationHost.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)VisualTreeHelperExtended.cs" />
   </ItemGroup>
 </Project>

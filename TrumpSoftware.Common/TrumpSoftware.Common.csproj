@@ -37,9 +37,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="AsyncAssert.cs" />
+    <Compile Include="Enums\WordCase.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="FractionalOne.cs" />
     <Compile Include="GluedNode.cs" />
+    <Compile Include="Helpers\NumberHelper.cs" />
     <Compile Include="Hierarchical\EventsPropagationDirection.cs" />
     <Compile Include="Hierarchical\HierarchcalEventHandler.cs" />
     <Compile Include="Hierarchical\HierarchicalEvent.cs" />

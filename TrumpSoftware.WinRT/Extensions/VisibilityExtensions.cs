@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml;
 
-namespace TrumpSoftware.WinRT
+namespace TrumpSoftware.WinRT.Extensions
 {
     public static class VisibilityExtensions
     {
