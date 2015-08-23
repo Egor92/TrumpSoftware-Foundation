@@ -47,7 +47,8 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
             var compiledResourceFolderUri = new Uri(string.Format("{0}\\", _compiledResourceFolder.Path));
             var localResourcesFolderUri = new Uri(string.Format("{0}\\", _localResourceFolder.Path));
             var remoteResourcesFolderUri = new Uri(SpecialPaths.ServerPath);
-            _resourceManager = new ResourceManager(compiledResourceFolderUri, localResourcesFolderUri, remoteResourcesFolderUri);
+            var resourceFolderLocations = new ResourceFolderLocations(compiledResourceFolderUri, localResourcesFolderUri, remoteResourcesFolderUri);
+            _resourceManager = new ResourceManager(resourceFolderLocations);
 
             await EnableInternetAsync();
         }

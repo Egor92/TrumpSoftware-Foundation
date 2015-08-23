@@ -36,6 +36,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="IResourceFolderLocations.cs" />
     <Compile Include="ResourceConverters\MediaObjectResourceConverter.cs" />
     <Compile Include="ResourceConverters\UriResourceConverter.cs" />
     <Compile Include="Exceptions\ResourceConvertionException.cs" />

@@ -2,13 +2,13 @@
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {
-    internal class ResourceFolderLocations
+    public class ResourceFolderLocations : IResourceFolderLocations
     {
-        internal Uri Compiled { get; private set; }
-        internal Uri Local { get; private set; }
-        internal Uri Remote { get; private set; }
+        public Uri Compiled { get; private set; }
+        public Uri Local { get; private set; }
+        public Uri Remote { get; private set; }
 
-        internal ResourceFolderLocations(Uri compiled, Uri local, Uri remote)
+        public ResourceFolderLocations(Uri compiled, Uri local, Uri remote)
         {
             Compiled = compiled;
             Local = local;

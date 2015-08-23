@@ -3,7 +3,6 @@ using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
 using PCLStorage;
-using TrumpSoftware.Common;
 using TrumpSoftware.Common.Helpers;
 using TrumpSoftware.Common.PCLStorage;
 
@@ -11,7 +10,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 {
     internal class Resource : IResource
     {
-        private readonly ResourceFolderLocations _resourceFolderLocations;
+        private readonly IResourceFolderLocations _resourceFolderLocations;
         private readonly ResourceInfo _localResourceInfo;
         private readonly ResourceInfo _remoteResourceInfo;
         private bool _isRemoteVersionDownloaded;
@@ -45,7 +44,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 
         internal bool IsLoaded { get; private set; }
 
-        internal Resource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo)
+        internal Resource(IResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo)
         {
             if (resourceFolderLocations == null)
                 throw new ArgumentNullException("resourceFolderLocations");

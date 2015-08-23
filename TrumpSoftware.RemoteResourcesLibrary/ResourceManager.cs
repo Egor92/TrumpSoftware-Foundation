@@ -10,23 +10,18 @@ namespace TrumpSoftware.RemoteResourcesLibrary
     {
         private readonly IDictionary<string, Resource> _resources = new Dictionary<string, Resource>();
         private readonly Index _index;
+        private readonly IResourceFolderLocations _resourceFolderLocations;
+        private bool _hasInternetConnection;
+        private bool _isLoaded;
 
-        internal ResourceFolderLocations ResourceFolderLocations { get; private set; }
-        public bool HasInternetConnection { get; private set; }
-        public bool IsLoaded { get; private set; }
-
-        public ResourceManager(Uri compiledResourceFolderUri, Uri localResourcesFolderUri, Uri remoteResourcesFolderUri, string indexFileName = @"index.txt")
+        public ResourceManager(IResourceFolderLocations resourceFolderLocations, string indexFileName = @"index.txt")
         {
-            if (compiledResourceFolderUri == null) 
-                throw new ArgumentNullException("compiledResourceFolderUri");
-            if (localResourcesFolderUri == null) 
-               throw new ArgumentNullException("localResourcesFolderUri");
-            if (remoteResourcesFolderUri == null) 
-                throw new ArgumentNullException("remoteResourcesFolderUri");
+            if (resourceFolderLocations == null)
+                throw new ArgumentNullException("resourceFolderLocations");
             if (indexFileName == null) 
                 throw new ArgumentNullException("indexFileName");
-            ResourceFolderLocations = new ResourceFolderLocations(compiledResourceFolderUri, localResourcesFolderUri, remoteResourcesFolderUri);
-            _index = new Index(ResourceFolderLocations, indexFileName);
+            _resourceFolderLocations = resourceFolderLocations;
+            _index = new Index(_resourceFolderLocations, indexFileName);
         }
 
         public async Task LoadIndexAsync()
@@ -42,7 +37,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
                 {
                     var relativePath = remoteResourceInfo.RelativePath;
                     var localResourceInfo = _index.LocalResourceInfos.SingleOrDefault(x => x.RelativePath == relativePath);
-                    Resource resource = ResourceFactory.CreateResource(ResourceFolderLocations, localResourceInfo, remoteResourceInfo);
+                    Resource resource = ResourceFactory.CreateResource(_resourceFolderLocations, localResourceInfo, remoteResourceInfo);
                     _resources.Add(relativePath, resource);
                 }
             }
@@ -51,14 +46,14 @@ namespace TrumpSoftware.RemoteResourcesLibrary
                 foreach (var localResourceInfo in _index.LocalResourceInfos)
                 {
                     var relativePath = localResourceInfo.RelativePath;
-                    Resource resource = ResourceFactory.CreateResource(ResourceFolderLocations, localResourceInfo, null);
+                    Resource resource = ResourceFactory.CreateResource(_resourceFolderLocations, localResourceInfo, null);
                     _resources.Add(relativePath, resource);
                 }
             }
             await SaveIndexAsync();
 
-            HasInternetConnection = _index.IsRemoteResourceInfoDownloaded;
-            IsLoaded = true;
+            _hasInternetConnection = _index.IsRemoteResourceInfoDownloaded;
+            _isLoaded = true;
         }
 
         public async Task SaveIndexAsync()
@@ -97,12 +92,12 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 
         private async Task<T> GetResourceAsync<T>(string path)
         {
-            if (!IsLoaded)
+            if (!_isLoaded)
                 throw new Exception("ResourceManager didn't loaded");
             if (!_resources.ContainsKey(path))
                 throw new Exception(string.Format("Resource with path \"{0}\" is absent", path));
             var resource = _resources[path];
-            return await resource.GetAsync<T>(HasInternetConnection);
+            return await resource.GetAsync<T>(_hasInternetConnection);
         }
 
         public async Task<IEnumerable<string>> GetStringResourceGroupAsync(string groupName)
@@ -134,13 +129,13 @@ namespace TrumpSoftware.RemoteResourcesLibrary
         {
             if (string.IsNullOrWhiteSpace(groupName))
                 return null;
-            if (!IsLoaded)
+            if (!_isLoaded)
                 return null;
             var resorces = _resources.Where(x => x.Value.Group == groupName).Select(x => x.Value);
             var datas = new List<T>();
             foreach (var resource in resorces)
             {
-                var data = await resource.GetAsync<T>(HasInternetConnection);
+                var data = await resource.GetAsync<T>(_hasInternetConnection);
                 datas.Add(data);
             }
             return datas;
@@ -148,32 +143,32 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 
         public async Task LoadResourceAsync(string path)
         {
-            if (!IsLoaded)
+            if (!_isLoaded)
                 return;
             if (!_resources.ContainsKey(path))
                 return;
             var resource = _resources[path];
-            await resource.LoadAsync(HasInternetConnection);
+            await resource.LoadAsync(_hasInternetConnection);
         }
 
         public async Task LoadResourceGroupAsync(string groupName)
         {
             if (string.IsNullOrWhiteSpace(groupName))
                 return;
-            if (!IsLoaded)
+            if (!_isLoaded)
                 return;
             var resorces = _resources.Where(x => x.Value.Group == groupName).Select(x => x.Value);
             foreach (var resource in resorces)
-                await resource.LoadAsync(HasInternetConnection);
+                await resource.LoadAsync(_hasInternetConnection);
         }
 
         public async Task LoadAllResourcesAsync()
         {
-            if (!IsLoaded)
+            if (!_isLoaded)
                 return;
             var resorces = _resources.Select(x => x.Value);
             foreach (var resource in resorces)
-                await resource.LoadAsync(HasInternetConnection);
+                await resource.LoadAsync(_hasInternetConnection);
         }
     }
 }

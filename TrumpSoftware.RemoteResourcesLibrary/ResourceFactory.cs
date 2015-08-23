@@ -4,7 +4,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
 {
     internal static class ResourceFactory
     {
-        internal static Resource CreateResource(ResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo)
+        internal static Resource CreateResource(IResourceFolderLocations resourceFolderLocations, ResourceInfo localResourceInfo, ResourceInfo remoteResourceInfo)
         {
             if (localResourceInfo == null && remoteResourceInfo == null)
                 throw new ArgumentException("Local and remote resource infos are null");
