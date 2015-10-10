@@ -31,7 +31,7 @@ namespace TrumpSoftware.Common
             {
                 var xValue = getValueFunc(x);
                 var yValue = getValueFunc(y);
-                return (xValue == null && yValue == null) || xValue == yValue;
+                return (xValue == null && yValue == null) || Equals(xValue, yValue);
             });
         }
 
