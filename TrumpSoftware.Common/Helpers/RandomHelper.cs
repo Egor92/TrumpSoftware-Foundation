@@ -22,6 +22,11 @@ namespace TrumpSoftware.Common.Helpers
             return Random.NextDouble() < trueChance;
         }
 
+        public static int GetInt()
+        {
+            return GetInt(0, int.MaxValue - 1);
+        }
+
         public static int GetInt(int max)
         {
             return GetInt(0, max);

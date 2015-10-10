@@ -20,7 +20,7 @@ namespace TrumpSoftware.Common.Extensions
 			var result = new List<T>();
 			for (int i = 0; i < count; i++)
 			{
-				int number = RandomHelper.GetInt(list.Count);
+				int number = RandomHelper.GetInt(list.Count - 1);
 				result.Add(list[number]);
 				list.RemoveAt(number);
 			}
@@ -40,16 +40,10 @@ namespace TrumpSoftware.Common.Extensions
 		{
 		    if (source == null)
 		        throw new ArgumentNullException("source");
-
-		    var randDictionary = new Dictionary<int, T>();
-		    int count = source.Count();
-		    for (int i = 0; i < count; i++)
-		    {
-		        T t = source.ElementAt(i);
-		        randDictionary.Add(RandomHelper.GetInt(0, int.MaxValue), t);
-		    }
-
-		    return randDictionary.OrderBy(x => x.Key).Select(x => x.Value).ToArray();
+		    return source.ToDictionary(item => RandomHelper.GetInt())
+                .OrderBy(x => x.Key)
+                .Select(x => x.Value)
+                .ToArray();
 		}
 
 	    public static IEnumerable<T> GetSelfOrEmpty<T>(this IEnumerable<T> source)
