@@ -30,6 +30,8 @@ Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "TrumpSoftware.Shared", "Tru
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.RemoteResourcesLibrary.Test", "TrumpSoftware.RemoteResourcesLibrary.Test\TrumpSoftware.RemoteResourcesLibrary.Test.csproj", "{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.DotNet", "TrumpSoftware.DotNet\TrumpSoftware.DotNet.csproj", "{255A56F8-FCC4-48A2-9B0E-C45E43702781}"
+EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		TrumpSoftware.Shared\TrumpSoftware.Shared.projitems*{ba9ed5fb-a6f4-4926-ad68-5e1ba53aa098}*SharedItemsImports = 13
@@ -129,6 +131,16 @@ Global
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x86.ActiveCfg = Release|x86
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x86.Build.0 = Release|x86
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x86.Deploy.0 = Release|x86
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Release|ARM.ActiveCfg = Release|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Release|x64.ActiveCfg = Release|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -142,5 +154,6 @@ Global
 		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0} = {12DA78B5-4873-4BB2-A7E2-DE4BC820F156}
 		{BA9ED5FB-A6F4-4926-AD68-5E1BA53AA098} = {12DA78B5-4873-4BB2-A7E2-DE4BC820F156}
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826} = {5623FB83-EFCC-4FF4-BF96-C83D03CFC768}
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781} = {12DA78B5-4873-4BB2-A7E2-DE4BC820F156}
 	EndGlobalSection
 EndGlobal
