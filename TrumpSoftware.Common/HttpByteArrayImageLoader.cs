@@ -22,11 +22,17 @@ namespace TrumpSoftware.Common
         public override async Task<byte[]> Load(Uri uri)
         {
             var httpResponseMessage = await HttpClient.GetAsync(uri);
-            if (httpResponseMessage.Content.Headers.ContentType.MediaType.StartsWith("image"))
-                return await httpResponseMessage.Content.ReadAsByteArrayAsync();
+            if (httpResponseMessage.Content != null
+                && httpResponseMessage.Content.Headers != null
+                && httpResponseMessage.Content.Headers.ContentType != null
+                && httpResponseMessage.Content.Headers.ContentType.MediaType != null)
+            {
+                if (httpResponseMessage.Content.Headers.ContentType.MediaType.StartsWith("image"))
+                    return await httpResponseMessage.Content.ReadAsByteArrayAsync();
+            }
             if (_throwExceptionOnFail)
                 throw new Exception("Content is not image");
-            return null;
+            return new byte[0];
         }
     }
 }
