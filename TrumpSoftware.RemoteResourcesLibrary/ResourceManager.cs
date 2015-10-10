@@ -65,6 +65,11 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             }
         }
 
+        public bool ContainsResource(string key)
+        {
+            return _resources.ContainsKey(key);
+        }
+
         public async Task<string> GetStringResourceAsync(string path)
         {
             return await GetResourceAsync<string>(path);

@@ -13,7 +13,7 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             {
                 localResourceInfo = new ResourceInfo(remoteResourceInfo)
                 {
-                    Version = 0
+                    Version = int.MinValue,
                 };
             }
             else if (remoteResourceInfo == null)
