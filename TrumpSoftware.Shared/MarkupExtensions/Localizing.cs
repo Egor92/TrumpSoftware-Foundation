@@ -14,7 +14,7 @@ namespace TrumpSoftware.Wpf.MarkupExtensions
 namespace TrumpSoftware.WinRT.MarkupExtensions
 #endif
 {
-    public abstract class Localizing : Binding, IValueConverter
+    public class Localizing : Binding, IValueConverter
     {
         #region WordCase
 
@@ -24,17 +24,23 @@ namespace TrumpSoftware.WinRT.MarkupExtensions
 
         #region Ctor
 
-        protected Localizing()
+        public Localizing()
         {
             Source = this;
             Converter = this;
             Mode = BindingMode.OneWay;
         }
 
-        protected Localizing(object source) // set Source to null for using DataContext
+        public Localizing(object source) // set Source to null for using DataContext
             : this()
         {
             Source = source;
+        }
+
+        public Localizing(RelativeSource relativeSource)
+        {
+            RelativeSource = relativeSource;
+            Converter = this;
         }
 
         #endregion
