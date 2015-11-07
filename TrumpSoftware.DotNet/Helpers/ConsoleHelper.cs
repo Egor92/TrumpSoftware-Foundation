@@ -69,10 +69,11 @@ namespace TrumpSoftware.DotNet.Helpers
                 throw new ArgumentNullException("tryParseFunc");
             if (checkFunc == null)
                 throw new ArgumentNullException("checkFunc");
-            bool isSuccess = false;
             T result;
+            bool isSuccess;
             do
             {
+                isSuccess = true;
                 var input = Console.ReadLine();
                 if (!tryParseFunc(input, out result))
                 {
@@ -86,8 +87,7 @@ namespace TrumpSoftware.DotNet.Helpers
                     Console.WriteLine(checkErrorMessage);
                     continue;
                 }
-                isSuccess = true;
-            } while (isSuccess);
+            } while (!isSuccess);
             return result;
         }
 
