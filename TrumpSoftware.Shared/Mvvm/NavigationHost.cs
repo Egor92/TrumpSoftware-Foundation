@@ -95,8 +95,11 @@ namespace TrumpSoftware.WinRT.Mvvm
 
         public void RefreshPage()
         {
-            _currentPage.DataContext = null;
-            _currentPage.DataContext = _currentPageVM;
+            if (_currentPageIndex == -1)
+                return;
+            _history.RemoveAt(_currentPageIndex);
+            _currentPageIndex--;
+            Navigate(_currentPageVM, true, true);
         }
 
         private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
@@ -117,22 +120,16 @@ namespace TrumpSoftware.WinRT.Mvvm
             _hostControl.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
 #endif
             {
-                var navigationAware = _currentPageVM as INavigationAware;
+                var navigationAware = _currentPage as INavigationAware;
                 if (navigationAware != null)
                 {
                     navigationAware.OnNavigatedFrom(pageVM);
                 }
 
-                navigationAware = _currentPage as INavigationAware;
+                navigationAware = _currentPageVM as INavigationAware;
                 if (navigationAware != null)
                 {
                     navigationAware.OnNavigatedFrom(pageVM);
-                }
-
-                if (_currentPage != null)
-                {
-                    _currentPage.DataContext = null;
-                    _currentPage.DataContext = pageVM;
                 }
 
                 if (_currentPageVM != null)
@@ -140,10 +137,15 @@ namespace TrumpSoftware.WinRT.Mvvm
                     _previousPageVM = _currentPageVM;
                 }
 
+                if (_currentPage != null)
+                {
+                    _currentPage.DataContext = pageVM;
+                }
+
                 _currentPageVM = pageVM;
                 _hostControl.Content = _currentPage;
 
-                navigationAware = pageVM as INavigationAware;
+                navigationAware = _currentPageVM as INavigationAware;
                 if (navigationAware != null)
                 {
                     navigationAware.OnNavigatedTo(_previousPageVM);
