@@ -45,10 +45,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
-    <TargetPlatform Include="Windows, Version=8.1" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\TrumpSoftware.Shared\Converters\BoolConverter.cs">
       <Link>Converters\BoolConverter.cs</Link>
     </Compile>
@@ -118,6 +114,7 @@
     <Compile Include="..\TrumpSoftware.Shared\VisualTreeHelperExtended.cs">
       <Link>VisualTreeHelperExtended.cs</Link>
     </Compile>
+    <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="WindowOrientation.cs" />
     <Compile Include="LayoutAwarePage.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -127,7 +124,10 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <TargetPlatform Include="Windows, Version=8.1" />
+    <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
