@@ -9,6 +9,7 @@
     <Import_RootNamespace>TrumpSoftware.Shared</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Controls\UniformGrid.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolConverterBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToBrushConverter.cs" />

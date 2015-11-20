@@ -45,6 +45,9 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\TrumpSoftware.Shared\Controls\UniformGrid.cs">
+      <Link>Controls\UniformGrid.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\BoolConverter.cs">
       <Link>Converters\BoolConverter.cs</Link>
     </Compile>
