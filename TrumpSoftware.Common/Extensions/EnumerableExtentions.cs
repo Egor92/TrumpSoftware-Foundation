@@ -53,7 +53,23 @@ namespace TrumpSoftware.Common.Extensions
 
 	    public static int GetCountOrZero(this IEnumerable source)
 	    {
-	        return source.OfType<object>().GetSelfOrEmpty().Count();
+	        source = source ?? Enumerable.Empty<object>();
+	        return source.OfType<object>().Count();
 	    }
-	}
+
+	    public static IEnumerable<T> Union<T>(this IEnumerable<T> source, params T[] items)
+	    {
+            return Enumerable.Union(source, items);
+	    }
+
+        public static Stack<T> ToStack<T>(this IEnumerable<T> source)
+	    {
+	        return new Stack<T>(source);
+	    }
+
+        public static Queue<T> ToQueue<T>(this IEnumerable<T> source)
+        {
+            return new Queue<T>(source);
+        }
+    }
 }
