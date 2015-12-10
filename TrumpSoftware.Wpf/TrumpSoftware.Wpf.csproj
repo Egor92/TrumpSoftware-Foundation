@@ -70,6 +70,12 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\ByteArrayToBitmapImageConverter.cs">
       <Link>Converters\ByteArrayToBitmapImageConverter.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\EqualsCase.cs">
+      <Link>Converters\Cases\EqualsCase.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\ICase.cs">
+      <Link>Converters\Cases\ICase.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\ChainConverter.cs">
       <Link>Converters\ChainConverter.cs</Link>
     </Compile>
@@ -82,8 +88,19 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleToGridLenghtConverter.cs">
       <Link>Converters\DoubleToGridLenghtConverter.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\GetResxResourceConverter.cs">
+      <Link>Converters\GetResxResourceConverter.cs</Link>
+      <SubType>
+      </SubType>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\GetXamlResourceConverter.cs">
+      <Link>Converters\GetXamlResourceConverter.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\HasItemsConverter.cs">
       <Link>Converters\HasItemsConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\IChainConverter.cs">
+      <Link>Converters\IChainConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\IsObjectNullConverter.cs">
       <Link>Converters\IsObjectNullConverter.cs</Link>
@@ -93,6 +110,15 @@
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\NegativeBoolConverter.cs">
       <Link>Converters\NegativeBoolConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\ObjectToStringConverter.cs">
+      <Link>Converters\ObjectToStringConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\StopIfConverter.cs">
+      <Link>Converters\StopIfConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\StoppableChainConverter.cs">
+      <Link>Converters\StoppableChainConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\StringToBrushConverter.cs">
       <Link>Converters\StringToBrushConverter.cs</Link>
@@ -105,6 +131,9 @@
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Extensions\TypeExtensions.cs">
       <Link>Extensions\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Interfaces\IHaveConverter.cs">
+      <Link>Interfaces\IHaveConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Media\ColorHelper.cs">
       <Link>Media\ColorHelper.cs</Link>
