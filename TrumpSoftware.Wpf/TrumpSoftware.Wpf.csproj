@@ -61,9 +61,6 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\BoolToDoubleConverter.cs">
       <Link>Converters\BoolToDoubleConverter.cs</Link>
     </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolToFontWeightConverter.cs">
-      <Link>Converters\BoolToFontWeightConverter.cs</Link>
-    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\BoolToVisibilityConverter.cs">
       <Link>Converters\BoolToVisibilityConverter.cs</Link>
     </Compile>
@@ -78,9 +75,6 @@
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\ChainConverter.cs">
       <Link>Converters\ChainConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\ContainsValueBoolConverter.cs">
-      <Link>Converters\ContainsValueBoolConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleMultiplierConverter.cs">
       <Link>Converters\DoubleMultiplierConverter.cs</Link>
@@ -102,14 +96,14 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\IChainConverter.cs">
       <Link>Converters\IChainConverter.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\InvertBoolConverter.cs">
+      <Link>Converters\InvertBoolConverter.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\IsObjectNullConverter.cs">
       <Link>Converters\IsObjectNullConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\MultiplierConverter.cs">
       <Link>Converters\MultiplierConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\NegativeBoolConverter.cs">
-      <Link>Converters\NegativeBoolConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\ObjectToStringConverter.cs">
       <Link>Converters\ObjectToStringConverter.cs</Link>

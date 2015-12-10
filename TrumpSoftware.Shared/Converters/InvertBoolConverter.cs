@@ -12,7 +12,7 @@ namespace TrumpSoftware.Wpf.Converters
 namespace TrumpSoftware.WinRT.Converters
 #endif
 {
-    public class NegativeBoolConverter : ChainConverter<bool,bool>
+    public class InvertBoolConverter : ChainConverter<bool,bool>
     {
         protected override bool Convert(bool value, Type targetType, object parameter, CultureArgumentType cultureArgument)
         {
