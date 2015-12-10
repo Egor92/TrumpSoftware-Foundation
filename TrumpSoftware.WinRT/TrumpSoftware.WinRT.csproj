@@ -96,8 +96,8 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\InvertBoolConverter.cs">
       <Link>Converters\InvertBoolConverter.cs</Link>
     </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\IsObjectNullConverter.cs">
-      <Link>Converters\IsObjectNullConverter.cs</Link>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\IsNullConverter.cs">
+      <Link>Converters\IsNullConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\MultiplierConverter.cs">
       <Link>Converters\MultiplierConverter.cs</Link>

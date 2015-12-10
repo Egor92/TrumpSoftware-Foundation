@@ -14,15 +14,15 @@ namespace TrumpSoftware.WinRT.Converters
 {
     public class ObjectToStringConverter : ChainConverter<object, string>
     {
-        public string Format { get; set; }
+        public string ValueFormat { get; set; }
 
         protected override string Convert(object value, Type targetType, object parameter, CultureArgumentType cultureArgument)
         {
             if (value == null)
                 return null;
-            if (Format == null)
+            if (ValueFormat == null)
                 return value.ToString();
-            var format = string.Format("{{0:{0}}}", Format);
+            var format = string.Format("{{0:{0}}}", ValueFormat);
             return string.Format(format, value);
         }
 

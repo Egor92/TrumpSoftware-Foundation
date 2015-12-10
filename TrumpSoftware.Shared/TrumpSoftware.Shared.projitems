@@ -25,7 +25,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\GetXamlResourceConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\HasItemsConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IChainConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\IsObjectNullConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IsNullConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\MultiplierConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\InvertBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ObjectToStringConverter.cs" />

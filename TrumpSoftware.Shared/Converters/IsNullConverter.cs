@@ -12,7 +12,7 @@ namespace TrumpSoftware.Wpf.Converters
 namespace TrumpSoftware.WinRT.Converters
 #endif
 {
-    public class IsObjectNullConverter : ChainConverter<object,bool>
+    public class IsNullConverter : ChainConverter<object,bool>
     {
         protected override bool Convert(object value, Type targetType, object parameter, CultureArgumentType cultureArgument)
         {
