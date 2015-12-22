@@ -1,4 +1,6 @@
-﻿#if WPF
+﻿using System.Reflection;
+
+#if WPF
 namespace TrumpSoftware.Wpf.Converters.Cases
 #elif WINRT
 namespace TrumpSoftware.WinRT.Converters.Cases
@@ -12,6 +14,10 @@ namespace TrumpSoftware.WinRT.Converters.Cases
 
         public bool IsMatched(object value)
         {
+#if WINRT
+            if (value.GetType().GetTypeInfo().IsEnum)
+                value = (int) value;
+#endif
             return Equals(value, Key);
         }
     }
