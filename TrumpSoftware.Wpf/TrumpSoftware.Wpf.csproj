@@ -138,6 +138,7 @@
     <Compile Include="..\TrumpSoftware.Shared\VisualTreeHelperExtended.cs">
       <Link>VisualTreeHelperExtended.cs</Link>
     </Compile>
+    <Compile Include="Controls\RowDefinitionExtended.cs" />
     <Compile Include="EnumValues.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="PasswordHelper.cs" />
