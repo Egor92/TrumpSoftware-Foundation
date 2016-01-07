@@ -71,5 +71,15 @@ namespace TrumpSoftware.Common.Extensions
         {
             return new Queue<T>(source);
         }
-    }
+
+	    public static void ForEach<T>(this IEnumerable<T> source, Action<T> action)
+	    {
+	        if (action == null)
+	            throw new ArgumentNullException("action");
+	        foreach (var item in source)
+	        {
+	            action(item);
+	        }
+	    }
+	}
 }
