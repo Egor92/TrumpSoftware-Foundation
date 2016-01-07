@@ -18,7 +18,7 @@ namespace TrumpSoftware.Wpf.Controls
         #region 
 
         public static readonly DependencyProperty IsVisibleProperty =
-            DependencyProperty.Register("IsIsVisible", typeof (bool), typeof (RowDefinitionExtended),
+            DependencyProperty.Register("IsVisible", typeof (bool), typeof (RowDefinitionExtended),
                                         new PropertyMetadata(true, OnIsVisibleChanged));
 
         public bool IsVisible
