@@ -67,6 +67,9 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\ByteArrayToBitmapImageConverter.cs">
       <Link>Converters\ByteArrayToBitmapImageConverter.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\ContainsValueCase.cs">
+      <Link>Converters\Cases\ContainsValueCase.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\EqualsCase.cs">
       <Link>Converters\Cases\EqualsCase.cs</Link>
     </Compile>
@@ -126,6 +129,12 @@
     <Compile Include="..\TrumpSoftware.Shared\Extensions\TypeExtensions.cs">
       <Link>Extensions\TypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Helpers\ObjectHelper.cs">
+      <Link>Helpers\ObjectHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Helpers\VisualTreeHelperExtended.cs">
+      <Link>Helpers\VisualTreeHelperExtended.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Interfaces\IHaveConverter.cs">
       <Link>Interfaces\IHaveConverter.cs</Link>
     </Compile>
@@ -135,13 +144,10 @@
     <Compile Include="..\TrumpSoftware.Shared\Mvvm\NavigationHost.cs">
       <Link>Mvvm\NavigationHost.cs</Link>
     </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\VisualTreeHelperExtended.cs">
-      <Link>VisualTreeHelperExtended.cs</Link>
-    </Compile>
     <Compile Include="Controls\RowDefinitionExtended.cs" />
-    <Compile Include="EnumValues.cs" />
+    <Compile Include="MarkupExtensions\EnumValues.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
-    <Compile Include="PasswordHelper.cs" />
+    <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

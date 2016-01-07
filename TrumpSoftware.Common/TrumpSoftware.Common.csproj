@@ -40,7 +40,7 @@
     <Compile Include="ConvertEx.cs" />
     <Compile Include="CustomEqualityComparer.cs" />
     <Compile Include="Enums\WordCase.cs" />
-    <Compile Include="Extensions\ObjectExtensions.cs" />
+    <Compile Include="Helpers\ObjectHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="FractionalOne.cs" />

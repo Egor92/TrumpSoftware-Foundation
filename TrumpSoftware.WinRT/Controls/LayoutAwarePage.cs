@@ -9,7 +9,7 @@ using TrumpSoftware.Common;
 using TrumpSoftware.Common.Exceptions;
 using TrumpSoftware.Xaml.Mvvm.Interfaces;
 
-namespace TrumpSoftware.WinRT
+namespace TrumpSoftware.WinRT.Controls
 {
     public abstract class LayoutAwarePage : Page, INavigationAware
     {

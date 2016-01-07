@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Markup;
 
-namespace TrumpSoftware.Wpf
+namespace TrumpSoftware.Wpf.MarkupExtensions
 {
     public class EnumValues : MarkupExtension
     {

@@ -16,6 +16,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToDoubleConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ByteArrayToBitmapImageConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\ContainsValueCase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\EqualsCase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\ICase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ChainConverter.cs" />
@@ -35,10 +36,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToColorConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\SwitchConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\ObjectHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelperExtended.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHaveConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\Localizing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\NavigationHost.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)VisualTreeHelperExtended.cs" />
   </ItemGroup>
 </Project>

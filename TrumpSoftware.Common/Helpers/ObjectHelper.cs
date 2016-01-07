@@ -1,8 +1,8 @@
-﻿namespace TrumpSoftware.Common.Extensions
+﻿namespace TrumpSoftware.Common.Helpers
 {
-    public static class ObjectExtensions
+    public static class ObjectHelper
     {
-        public static bool IsNumber(this object value)
+        public static bool IsNumber(object value)
         {
             return value is sbyte
                 || value is byte
