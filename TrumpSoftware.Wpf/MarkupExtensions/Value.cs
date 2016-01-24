@@ -23,11 +23,23 @@ namespace TrumpSoftware.Wpf.MarkupExtensions
 
         #endregion
 
+        #region Properties
+
+        #region FormatProvider
+
         public IFormatProvider FormatProvider { get; set; }
+
+        #endregion
+
+        #endregion
+
+        #region Overridden members
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
             return ConvertEx.Convert(_value, _type, FormatProvider);
         }
+
+        #endregion
     }
 }
