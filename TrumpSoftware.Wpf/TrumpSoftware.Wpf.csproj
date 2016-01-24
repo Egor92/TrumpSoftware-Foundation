@@ -146,6 +146,7 @@
     </Compile>
     <Compile Include="Controls\RowDefinitionExtended.cs" />
     <Compile Include="MarkupExtensions\EnumValues.cs" />
+    <Compile Include="MarkupExtensions\Value.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
