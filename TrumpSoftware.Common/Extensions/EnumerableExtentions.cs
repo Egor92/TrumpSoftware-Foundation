@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using TrumpSoftware.Common.Helpers;
 
 namespace TrumpSoftware.Common.Extensions
@@ -80,6 +81,21 @@ namespace TrumpSoftware.Common.Extensions
             {
                 action(item);
             }
+        }
+        public static string AggregateToString<T>(this IEnumerable<T> source, string linkingString)
+        {
+            var list = source as IList<T> ?? source.ToList();
+            var stringBuilder = new StringBuilder();
+            for (int i = 0; i < list.Count - 1; i++)
+            {
+                stringBuilder.Append(list[i]);
+            }
+            if (list.Count > 0)
+            {
+                var lastItem = list[list.Count - 1];
+                stringBuilder.Append(lastItem);
+            }
+            return stringBuilder.ToString();
         }
     }
 }
