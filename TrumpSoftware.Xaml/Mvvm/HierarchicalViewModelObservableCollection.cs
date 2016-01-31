@@ -7,7 +7,7 @@ using TrumpSoftware.Xaml.Mvvm.Interfaces;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
-    public class HierarchicalViewModelObservableCollection<TModel, TViewModel> : HierarchicalObjectCollection<TViewModel>
+    /*public class HierarchicalViewModelObservableCollection<TModel, TViewModel> : HierarchicalObjectCollection<TViewModel>
         where TModel : class
         where TViewModel : IHierarchical, IModelObject<TModel>
     {
@@ -117,5 +117,5 @@ namespace TrumpSoftware.Xaml.Mvvm
             Model,
             ViewModel
         }
-    }
+    }*/
 }

@@ -3,12 +3,12 @@ using TrumpSoftware.Common.Hierarchical;
 
 namespace TrumpSoftware.Xaml.Mvvm
 {
-    public class HierarchicalObjectCollection<TViewModel> : ObservableCollection<TViewModel>
-        where TViewModel : IHierarchical
+    /*public class HierarchicalObjectCollection<T> : ObservableCollection<T>
+        where T : class, IHierarchical<T>
     {
-        private readonly IHierarchical _parent;
+        private readonly IHierarchical<T> _parent;
 
-        public HierarchicalObjectCollection(IHierarchical parent)
+        public HierarchicalObjectCollection(IHierarchical<T> parent)
         {
             _parent = parent;
         }
@@ -20,9 +20,9 @@ namespace TrumpSoftware.Xaml.Mvvm
             base.ClearItems();
         }
 
-        protected override void InsertItem(int index, TViewModel item)
+        protected override void InsertItem(int index, T item)
         {
-            item.Parent = _parent;
+            item.Parent = _parent as T;
             base.InsertItem(index, item);
         }
 
@@ -32,11 +32,11 @@ namespace TrumpSoftware.Xaml.Mvvm
             base.RemoveItem(index);
         }
 
-        protected override void SetItem(int index, TViewModel item)
+        protected override void SetItem(int index, T item)
         {
             Items[index].Parent = null;
-            item.Parent = _parent;
+            item.Parent = _parent as T;
             base.SetItem(index, item);
         }
-    }
+    }*/
 }

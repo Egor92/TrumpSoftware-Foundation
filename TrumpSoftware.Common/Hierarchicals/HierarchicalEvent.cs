@@ -5,7 +5,7 @@ using TrumpSoftware.Common.Exceptions;
 
 namespace TrumpSoftware.Common.Hierarchical
 {
-    public abstract class HierarchicalEvent<TSender, TData>
+    /*public abstract class HierarchicalEvent<TSender, TData>
         where TSender : IHierarchical
     {
         #region HandlersBySubscribers
@@ -68,5 +68,5 @@ namespace TrumpSoftware.Common.Hierarchical
                     subscriberHandlerPair.Handler(source, data);
             }
         }
-    }
+    }*/
 }
