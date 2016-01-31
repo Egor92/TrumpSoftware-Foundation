@@ -6,11 +6,32 @@ namespace TrumpSoftware.Common.Extensions
 {
     public static class ListExtensions
     {
+        public static void Sort<T>(this ICollection<T> source, IComparer<T> comparer)
+        {
+            var list = new List<T>(source);
+            list.Sort(comparer);
+            source.Clear();
+            foreach (var item in list)
+                source.Add(item);
+        }
+
+        public static void AddRange<T>(this ICollection<T> source, IEnumerable<T> newItems)
+        {
+            foreach (var newItem in newItems)
+                source.Add(newItem);
+        }
+
+        public static void RemoveRange<T>(this ICollection<T> source, IEnumerable<T> removingItems)
+        {
+            foreach (var newItem in removingItems)
+                source.Remove(newItem);
+        }
+
         public static void AddOrRemoveOrUpdate<TItem, TNewItem, TKey>(this ICollection<TItem> source,
                                                                       IEnumerable<TNewItem> newItems,
                                                                       Func<TItem, TKey> getItemKey,
                                                                       Func<TNewItem, TKey> getNewItemKey,
-                                                                      Func<TNewItem, TItem> createItemAction,
+                                                                      Func<TNewItem, TItem> getItemFunc,
                                                                       Action<TItem, TNewItem> updateItemAction,
                                                                       IEqualityComparer<TKey> comparer = null)
         {
@@ -20,8 +41,8 @@ namespace TrumpSoftware.Common.Extensions
                 throw new ArgumentNullException("getItemKey");
             if (getNewItemKey == null)
                 throw new ArgumentNullException("getNewItemKey");
-            if (createItemAction == null)
-                throw new ArgumentNullException("createItemAction");
+            if (getItemFunc == null)
+                throw new ArgumentNullException("getItemFunc");
 
             comparer = comparer ?? EqualityComparer<TKey>.Default;
             if ((newItems == null || !newItems.Any()) && source.Any())
@@ -34,17 +55,14 @@ namespace TrumpSoftware.Common.Extensions
             var newItemsByKey = newItems.ToLookup(getNewItemKey, comparer).ToDictionary(x => x.Key, x => x.FirstOrDefault());
 
             var itemsToDelete = oldItemsByKey.Where(x => !newItemsByKey.Keys.Contains(x.Key, comparer)).Select(x => x.Value).ToList();
-            var itemsToAdd = newItemsByKey.Where(x => !oldItemsByKey.Keys.Contains(x.Key)).Select(x => createItemAction(x.Value)).ToList();
+            var itemsToAdd = newItemsByKey.Where(x => !oldItemsByKey.Keys.Contains(x.Key)).Select(x => getItemFunc(x.Value)).ToList();
 
             var oldAndNewItemPairsToUpdate = new List<KeyValuePair<TItem, TNewItem>>();
             if (updateItemAction != null)
                 oldAndNewItemPairsToUpdate = newItemsByKey.Where(x => oldItemsByKey.Keys.Contains(x.Key)).Select(x => new KeyValuePair<TItem, TNewItem>(oldItemsByKey[x.Key], x.Value)).ToList();
 
-            foreach (var itemToDelete in itemsToDelete)
-                source.Remove(itemToDelete);
-
-            foreach (var itemToAdd in itemsToAdd)
-                source.Add(itemToAdd);
+            source.RemoveRange(itemsToDelete);
+            source.AddRange(itemsToAdd);
 
             if (updateItemAction != null)
             {
@@ -85,26 +103,21 @@ namespace TrumpSoftware.Common.Extensions
 
         public static void AddOrRemove<TItem, TNewItem>(this ICollection<TItem> source,
                                                         IEnumerable<TNewItem> newItems,
-                                                        Func<TNewItem, TItem> createItemAction,
+                                                        Func<TNewItem, TItem> getItemFunc,
                                                         IEqualityComparer<TItem> comparer = null)
         {
             if (source == null)
                 throw new ArgumentNullException("source");
-            if (newItems == null)
-                throw new ArgumentNullException("newItems");
-            if (createItemAction == null)
-                throw new ArgumentNullException("createItemAction");
+            if (getItemFunc == null)
+                throw new ArgumentNullException("getItemFunc");
 
-            var convertedNewItems = newItems.Select(createItemAction).ToList();
+            var convertedNewItems = newItems.Select(getItemFunc).ToList();
 
             var itemsToDelete = source.Except(convertedNewItems, comparer).ToList();
             var itemsToAdd = convertedNewItems.Except(source, comparer).ToList();
 
-            foreach (var itemToDelete in itemsToDelete)
-                source.Remove(itemToDelete);
-
-            foreach (var itemToAdd in itemsToAdd)
-                source.Add(itemToAdd);
+            source.RemoveRange(itemsToDelete);
+            source.AddRange(itemsToAdd);
         }
 
         public static void AddOrRemove<T>(this ICollection<T> source,
@@ -142,20 +155,11 @@ namespace TrumpSoftware.Common.Extensions
             source.ReplaceItems(newItems, x => x);
         }
 
-        public static void RemoveIf<T>(this IList<T> source, Func<T, bool> condition)
+        public static void RemoveIf<T>(ICollection<T> source, Func<T, bool> condition)
         {
-            int index = 0;
-            while (index < source.Count)
+            foreach (var item in source.Where(condition))
             {
-                var item = source[index];
-                if (condition(item))
-                {
-                    source.RemoveAt(index);
-                }
-                else
-                {
-                    index++;
-                }
+                source.Remove(item);
             }
         }
     }
