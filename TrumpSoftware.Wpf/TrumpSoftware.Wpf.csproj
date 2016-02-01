@@ -145,8 +145,8 @@
       <Link>Mvvm\NavigationHost.cs</Link>
     </Compile>
     <Compile Include="Controls\RowDefinitionExtended.cs" />
-    <Compile Include="MarkupExtensions\EnumValues.cs" />
-    <Compile Include="MarkupExtensions\Value.cs" />
+    <Compile Include="MarkupExtensions\EnumValuesExtension.cs" />
+    <Compile Include="MarkupExtensions\ValueExtension.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

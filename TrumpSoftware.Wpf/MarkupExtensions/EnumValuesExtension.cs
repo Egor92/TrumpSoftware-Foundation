@@ -3,11 +3,11 @@ using System.Windows.Markup;
 
 namespace TrumpSoftware.Wpf.MarkupExtensions
 {
-    public class EnumValues : MarkupExtension
+    public class EnumValuesExtension : MarkupExtension
     {
         private readonly Type _enumType;
 
-        public EnumValues(Type enumType)
+        public EnumValuesExtension(Type enumType)
         {
             if (enumType == null)
                 throw new ArgumentNullException("enumType");

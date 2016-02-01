@@ -4,7 +4,7 @@ using TrumpSoftware.Common;
 
 namespace TrumpSoftware.Wpf.MarkupExtensions
 {
-    public class Value : MarkupExtension
+    public class ValueExtension : MarkupExtension
     {
         #region Fields
 
@@ -15,7 +15,7 @@ namespace TrumpSoftware.Wpf.MarkupExtensions
 
         #region Ctor
 
-        public Value(object value, Type type)
+        public ValueExtension(object value, Type type)
         {
             _value = value;
             _type = type;
