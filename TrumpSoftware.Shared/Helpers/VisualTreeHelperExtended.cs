@@ -12,6 +12,7 @@ using Windows.UI.Xaml.Media;
 #if WPF
 namespace TrumpSoftware.Wpf
 #elif WINRT
+
 namespace TrumpSoftware.WinRT
 #endif
 {
@@ -44,7 +45,7 @@ namespace TrumpSoftware.WinRT
         public static T GetAncestor<T>(this DependencyObject source, Func<DependencyObject, bool> abortCondition, bool includingItself = false)
             where T : DependencyObject
         {
-            return (T)source.GetAncestor(typeof(T), abortCondition, includingItself);
+            return (T) source.GetAncestor(typeof (T), abortCondition, includingItself);
         }
 
         public static DependencyObject GetAncestor(this DependencyObject source, Type ancestorType, bool includingItself = false)
@@ -54,7 +55,7 @@ namespace TrumpSoftware.WinRT
 
         public static DependencyObject GetAncestor(this DependencyObject source, Type ancestorType, Func<DependencyObject, bool> abortCondition, bool includingItself = false)
         {
-            if (!typeof(DependencyObject).IsAssignableFrom(ancestorType))
+            if (!typeof (DependencyObject).IsAssignableFrom(ancestorType))
                 throw new ArgumentException("AncestorType must be assignable to 'System.Windows.DependencyObject'", "ancestorType");
             if (includingItself)
             {
@@ -82,6 +83,7 @@ namespace TrumpSoftware.WinRT
         {
             if (source == null)
                 throw new ArgumentNullException("source");
+            condition = condition ?? (x => true);
             var results = new List<T>();
             if (includingItself)
             {
@@ -96,6 +98,7 @@ namespace TrumpSoftware.WinRT
         private static void FindDescendants<T>(this DependencyObject source, Func<T, bool> condition, ICollection<T> results)
             where T : DependencyObject
         {
+            condition = condition ?? (x => true);
             var childrenCount = VisualTreeHelper.GetChildrenCount(source);
             for (int i = 0; i < childrenCount; i++)
             {
@@ -107,17 +110,21 @@ namespace TrumpSoftware.WinRT
             }
         }
 
-        public static T GetFirstDescendant<T>(this DependencyObject source, Func<T, bool> condition, bool includingItself = false)
+        public static T GetFirstDescendant<T>(this DependencyObject source, Func<T, bool> condition, int maxNestingLevel, bool includingItself = false)
             where T : DependencyObject
         {
             if (source == null)
                 throw new ArgumentNullException("source");
+            condition = condition ?? (x => true);
             if (includingItself)
             {
+                maxNestingLevel--;
                 var t = source as T;
                 if (t != null && (condition(t)))
                     return t;
             }
+            if (maxNestingLevel < 0)
+                return null;
             var childrenCount = VisualTreeHelper.GetChildrenCount(source);
             for (int i = 0; i < childrenCount; i++)
             {
@@ -129,7 +136,7 @@ namespace TrumpSoftware.WinRT
             for (int i = 0; i < childrenCount; i++)
             {
                 var child = VisualTreeHelper.GetChild(source, i);
-                var descendant = GetFirstDescendant(child, condition);
+                var descendant = GetFirstDescendant(child, condition, maxNestingLevel--);
                 if (descendant != null)
                     return descendant;
             }

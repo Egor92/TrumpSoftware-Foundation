@@ -39,7 +39,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ObjectHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelperExtended.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHaveConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)MarkupExtensions\Localizing.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Mvvm\NavigationHost.cs" />
   </ItemGroup>

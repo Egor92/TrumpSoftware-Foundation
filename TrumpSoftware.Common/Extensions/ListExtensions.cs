@@ -155,7 +155,7 @@ namespace TrumpSoftware.Common.Extensions
             source.ReplaceItems(newItems, x => x);
         }
 
-        public static void RemoveIf<T>(ICollection<T> source, Func<T, bool> condition)
+        public static void RemoveIf<T>(this ICollection<T> source, Func<T, bool> condition)
         {
             foreach (var item in source.Where(condition))
             {

@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using TrumpSoftware.Common.Helpers;
 
 namespace TrumpSoftware.Common.Extensions
@@ -82,20 +81,64 @@ namespace TrumpSoftware.Common.Extensions
                 action(item);
             }
         }
-        public static string AggregateToString<T>(this IEnumerable<T> source, string linkingString)
+
+        public static void AddItems<T>(this IEnumerable<T> source, ICollection<T> newIitems, int newStartingIndex)
         {
-            var list = source as IList<T> ?? source.ToList();
-            var stringBuilder = new StringBuilder();
-            for (int i = 0; i < list.Count - 1; i++)
+            if (source is IList<T>)
             {
-                stringBuilder.Append(list[i]);
+                var list = (IList<T>)source;
+                for (int i = 0; i < newIitems.Count; i++)
+                {
+                    int index = newStartingIndex + i;
+                    var targetItem = newIitems.ElementAt(i);
+                    list.Insert(index, targetItem);
+                }
             }
-            if (list.Count > 0)
+            else if (source is ICollection<T>)
             {
-                var lastItem = list[list.Count - 1];
-                stringBuilder.Append(lastItem);
+                var collection = (ICollection<T>)source;
+                collection.AddRange(newIitems);
             }
-            return stringBuilder.ToString();
+        }
+
+        public static void RemoveItems<T>(this IEnumerable<T> source, ICollection<T> oldItems, int oldStartingIndex, IEqualityComparer<T> comparer, Action<T> onRemovingAction = null)
+        {
+            comparer = comparer ?? EqualityComparer<T>.Default;
+            if (source is IList<T>)
+            {
+                var list = (IList<T>)source;
+                for (int i = 0; i < oldItems.Count; i++)
+                {
+                    list.RemoveAt(oldStartingIndex);
+                }
+            }
+            else if (source is ICollection<T>)
+            {
+                var collection = (ICollection<T>)source;
+                var removingItems = collection.Where(x => oldItems.Any(y => comparer.Equals(x, y))).ToList();
+                if (onRemovingAction != null)
+                {
+                    removingItems.ForEach(onRemovingAction);
+                }
+                collection.RemoveRange(removingItems);
+            }
+        }
+
+        public static void DisposeEnumerable<T>(this IEnumerable<T> source)
+        {
+            source.OfType<IDisposable>().ForEach(x => x.Dispose());
+            
+            var collection = source as ICollection<T>;
+            if (collection != null)
+            {
+                collection.Clear();
+            }
+
+            var disposable = source as IDisposable;
+            if (disposable != null)
+            {
+                disposable.Dispose();
+            }
         }
     }
 }
