@@ -80,11 +80,20 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\ChainConverter.cs">
       <Link>Converters\ChainConverter.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\ChainMultiConverter.cs">
+      <Link>Converters\ChainMultiConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\ConverterDecorator.cs">
+      <Link>Converters\ConverterDecorator.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleMultiplierConverter.cs">
       <Link>Converters\DoubleMultiplierConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleToGridLenghtConverter.cs">
       <Link>Converters\DoubleToGridLenghtConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\Enums\BinaryLogicalOperation.cs">
+      <Link>Converters\Enums\BinaryLogicalOperation.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\GetResxResourceConverter.cs">
       <Link>Converters\GetResxResourceConverter.cs</Link>
@@ -95,14 +104,23 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\HasItemsConverter.cs">
       <Link>Converters\HasItemsConverter.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\Helpers\ChainConverterHelper.cs">
+      <Link>Converters\Helpers\ChainConverterHelper.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\IChainConverter.cs">
       <Link>Converters\IChainConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\IChainMultiConverter.cs">
+      <Link>Converters\IChainMultiConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\InvertBoolConverter.cs">
       <Link>Converters\InvertBoolConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\IsNullConverter.cs">
       <Link>Converters\IsNullConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\MultiBoolConverter.cs">
+      <Link>Converters\MultiBoolConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\MultiplierConverter.cs">
       <Link>Converters\MultiplierConverter.cs</Link>
@@ -156,6 +174,11 @@
   <ItemGroup>
     <TargetPlatform Include="Windows, Version=8.1" />
     <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PresentationFramework">
+      <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationFramework.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

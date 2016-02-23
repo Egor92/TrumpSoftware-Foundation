@@ -3,10 +3,12 @@
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Data;
+using TrumpSoftware.Wpf.Converters.Helpers;
 using CultureArgumentType = System.Globalization.CultureInfo;
 #elif WINRT
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml;
+using TrumpSoftware.WinRT.Converters.Helpers;
 using CultureArgumentType = System.String;
 
 #endif
@@ -29,7 +31,7 @@ namespace TrumpSoftware.WinRT.Converters
         {
             if (value == DependencyProperty.UnsetValue)
                 return DependencyProperty.UnsetValue;
-            var castedValue = this.CastValue<TFrom>(value);
+            var castedValue = ChainConverterHelper.CastValue<TFrom>(value, this);
             if (CheckToStopChainConverting(castedValue, targetType, parameter, cultureArgument))
                 return GetStoppedValue(castedValue, targetType, parameter, cultureArgument);
             var valueToConvert = GetValueToConvert(castedValue, targetType, parameter, cultureArgument);

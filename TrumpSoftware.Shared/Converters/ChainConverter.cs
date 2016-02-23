@@ -1,13 +1,15 @@
-﻿using System.Windows;
-using System;
+﻿using System;
 #if WPF
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
+using TrumpSoftware.Wpf.Converters.Helpers;
 using CultureArgumentType = System.Globalization.CultureInfo;
 #elif WINRT
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Markup;
+using TrumpSoftware.WinRT.Converters.Helpers;
 using CultureArgumentType = System.String;
 #endif
 
@@ -29,7 +31,7 @@ namespace TrumpSoftware.WinRT.Converters
         {
             if (value == DependencyProperty.UnsetValue)
                 return DependencyProperty.UnsetValue;
-            var castedValue = this.CastValue<TFrom>(value);
+            var castedValue = ChainConverterHelper.CastValue<TFrom>(value, this);
             object convertedValue = Convert(castedValue, targetType, parameter, cultureArgument);
             if (Converter != null)
                 convertedValue = Converter.Convert(convertedValue, targetType, parameter, cultureArgument);
@@ -42,7 +44,7 @@ namespace TrumpSoftware.WinRT.Converters
         {
             if (value == DependencyProperty.UnsetValue)
                 return DependencyProperty.UnsetValue;
-            var castedValue = this.CastValue<TTo>(value);
+            var castedValue = ChainConverterHelper.CastValue<TTo>(value, this);
             object convertedValue = ConvertBack(castedValue, targetType, parameter, cultureArgument);
             if (Converter != null)
                 convertedValue = Converter.ConvertBack(convertedValue, targetType, parameter, cultureArgument);

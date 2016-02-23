@@ -1,5 +1,4 @@
 ﻿#if WPF
-using System.Globalization;
 using System.Windows.Media;
 using CultureArgumentType = System.Globalization.CultureInfo;
 #elif WINRT

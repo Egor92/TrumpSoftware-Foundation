@@ -81,11 +81,20 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\ChainConverter.cs">
       <Link>Converters\ChainConverter.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\ChainMultiConverter.cs">
+      <Link>Converters\ChainMultiConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\ConverterDecorator.cs">
+      <Link>Converters\ConverterDecorator.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleMultiplierConverter.cs">
       <Link>Converters\DoubleMultiplierConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleToGridLenghtConverter.cs">
       <Link>Converters\DoubleToGridLenghtConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\Enums\BinaryLogicalOperation.cs">
+      <Link>Converters\Enums\BinaryLogicalOperation.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\GetResxResourceConverter.cs">
       <Link>Converters\GetResxResourceConverter.cs</Link>
@@ -98,14 +107,23 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\HasItemsConverter.cs">
       <Link>Converters\HasItemsConverter.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\Helpers\ChainConverterHelper.cs">
+      <Link>Converters\Helpers\ChainConverterHelper.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\IChainConverter.cs">
       <Link>Converters\IChainConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\IChainMultiConverter.cs">
+      <Link>Converters\IChainMultiConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\InvertBoolConverter.cs">
       <Link>Converters\InvertBoolConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\IsNullConverter.cs">
       <Link>Converters\IsNullConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\MultiBoolConverter.cs">
+      <Link>Converters\MultiBoolConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\MultiplierConverter.cs">
       <Link>Converters\MultiplierConverter.cs</Link>
@@ -163,6 +181,7 @@
       <Name>TrumpSoftware.Xaml</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
