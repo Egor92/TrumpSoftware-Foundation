@@ -78,6 +78,12 @@
     <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\ICase.cs">
       <Link>Converters\Cases\ICase.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\RangeCase.cs">
+      <Link>Converters\Cases\RangeCase.cs</Link>
+    </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\TypeCase.cs">
+      <Link>Converters\Cases\TypeCase.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Converters\ChainConverter.cs">
       <Link>Converters\ChainConverter.cs</Link>
     </Compile>

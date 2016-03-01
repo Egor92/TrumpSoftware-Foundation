@@ -17,6 +17,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ByteArrayToBitmapImageConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\ContainsValueCase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\RangeCase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\TypeCase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\EqualsCase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\ICase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ChainConverter.cs" />
