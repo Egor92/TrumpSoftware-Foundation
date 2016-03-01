@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows.Markup;
 using TrumpSoftware.Common;
 
@@ -37,7 +38,8 @@ namespace TrumpSoftware.Wpf.MarkupExtensions
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
-            return ConvertEx.Convert(_value, _type, FormatProvider);
+            var formatProvider = FormatProvider ?? CultureInfo.InvariantCulture;
+            return ConvertEx.Convert(_value, _type, formatProvider);
         }
 
         #endregion
