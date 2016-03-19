@@ -13,7 +13,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolConverterBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToBrushConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToDoubleConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ByteArrayToBitmapImageConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\ContainsValueCase.cs" />
@@ -41,10 +40,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StopIfConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StoppableChainConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToBrushConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToColorConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\StringToGeometryConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\SwitchConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Extensions\TypeExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ObjectHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\SelectorHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelperExtended.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHaveConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Media\ColorHelper.cs" />

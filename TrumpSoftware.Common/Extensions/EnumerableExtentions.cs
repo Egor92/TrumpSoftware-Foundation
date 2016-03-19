@@ -127,18 +127,10 @@ namespace TrumpSoftware.Common.Extensions
         public static void DisposeEnumerable<T>(this IEnumerable<T> source)
         {
             source.OfType<IDisposable>().ForEach(x => x.Dispose());
-            
-            var collection = source as ICollection<T>;
-            if (collection != null)
-            {
-                collection.Clear();
-            }
 
             var disposable = source as IDisposable;
             if (disposable != null)
-            {
                 disposable.Dispose();
-            }
         }
     }
 }

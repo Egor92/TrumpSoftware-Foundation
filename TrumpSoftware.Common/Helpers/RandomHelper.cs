@@ -1,20 +1,26 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TrumpSoftware.Common.Helpers
 {
     public static class RandomHelper
     {
-        private static Random _random;
+        #region Fields
 
-        private static Random Random
+        private static readonly Random Random;
+
+        #endregion
+
+        #region Ctor
+
+        static RandomHelper()
         {
-            get { return _random ?? (_random = new Random(GetSeed())); }
+            var seed = (int) (DateTime.Now.ToFileTime()%int.MaxValue);
+            Random = new Random(seed);
         }
 
-        private static int GetSeed()
-        {
-            return (int)(DateTime.Now.ToFileTime() % int.MaxValue);
-        }
+        #endregion
 
         public static bool GetBool(double trueChance = 0.5)
         {
@@ -56,6 +62,26 @@ namespace TrumpSoftware.Common.Helpers
         {
             var randMilliseconds = GetDouble(min.TotalMilliseconds, max.TotalMilliseconds);
             return TimeSpan.FromMilliseconds(randMilliseconds);
+        }
+        public static T GetValue<T>(IDictionary<T, double> probabilitiesByValue)
+        {
+            if (probabilitiesByValue.Values.Any(x => x < 0.0))
+                throw new ArgumentException("Values must be not negative", "probabilitiesByValue");
+            var max = probabilitiesByValue.Values.Sum();
+            if (!(max > 0.0))
+                throw new ArgumentException("Summa of values must be positive", "probabilitiesByValue");
+            var random = GetDouble(0.0, max);
+            var probabilitySum = 0.0;
+            foreach (var pair in probabilitiesByValue)
+            {
+                var value = pair.Key;
+                var probability = pair.Value;
+
+                probabilitySum += probability;
+                if (probabilitySum > random)
+                    return value;
+            }
+            throw new Exception("Algorithm fail");
         }
     }
 }

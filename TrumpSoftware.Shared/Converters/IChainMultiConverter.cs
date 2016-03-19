@@ -9,8 +9,6 @@ using TrumpSoftware.WinRT.Interfaces;
 #if WPF
 namespace TrumpSoftware.Wpf.Converters
 #elif WINRT
-using System.Windows.Data;
-using TrumpSoftware.WinRT.Interfaces;
 namespace TrumpSoftware.WinRT.Converters
 #endif
 {

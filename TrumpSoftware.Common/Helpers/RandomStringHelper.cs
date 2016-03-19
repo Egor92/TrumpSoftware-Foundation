@@ -66,5 +66,21 @@ namespace TrumpSoftware.Common.Helpers
             }
             return RandomHelper.GetChar(minChar, maxChar);
         }
+
+        public static string GetHexColor(object arg)
+        {
+            if (arg == null)
+                return null;
+            var argb = arg.GetHashCode();
+            return string.Format("#{0,8:X8}", argb);
+        }
+
+        public static string GetHexColor(object arg, byte alfa)
+        {
+            if (arg == null)
+                return null;
+            var rgb = Math.Abs(arg.GetHashCode()) % (255 * 255 * 255);
+            return string.Format("#{0,2:X2}{1,6:X6}", alfa, rgb);
+        }
     }
 }
