@@ -11,6 +11,7 @@ using PCLStorage;
 using TrumpSoftware.Common;
 using TrumpSoftware.Common.Helpers;
 using TrumpSoftware.Common.PCLStorage;
+using TrumpSoftware.Common.Tests;
 using CreationCollisionOption = PCLStorage.CreationCollisionOption;
 
 namespace TrumpSoftware.RemoteResourcesLibrary.Test

@@ -1,10 +1,25 @@
 ﻿using System.Collections.Generic;
 
-namespace TrumpSoftware.Common
+namespace TrumpSoftware.Common.Tree
 {
     public class GluedNode<T>
     {
+        #region Fields
+
         private readonly int _objectCount;
+
+        #endregion
+
+        #region Ctor
+
+        public GluedNode(int objectCount)
+        {
+            _objectCount = objectCount;
+        }
+
+        #endregion
+
+        #region Properties
 
         #region Children
 
@@ -22,13 +37,6 @@ namespace TrumpSoftware.Common
         }
 
         #endregion
-
-        #region Ctor
-
-        public GluedNode(int objectCount)
-        {
-            _objectCount = objectCount;
-        }
 
         #endregion
     }

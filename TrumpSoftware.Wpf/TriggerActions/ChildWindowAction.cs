@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Markup;
+using System.Windows.Media;
 using Prism;
 using Prism.Interactivity.InteractionRequest;
 
@@ -128,6 +129,19 @@ namespace TrumpSoftware.Wpf.TriggerActions
 
         #endregion
 
+        #region Icon
+
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(ImageSource), typeof(ChildWindowAction));
+
+        public ImageSource Icon
+        {
+            get { return (ImageSource) GetValue(IconProperty); }
+            set { SetValue(IconProperty, value); }
+        }
+
+        #endregion
+
         #endregion
 
         #region Overridden members
@@ -146,6 +160,7 @@ namespace TrumpSoftware.Wpf.TriggerActions
                 window.Width = Width.Value;
             if (Height != null)
                 window.Height = Height.Value;
+            window.Icon = Icon;
             window.Closed += Window_Closed;
             return window;
         }

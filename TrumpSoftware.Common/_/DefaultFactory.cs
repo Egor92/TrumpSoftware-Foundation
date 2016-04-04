@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrumpSoftware.Common.Commons
+namespace TrumpSoftware.Common
 {
     public interface IDefaultFactory<out T>
     {

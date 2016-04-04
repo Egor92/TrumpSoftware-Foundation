@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 using ReactiveUI;
-using TrumpSoftware.Common.Commons;
+using TrumpSoftware.Common;
 using TrumpSoftware.Common.Interfaces;
 
 namespace TrumpSoftware.Xaml.Collections.Controllers

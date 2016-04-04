@@ -2,9 +2,9 @@
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 
-namespace TrumpSoftware.Common
+namespace TrumpSoftware.Common.Tests
 {
-    public class AsyncAssert
+    public static class AsyncAssert
     {
         public static async Task<T> ThrowsExceptionAsync<T>(Func<Task> task) 
             where T : Exception
