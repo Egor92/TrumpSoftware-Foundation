@@ -1,27 +1,22 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace TrumpSoftware.Common
+namespace TrumpSoftware.Common.Time
 {
     public abstract class TimerBase
     {
+        #region Fields
+
         private static readonly object SyncRoot = new object();
         private TimeSpan _time;
         private bool _isRunning;
         private DateTime _intervalStartTime;
 
-        #region TimeFunc
-
-        private Func<TimeSpan, TimeSpan, TimeSpan> _timeFunc;
-
-        private Func<TimeSpan, TimeSpan, TimeSpan> TimeFunc
-        {
-            get { return _timeFunc ?? (_timeFunc = GetTimeFunc()); }
-        }
-
-        protected abstract Func<TimeSpan, TimeSpan, TimeSpan> GetTimeFunc();
-
         #endregion
+
+        #region Properties
+
+        #region Time
 
         public TimeSpan Time
         {
@@ -40,7 +35,28 @@ namespace TrumpSoftware.Common
             }
         }
 
+        private void OnTimeChangedInternal()
+        {
+            OnTimeChanged();
+            RaiseTimeChanged();
+        }
+
+        protected virtual void OnTimeChanged()
+        {
+
+        }
+
+        #endregion
+
+        #region Interval
+
         public TimeSpan Interval { get; set; }
+
+        #endregion
+
+        #endregion
+
+        #region Events
 
         #region TimeChanged
 
@@ -55,6 +71,10 @@ namespace TrumpSoftware.Common
 
         #endregion
 
+        #endregion
+
+        #region Ctor
+
         public TimerBase()
             : this(new TimeSpan(100))
         {
@@ -64,6 +84,8 @@ namespace TrumpSoftware.Common
         {
             Interval = interval;
         }
+
+        #endregion
 
         public void Start()
         {
@@ -84,12 +106,9 @@ namespace TrumpSoftware.Common
             Time = new TimeSpan();
         }
 
-        protected virtual void OnTimeChanged()
-        {
-
-        }
-
         protected abstract TimeSpan GetDelayInterval();
+
+        protected abstract TimeSpan AggregateTime(TimeSpan left, TimeSpan right);
 
         private async Task StartTimerAsync()
         {
@@ -103,15 +122,9 @@ namespace TrumpSoftware.Common
                 if (!_isRunning)
                     return;
                 var currentDateTime = DateTime.Now;
-                Time = TimeFunc(Time, (currentDateTime - _intervalStartTime));
+                Time = AggregateTime(Time, (currentDateTime - _intervalStartTime));
                 _intervalStartTime = currentDateTime;
             }
-        }
-
-        private void OnTimeChangedInternal()
-        {
-            RaiseTimeChanged();
-            OnTimeChanged();
         }
     }
 }

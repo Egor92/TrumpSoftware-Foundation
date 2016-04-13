@@ -6,7 +6,7 @@ namespace TrumpSoftware.Common.Tests
 {
     public static class AsyncAssert
     {
-        public static async Task<T> ThrowsExceptionAsync<T>(Func<Task> task) 
+        public static async Task<T> ThrowsExceptionAsync<T>(Func<Task> task)
             where T : Exception
         {
             try
@@ -15,15 +15,19 @@ namespace TrumpSoftware.Common.Tests
             }
             catch (Exception ex)
             {
-                Assert.IsInstanceOfType(ex, typeof(T));
-                return (T)ex;
+                Assert.IsInstanceOfType(ex, typeof (T));
+                return (T) ex;
             }
- 
-            if (typeof(T) == typeof(Exception))
+
+            if (typeof (T) == typeof (Exception))
+            {
                 Assert.Fail("Expected exception but no exception was thrown.");
+            }
             else
-                Assert.Fail("Expected exception of type {0} but no exception was thrown.", typeof(T));
- 
+            {
+                Assert.Fail("Expected exception of type {0} but no exception was thrown.", typeof (T));
+            }
+
             return null;
         }
     }

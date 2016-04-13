@@ -1,9 +1,11 @@
 ﻿using System;
 
-namespace TrumpSoftware.Common
+namespace TrumpSoftware.Common.Time
 {
     public sealed class Stopwatch : TimerBase
     {
+        #region Ctor
+
         public Stopwatch()
         {
         }
@@ -13,14 +15,20 @@ namespace TrumpSoftware.Common
         {
         }
 
+        #endregion
+
+        #region Overridden members
+
         protected override TimeSpan GetDelayInterval()
         {
             return Interval;
         }
 
-        protected override Func<TimeSpan, TimeSpan, TimeSpan> GetTimeFunc()
+        protected override TimeSpan AggregateTime(TimeSpan left, TimeSpan right)
         {
-            return (left, right) => left + right;
+            return left + right;
         }
+
+        #endregion
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TrumpSoftware.Common.Extensions
 {
-    public static class ListExtensions
+    public static class CollectionExtensions
     {
         public static void Sort<T>(this ICollection<T> source, IComparer<T> comparer)
         {

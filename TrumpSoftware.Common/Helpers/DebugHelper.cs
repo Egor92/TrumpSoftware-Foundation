@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
-namespace TrumpSoftware.Common
+namespace TrumpSoftware.Common.Helpers
 {
     public static class DebugHelper
     {

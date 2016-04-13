@@ -1,6 +1,6 @@
 ﻿namespace TrumpSoftware.Common.Helpers
 {
-    public class NumberHelper
+    public static class StructHelper
     {
         public static int Limit(int value, int min, int max)
         {

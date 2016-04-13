@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using PCLStorage;
 
-namespace TrumpSoftware.Common.Helpers
+namespace TrumpSoftware.Common.PCLStorage
 {
     public static class PathHelper
     {

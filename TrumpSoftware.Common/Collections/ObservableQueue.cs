@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 
-namespace TrumpSoftware.Common
+namespace TrumpSoftware.Common.Collections
 {
     public class ObservableQueue<T> : IReadOnlyCollection<T>, INotifyCollectionChanged
     {

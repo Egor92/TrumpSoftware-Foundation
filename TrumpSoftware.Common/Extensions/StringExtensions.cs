@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TrumpSoftware.Common.Enums;
 using TrumpSoftware.Common.Exceptions;
 using TrumpSoftware.Common.Helpers;

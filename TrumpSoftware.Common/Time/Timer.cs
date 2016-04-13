@@ -1,11 +1,26 @@
 ﻿using System;
 using TrumpSoftware.Common.Helpers;
 
-namespace TrumpSoftware.Common
+namespace TrumpSoftware.Common.Time
 {
     public sealed class Timer : TimerBase
     {
+        #region Events
+
+        #region TimeHasExpired
+
         public event EventHandler TimeHasExpired;
+
+        private void RaiseTimeHasExpired()
+        {
+            TimeHasExpired?.Invoke(this, EventArgs.Empty);
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Ctor
 
         public Timer()
         {
@@ -16,15 +31,13 @@ namespace TrumpSoftware.Common
         {
         }
 
-        public void Start(TimeSpan newTime)
-        {
-            Time = newTime;
-            Start();
-        }
+        #endregion
 
-        protected override Func<TimeSpan, TimeSpan, TimeSpan> GetTimeFunc()
+        #region Overridden members
+
+        protected override TimeSpan AggregateTime(TimeSpan left, TimeSpan right)
         {
-            return (left, right) => left - right;
+            return left - right;
         }
 
         protected override void OnTimeChanged()
@@ -38,11 +51,12 @@ namespace TrumpSoftware.Common
             return TimeSpanHelper.Min(Interval, Time);
         }
 
-        private void RaiseTimeHasExpired()
+        #endregion
+
+        public void Start(TimeSpan newTime)
         {
-            var handler = TimeHasExpired;
-            if (handler != null)
-                handler(this, EventArgs.Empty);
+            Time = newTime;
+            Start();
         }
     }
 }

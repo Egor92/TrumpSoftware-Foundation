@@ -40,18 +40,18 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Tests\AsyncAssert.cs" />
-    <Compile Include="_\DefaultFactory.cs" />
-    <Compile Include="_\ConvertEx.cs" />
-    <Compile Include="_\CustomEqualityComparer.cs" />
+    <Compile Include="DefaultFactory.cs" />
+    <Compile Include="ConvertEx.cs" />
+    <Compile Include="CustomEqualityComparer.cs" />
     <Compile Include="Enums\WordCase.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Helpers\ObjectHelper.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
-    <Compile Include="_\FractionalOne.cs" />
+    <Compile Include="FractionalOne.cs" />
     <Compile Include="Tree\GluedNode.cs" />
-    <Compile Include="Helpers\NumberHelper.cs" />
+    <Compile Include="Helpers\StructHelper.cs" />
     <Compile Include="Hierarchicals\EventsPropagationDirection.cs" />
     <Compile Include="Hierarchicals\HierarchcalEventHandler.cs" />
     <Compile Include="Hierarchicals\HierarchicalEvent.cs" />
@@ -64,15 +64,15 @@
     <Compile Include="Interfaces\IUpdatable.cs" />
     <Compile Include="Helpers\DebugHelper.cs" />
     <Compile Include="Extensions\EnumerableExtentions.cs" />
-    <Compile Include="Extensions\ListExtensions.cs" />
-    <Compile Include="_\ObservableQueue.cs" />
-    <Compile Include="Helpers\PathHelper.cs" />
+    <Compile Include="Extensions\CollectionExtensions.cs" />
+    <Compile Include="Collections\ObservableQueue.cs" />
+    <Compile Include="PCLStorage\PathHelper.cs" />
     <Compile Include="PCLStorage\FileExtensions.cs" />
     <Compile Include="PCLStorage\FolderExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\RandomHelper.cs" />
     <Compile Include="Helpers\RandomStringHelper.cs" />
-    <Compile Include="_\Ref.cs" />
+    <Compile Include="Ref.cs" />
     <Compile Include="Time\Timer.cs" />
     <Compile Include="Time\Stopwatch.cs" />
     <Compile Include="Time\TimerBase.cs" />

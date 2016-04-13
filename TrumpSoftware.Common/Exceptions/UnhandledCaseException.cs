@@ -4,37 +4,44 @@ namespace TrumpSoftware.Common.Exceptions
 {
     public class UnhandledCaseException : Exception
     {
-        private readonly string _message;
+        #region Properties
 
-        public override string Message
-        {
-            get { return _message; }
-        }
+        #region Message
+
+        public override string Message { get; }
+
+        #endregion
+
+        #endregion
+
+        #region Ctor
 
         public UnhandledCaseException(Type enumType, object value)
         {
-            _message = string.Format("Unhandled case of {0}.{1}", enumType, value);
+            Message = string.Format("Unhandled case of {0}.{1}", enumType, value);
         }
 
         public UnhandledCaseException(object value)
         {
             if (value == null)
             {
-                _message = string.Format("Unhandled case of 'null'");
+                Message = string.Format("Unhandled case of 'null'");
             }
             else
             {
-                _message = string.Format("Unhandled case of {0}.{1}", value.GetType(), value);
+                Message = string.Format("Unhandled case of {0}.{1}", value.GetType(), value);
             }
         }
 
         public UnhandledCaseException(string message)
         {
-            _message = message;
+            Message = message;
         }
 
         public UnhandledCaseException()
         {
         }
+
+        #endregion
     }
 }

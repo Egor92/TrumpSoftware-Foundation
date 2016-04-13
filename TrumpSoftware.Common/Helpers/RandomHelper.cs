@@ -24,7 +24,7 @@ namespace TrumpSoftware.Common.Helpers
 
         public static bool GetBool(double trueChance = 0.5)
         {
-            trueChance = NumberHelper.Limit(trueChance, 0.0, 1.0);
+            trueChance = StructHelper.Limit(trueChance, 0.0, 1.0);
             return Random.NextDouble() < trueChance;
         }
 

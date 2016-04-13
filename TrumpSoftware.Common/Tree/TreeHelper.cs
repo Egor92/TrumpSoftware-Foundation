@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using TrumpSoftware.Common.Extensions;
 
 namespace TrumpSoftware.Common.Tree
 {
     public delegate IEnumerable<T> GetChildrenDelegate<T>(T source);
+
     public delegate ICollection<T> GetChildrenCollectionDelegate<T>(T source);
 
     public static class TreeHelper
@@ -13,20 +13,29 @@ namespace TrumpSoftware.Common.Tree
         public static int GetNodeCount<T>(T sourceRoot, Func<T, IEnumerable<T>> getChildren)
             where T : class
         {
-            if (getChildren == null) throw new ArgumentNullException("getChildren");
+            if (getChildren == null)
+                throw new ArgumentNullException("getChildren");
             if (sourceRoot == null)
                 return 0;
             return 1 + getChildren(sourceRoot).Sum(child => GetNodeCount(child, getChildren));
         }
 
-        public static TTo TransformTree<TFrom, TTo>(TFrom sourceRoot, Func<TFrom, TTo> transformNode, GetChildrenDelegate<TFrom> getSourceChildren, GetChildrenCollectionDelegate<TTo> getTargetChildrenCollection)
+        public static TTo TransformTree<TFrom, TTo>(TFrom sourceRoot,
+                                                    Func<TFrom, TTo> transformNode,
+                                                    GetChildrenDelegate<TFrom> getSourceChildren,
+                                                    GetChildrenCollectionDelegate<TTo> getTargetChildrenCollection)
             where TFrom : class
             where TTo : class
         {
             return TransformTree(sourceRoot, transformNode, getSourceChildren, getTargetChildrenCollection, null, null);
         }
 
-        public static TTo TransformTree<TFrom, TTo>(TFrom sourceRoot, Func<TFrom, TTo> transformNode, GetChildrenDelegate<TFrom> getSourceChildren, GetChildrenCollectionDelegate<TTo> getTargetChildrenCollection, Action<TTo, TFrom> internalNodeAction, Action<TTo, TFrom> leafNodeAction)
+        public static TTo TransformTree<TFrom, TTo>(TFrom sourceRoot,
+                                                    Func<TFrom, TTo> transformNode,
+                                                    GetChildrenDelegate<TFrom> getSourceChildren,
+                                                    GetChildrenCollectionDelegate<TTo> getTargetChildrenCollection,
+                                                    Action<TTo, TFrom> internalNodeAction,
+                                                    Action<TTo, TFrom> leafNodeAction)
             where TFrom : class
             where TTo : class
         {
@@ -50,27 +59,26 @@ namespace TrumpSoftware.Common.Tree
                 var targetChildrenCollection = getTargetChildrenCollection(targetRoot);
                 if (targetChildrenCollection == null)
                     throw new Exception("targetChildrenCollection must be not null");
+
                 foreach (var sourceChild in sourceChildren)
                 {
-                    var targetChild = TransformTree(sourceChild, transformNode, getSourceChildren, getTargetChildrenCollection, internalNodeAction, leafNodeAction);
+                    var targetChild = TransformTree(sourceChild, transformNode, getSourceChildren, getTargetChildrenCollection,
+                        internalNodeAction, leafNodeAction);
                     targetChildrenCollection.Add(targetChild);
                 }
 
                 if (sourceChildren.Any())
                 {
-                    if (internalNodeAction != null)
-                        internalNodeAction(targetRoot, sourceRoot);
+                    internalNodeAction?.Invoke(targetRoot, sourceRoot);
                 }
                 else
                 {
-                    if (leafNodeAction != null)
-                        leafNodeAction(targetRoot, sourceRoot);
+                    leafNodeAction?.Invoke(targetRoot, sourceRoot);
                 }
             }
             else
             {
-                if (leafNodeAction != null)
-                    leafNodeAction(targetRoot, sourceRoot);
+                leafNodeAction?.Invoke(targetRoot, sourceRoot);
             }
             return targetRoot;
         }
@@ -83,7 +91,7 @@ namespace TrumpSoftware.Common.Tree
             if (getChildren == null)
                 throw new ArgumentNullException("getChildren");
 
-            int[] itemCounts = source.Select(x => x.GetCountOrZero()).ToArray();
+            int[] itemCounts = source.Select(GetCountOrZero).ToArray();
             var maxItemCount = itemCounts.Max();
 
             var gluedNodes = new GluedNode<T>[maxItemCount];
@@ -106,19 +114,26 @@ namespace TrumpSoftware.Common.Tree
             return gluedNodes;
         }
 
-        public static IEnumerable<T> MakeTrees<T>(IEnumerable<T> source, Func<T,T> getParent, GetChildrenCollectionDelegate<T> getChildren)
+        public static IEnumerable<T> MakeTrees<T>(IEnumerable<T> source, Func<T, T> getParent, GetChildrenCollectionDelegate<T> getChildren)
             where T : class
         {
             var parentOfItems = source.ToDictionary(x => x, getParent);
             var rootItems = parentOfItems.Where(x => x.Value == null).Select(x => x.Key).ToArray();
             if (!rootItems.Any())
                 throw new Exception("It's impossible to create trees. There is no items which parent is null");
+
             var notRootItems = source.Except(rootItems).ToArray();
             if (notRootItems.Any(x => !source.Contains(parentOfItems[x])))
-                throw new Exception("It's impossible to create trees. At least one item has parent that doesn't contain in source enumerable");
+            {
+                const string message =
+                    "It's impossible to create trees. At least one item has parent that doesn't contain in source enumerable";
+                throw new Exception(message);
+            }
+
             var childrenOfItems = source.ToDictionary(x => x, x => getChildren(x));
             foreach (var item in source)
                 getChildren(item).Clear();
+
             foreach (var item in notRootItems)
             {
                 var parent = parentOfItems[item];
@@ -128,7 +143,12 @@ namespace TrumpSoftware.Common.Tree
             return rootItems;
         }
 
-        public static IEnumerable<T> MakeTrees<T>(IEnumerable<T> source, Func<T,int> getId, Func<T,int> getParentId, Action<T,T> setParent, GetChildrenCollectionDelegate<T> getChildren, int defaultId)
+        public static IEnumerable<T> MakeTrees<T>(IEnumerable<T> source,
+                                                  Func<T, int> getId,
+                                                  Func<T, int> getParentId,
+                                                  Action<T, T> setParent,
+                                                  GetChildrenCollectionDelegate<T> getChildren,
+                                                  int defaultId)
             where T : class
         {
             var itemsById = source.ToDictionary(x => x, getId);
@@ -136,13 +156,18 @@ namespace TrumpSoftware.Common.Tree
             var rootItems = source.Where(x => itemsByParentId[x] == defaultId).ToArray();
             if (!rootItems.Any())
                 throw new Exception("It's impossible to create trees. There is no items which parent is null");
+
             var notRootItems = source.Except(rootItems).ToArray();
             if (notRootItems.Any(x => !itemsById.Values.Contains(itemsByParentId[x])))
-                throw new Exception("It's impossible to create trees. At least one item has parent that doesn't contain in source enumerable");
+                throw new Exception(
+                    "It's impossible to create trees. At least one item has parent that doesn't contain in source enumerable");
+
             foreach (var item in source)
                 getChildren(item).Clear();
+
             foreach (var item in rootItems)
                 setParent(item, null);
+
             foreach (var item in notRootItems)
             {
                 var parentId = itemsByParentId[item];
@@ -153,7 +178,11 @@ namespace TrumpSoftware.Common.Tree
             return rootItems;
         }
 
-        public static IEnumerable<T> GetNodes<T>(T rootNode, GetChildrenDelegate<T> getChildren, Action<T,T[]> collectedNodeAction, bool includeRoot, bool leafsOnly)
+        public static IEnumerable<T> GetNodes<T>(T rootNode,
+                                                 GetChildrenDelegate<T> getChildren,
+                                                 Action<T, T[]> collectedNodeAction,
+                                                 bool includeRoot,
+                                                 bool leafsOnly)
         {
             if (rootNode == null)
                 throw new ArgumentNullException("rootNode");
@@ -167,13 +196,18 @@ namespace TrumpSoftware.Common.Tree
             {
                 var node = pair.Key;
                 var ancestors = pair.Value;
-                if (collectedNodeAction != null)
-                    collectedNodeAction(node, ancestors);
+                collectedNodeAction?.Invoke(node, ancestors);
             }
             return nodes;
         }
 
-        private static void CollectNodes<T>(T node, GetChildrenDelegate<T> getChildren, ICollection<T> nodes, Stack<T> ancestors, IDictionary<T, T[]> ancestorsByNode, bool includeRoot, bool leafsOnly)
+        private static void CollectNodes<T>(T node,
+                                            GetChildrenDelegate<T> getChildren,
+                                            ICollection<T> nodes,
+                                            Stack<T> ancestors,
+                                            IDictionary<T, T[]> ancestorsByNode,
+                                            bool includeRoot,
+                                            bool leafsOnly)
         {
             var children = getChildren(node);
             if (includeRoot)
@@ -185,10 +219,19 @@ namespace TrumpSoftware.Common.Tree
                 ancestorsByNode.Add(node, ancestors.ToArray());
                 ancestors.Push(node);
             }
+
             foreach (var child in children)
                 CollectNodes(child, getChildren, nodes, ancestors, ancestorsByNode, true, leafsOnly);
+
             if (ancestors.Any())
                 ancestors.Pop();
+        }
+
+        private static int GetCountOrZero(IEnumerable<object> enumerable)
+        {
+            if (enumerable == null)
+                return 0;
+            return enumerable.Count();
         }
     }
 }
