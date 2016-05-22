@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using TrumpSoftware.Common;
 using TrumpSoftware.Common.Exceptions;
-using TrumpSoftware.Xaml.Mvvm.Interfaces;
+using TrumpSoftware.Xaml.Navigation;
 
 namespace TrumpSoftware.WinRT.Controls
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrumpSoftware.Xaml.Mvvm
+namespace TrumpSoftware.Xaml.Navigation
 {
     public class NavigatedEventArgs : EventArgs
     {

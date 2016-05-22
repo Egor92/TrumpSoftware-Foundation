@@ -11,11 +11,12 @@ using Windows.UI.Xaml.Controls;
 #endif
 using TrumpSoftware.Xaml.Mvvm;
 using TrumpSoftware.Xaml.Mvvm.Interfaces;
+using TrumpSoftware.Xaml.Navigation;
 
 #if WPF
-namespace TrumpSoftware.Wpf.Mvvm
+namespace TrumpSoftware.Wpf.Navigation
 #elif WINRT
-namespace TrumpSoftware.WinRT.Mvvm
+namespace TrumpSoftware.WinRT.Navigation
 #endif
 {
     public class NavigationHost : INavigationHost

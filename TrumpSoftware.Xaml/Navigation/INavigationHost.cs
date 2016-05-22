@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrumpSoftware.Xaml.Mvvm.Interfaces
+namespace TrumpSoftware.Xaml.Navigation
 {
     public interface INavigationHost
     {
