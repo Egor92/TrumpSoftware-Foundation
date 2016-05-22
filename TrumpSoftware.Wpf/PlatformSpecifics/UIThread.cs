@@ -8,7 +8,7 @@ namespace TrumpSoftware.Wpf.PlatformSpecifics
     {
         public void Invoke(Action action)
         {
-            Application.Current?.Dispatcher?.Invoke(action);
+            Application.Current.Dispatcher.Invoke(action);
         }
     }
 }

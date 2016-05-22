@@ -46,7 +46,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Controllers\CollectionController.cs" />
+    <Compile Include="Collections\Controllers\RemovableItemsController.cs" />
     <Compile Include="Collections\Controllers\CollectionItemsController.cs" />
     <Compile Include="Collections\Controllers\CollectionSynchronizer.cs" />
     <Compile Include="Collections\RemovableItemsCollection.cs" />
@@ -55,20 +55,10 @@
     <Compile Include="Interfaces\IUIThread.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Media\ColorStrings.cs" />
-    <Compile Include="Media\MediaObject.cs" />
-    <Compile Include="Media\MediaState.cs" />
-    <Compile Include="Mvvm\Interfaces\IModelObject.cs" />
-    <Compile Include="Mvvm\DelegateCommand.cs" />
-    <Compile Include="Mvvm\DummyCommand.cs" />
-    <Compile Include="Mvvm\Interfaces\INavigationAware.cs" />
-    <Compile Include="Mvvm\NavigatedEventArgs.cs" />
-    <Compile Include="Mvvm\ResetFieldsHelper.cs" />
-    <Compile Include="Mvvm\Interfaces\INavigationHost.cs" />
-    <Compile Include="Mvvm\ResetOnNavigationAttribute.cs" />
-    <Compile Include="Mvvm\NotificationObject.cs" />
-    <Compile Include="Mvvm\HierarchicalObjectCollection.cs" />
-    <Compile Include="Mvvm\HierarchicalViewModelObservableCollection.cs" />
-    <Compile Include="Mvvm\WindowViewModel.cs" />
+    <Compile Include="Commands\DummyCommand.cs" />
+    <Compile Include="Navigation\INavigationAware.cs" />
+    <Compile Include="Navigation\NavigatedEventArgs.cs" />
+    <Compile Include="Navigation\INavigationHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ActiveAwareViewModel.cs" />
     <Compile Include="ViewModels\BusyActiveAwareViewModel.cs" />

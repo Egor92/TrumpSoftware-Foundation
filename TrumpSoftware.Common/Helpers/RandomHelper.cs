@@ -24,13 +24,13 @@ namespace TrumpSoftware.Common.Helpers
 
         public static bool GetBool(double trueChance = 0.5)
         {
-            trueChance = NumberHelper.Limit(trueChance, 0.0, 1.0);
+            trueChance = StructHelper.Limit(trueChance, 0.0, 1.0);
             return Random.NextDouble() < trueChance;
         }
 
         public static int GetInt()
         {
-            return GetInt(0, int.MaxValue - 1);
+            return GetInt(0, int.MaxValue);
         }
 
         public static int GetInt(int max)
@@ -40,7 +40,7 @@ namespace TrumpSoftware.Common.Helpers
 
         public static int GetInt(int min, int max)
         {
-            return Random.Next(min, max + 1);
+            return Random.Next(min, max);
         }
 
         public static double GetDouble(double min, double max)
@@ -63,6 +63,7 @@ namespace TrumpSoftware.Common.Helpers
             var randMilliseconds = GetDouble(min.TotalMilliseconds, max.TotalMilliseconds);
             return TimeSpan.FromMilliseconds(randMilliseconds);
         }
+
         public static T GetValue<T>(IDictionary<T, double> probabilitiesByValue)
         {
             if (probabilitiesByValue.Values.Any(x => x < 0.0))

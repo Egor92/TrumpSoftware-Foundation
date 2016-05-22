@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using TrumpSoftware.Xaml.Media;
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {
@@ -90,11 +89,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             return await GetResourceAsync<Uri>(path);
         }
 
-        public async Task<MediaObject> GetMediaObjectResourceAsync(string path)
-        {
-            return await GetResourceAsync<MediaObject>(path);
-        }
-
         private async Task<T> GetResourceAsync<T>(string path)
         {
             if (!_isLoaded)
@@ -123,11 +117,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary
         public async Task<IEnumerable<Uri>> GetUriResourceGroupAsync(string groupName)
         {
             return await GetResourceGroupAsync<Uri>(groupName);
-        }
-
-        public async Task<IEnumerable<MediaObject>> GetMediaObjectResourceGroupAsync(string groupName)
-        {
-            return await GetResourceGroupAsync<MediaObject>(groupName);
         }
 
         private async Task<IEnumerable<T>> GetResourceGroupAsync<T>(string groupName)

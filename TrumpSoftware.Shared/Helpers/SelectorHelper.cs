@@ -57,7 +57,7 @@ namespace TrumpSoftware.WinRT.Helpers
             if (itemContainer == null)
                 return;
 
-            var item = GetItemFromConteiner(selector, itemContainer);
+            var item = GetItemFromContainer(selector, itemContainer);
             if (item != null)
                 return;
 
@@ -95,7 +95,7 @@ namespace TrumpSoftware.WinRT.Helpers
 #endif
         }
 
-        private static object GetItemFromConteiner(Selector selector, DependencyObject itemContainer)
+        private static object GetItemFromContainer(Selector selector, DependencyObject itemContainer)
         {
 #if WPF
             var itemContainerGenerator = selector.ItemContainerGenerator;

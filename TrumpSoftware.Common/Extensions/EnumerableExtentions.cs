@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TrumpSoftware.Common.Helpers;
@@ -44,17 +43,6 @@ namespace TrumpSoftware.Common.Extensions
                 .OrderBy(x => x.Key)
                 .Select(x => x.Value)
                 .ToArray();
-        }
-
-        public static IEnumerable<T> GetSelfOrEmpty<T>(this IEnumerable<T> source)
-        {
-            return source ?? Enumerable.Empty<T>();
-        }
-
-        public static int GetCountOrZero(this IEnumerable source)
-        {
-            source = source ?? Enumerable.Empty<object>();
-            return source.OfType<object>().Count();
         }
 
         public static IEnumerable<T> Union<T>(this IEnumerable<T> source, params T[] items)

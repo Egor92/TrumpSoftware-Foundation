@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using TrumpSoftware.Xaml.Media;
 
 namespace TrumpSoftware.RemoteResourcesLibrary
 {
@@ -32,7 +31,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary
             AddResourceConverter<int>(new IntegerResourceConverter());
             AddResourceConverter<double>(new DoubleResourceConverter());
             AddResourceConverter<Uri>(new UriResourceConverter());
-            AddResourceConverter<MediaObject>(new MediaObjectResourceConverter());
         }
 
         private void AddResourceConverter<T>(IResourceConverter<T> resourceConverter)
