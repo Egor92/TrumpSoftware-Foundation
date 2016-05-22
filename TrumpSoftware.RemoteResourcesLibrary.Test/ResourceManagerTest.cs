@@ -8,8 +8,6 @@ using Windows.Storage;
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
 using Newtonsoft.Json;
 using PCLStorage;
-using TrumpSoftware.Common;
-using TrumpSoftware.Common.Helpers;
 using TrumpSoftware.Common.PCLStorage;
 using TrumpSoftware.Common.Tests;
 using CreationCollisionOption = PCLStorage.CreationCollisionOption;
@@ -137,24 +135,6 @@ namespace TrumpSoftware.RemoteResourcesLibrary.Test
 
             await _resourceManager.LoadIndexAsync();
             var actualUri = await _resourceManager.GetUriResourceAsync(relativePath);
-            var expectedUri = new Uri(Path.Combine(_localResourceFolder.Path, relativePath));
-            Assert.AreEqual(expectedUri, actualUri);
-        }
-
-        [TestMethod]
-        public async Task CanReturnMediaObjectResource()
-        {
-            const string relativePath = "CanReturnUriResource.txt";
-            var resourceInfo = new ResourceInfo
-            {
-                RelativePath = relativePath,
-                Version = 1
-            };
-            await AddFileToRemoteFolderAsync("some content", resourceInfo);
-
-            await _resourceManager.LoadIndexAsync();
-            var mediaObject = await _resourceManager.GetMediaObjectResourceAsync(relativePath);
-            var actualUri = mediaObject.Uri;
             var expectedUri = new Uri(Path.Combine(_localResourceFolder.Path, relativePath));
             Assert.AreEqual(expectedUri, actualUri);
         }

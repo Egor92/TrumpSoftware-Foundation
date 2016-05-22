@@ -55,8 +55,6 @@
     <Compile Include="Interfaces\IUIThread.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Media\ColorStrings.cs" />
-    <Compile Include="Media\MediaObject.cs" />
-    <Compile Include="Media\MediaState.cs" />
     <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Mvvm\DummyCommand.cs" />
     <Compile Include="Mvvm\Interfaces\INavigationAware.cs" />
