@@ -90,7 +90,7 @@ namespace TrumpSoftware.WinRT.Mvvm
 
         public void Navigate<TPageVM>(TPageVM pageVM)
         {
-            Navigate(pageVM, true, true);
+            Navigate(pageVM, true);
         }
 
         public void RefreshPage()
@@ -99,10 +99,10 @@ namespace TrumpSoftware.WinRT.Mvvm
                 return;
             _history.RemoveAt(_currentPageIndex);
             _currentPageIndex--;
-            Navigate(_currentPageVM, true, true);
+            Navigate(_currentPageVM, true);
         }
 
-        private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory, bool toResetViewModel)
+        private void Navigate<TPageVM>(TPageVM pageVM, bool toRememberInHistory)
         {
             if (pageVM == null)
                 throw new ArgumentNullException("pageVM");
@@ -111,8 +111,6 @@ namespace TrumpSoftware.WinRT.Mvvm
                 throw new Exception(string.Format("ViewModel of type {0} hasn't been registered", navigatingPageVMType.FullName));
             if (toRememberInHistory)
                 RememberInHistory(pageVM);
-            if (toResetViewModel)
-                ResetFieldsHelper.ResetFields(pageVM);
             _currentPage = _pageFuncsByViewModelType[navigatingPageVMType].Invoke();
 #if WPF
             _hostControl.Dispatcher.Invoke(() =>
@@ -168,7 +166,7 @@ namespace TrumpSoftware.WinRT.Mvvm
             var previousPageVM = _history[_currentPageIndex-1];
             if (previousPageVM == null)
                 return;
-            Navigate(previousPageVM, false, true);
+            Navigate(previousPageVM, false);
             _currentPageIndex--;
         }
 
@@ -179,7 +177,7 @@ namespace TrumpSoftware.WinRT.Mvvm
             var nextPageVM = _history[_currentPageIndex+1];
             if (nextPageVM == null)
                 return;
-            Navigate(nextPageVM, false, true);
+            Navigate(nextPageVM, false);
             _currentPageIndex++;
         }
 
@@ -193,7 +191,7 @@ namespace TrumpSoftware.WinRT.Mvvm
             if (_currentPageIndex == 0)
                 return;
             _currentPageIndex = 0;
-            Navigate(firstPageVM, false, false);
+            Navigate(firstPageVM, false);
         }
 
         private void RememberInHistory<TPageVM>(TPageVM pageVM)

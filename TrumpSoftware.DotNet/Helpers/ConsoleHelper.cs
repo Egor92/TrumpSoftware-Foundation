@@ -8,6 +8,7 @@ namespace TrumpSoftware.DotNet.Helpers
         #region Fields
 
         private delegate bool TryParseFunc<T>(string s, out T result);
+
         private const string IntegerParseErrorMessage = "Input text is not integer";
         private const string DoubleParseErrorMessage = "Input text is not double";
 
@@ -63,7 +64,10 @@ namespace TrumpSoftware.DotNet.Helpers
 
         #endregion
 
-        private static T GetValue<T>(TryParseFunc<T> tryParseFunc, Func<T, bool> checkFunc, string parseErrorMessage, string checkErrorMessage)
+        private static T GetValue<T>(TryParseFunc<T> tryParseFunc,
+                                     Func<T, bool> checkFunc,
+                                     string parseErrorMessage,
+                                     string checkErrorMessage)
         {
             if (tryParseFunc == null)
                 throw new ArgumentNullException("tryParseFunc");
@@ -90,6 +94,5 @@ namespace TrumpSoftware.DotNet.Helpers
             } while (!isSuccess);
             return result;
         }
-
     }
 }

@@ -1,52 +1,29 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using TrumpSoftware.Common;
 
 namespace TrumpSoftware.Xaml.Media
 {
-    public class MediaObject : INotifyPropertyChanged
+    public class MediaObject
     {
-        private MediaState _state = MediaState.Stop;
-        private double _volume = 0.5;
-        private double _balance = 0;
+        #region Properties
 
         public Uri Uri { get; private set; }
 
-        public double Volume
-        {
-            get { return _volume; }
-            set { _volume = value; }
-        }
+        public double Volume { get; set; } = 0.5;
 
-        public MediaState State
-        {
-            get { return _state; }
-            private set
-            {
-                if (_state == value)
-                    return;
-                var oldState = _state;
-                _state = value;
-                OnPropertyChanged();
-                RaiseStateChanged(_state, oldState);
-            }
-        }
+        public MediaState State { get; private set; } = MediaState.Stop;
 
-        public double Balance
-        {
-            get { return _balance; }
-            set { _balance = value; }
-        }
+        public double Balance { get; set; } = 0;
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion
 
-        public event PropertyChangedEventHandler<MediaState> StateChanged;
+        #region Ctor
 
         public MediaObject(Uri uri)
         {
             Uri = uri;
         }
+
+        #endregion
 
         public void Play()
         {
@@ -61,20 +38,6 @@ namespace TrumpSoftware.Xaml.Media
         public void Stop()
         {
             State = MediaState.Stop;
-        }
-
-        private void RaiseStateChanged(MediaState newState, MediaState oldState)
-        {
-            var handler = StateChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs<MediaState>(newState, oldState));
-        }
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            var handler = PropertyChanged;
-            if (handler != null)
-                handler(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

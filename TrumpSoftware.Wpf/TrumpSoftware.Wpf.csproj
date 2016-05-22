@@ -185,7 +185,7 @@
       <Link>Interfaces\IHaveConverter.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Media\ColorHelper.cs">
-      <Link>Media\ColorHelper.cs</Link>
+      <Link>Helpers\ColorHelper.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Mvvm\NavigationHost.cs">
       <Link>Mvvm\NavigationHost.cs</Link>
@@ -194,7 +194,6 @@
     <Compile Include="Controls\RowDefinitionExtended.cs" />
     <Compile Include="MarkupExtensions\EnumValuesExtension.cs" />
     <Compile Include="MarkupExtensions\ValueExtension.cs" />
-    <Compile Include="Mvvm\DelegateCommand.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
     <Compile Include="PlatformSpecifics\UIThread.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
