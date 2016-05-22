@@ -6,9 +6,9 @@ using Windows.UI;
 #endif
 
 #if WPF
-namespace TrumpSoftware.Wpf.Media
+namespace TrumpSoftware.Wpf.Helpers
 #elif WINRT
-namespace TrumpSoftware.WinRT.Media
+namespace TrumpSoftware.WinRT.Helpers
 #endif
 {
     public static class ColorHelper

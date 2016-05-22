@@ -2,10 +2,10 @@
 
 #if WPF
 using System.Windows.Media;
-using TrumpSoftware.Wpf.Media;
+using TrumpSoftware.Wpf.Helpers;
 using CultureArgumentType = System.Globalization.CultureInfo;
 #elif WINRT
-using TrumpSoftware.WinRT.Media;
+using TrumpSoftware.WinRT.Helpers;
 using Windows.UI.Xaml.Media;
 using CultureArgumentType = System.String;
 #endif

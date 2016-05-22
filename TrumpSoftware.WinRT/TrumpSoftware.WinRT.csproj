@@ -152,6 +152,9 @@
     <Compile Include="..\TrumpSoftware.Shared\Extensions\TypeExtensions.cs">
       <Link>Extensions\TypeExtensions.cs</Link>
     </Compile>
+    <Compile Include="..\TrumpSoftware.Shared\Helpers\ColorHelper.cs">
+      <Link>Helpers\ColorHelper.cs</Link>
+    </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Helpers\ObjectHelper.cs">
       <Link>Helpers\ObjectHelper.cs</Link>
     </Compile>
@@ -163,9 +166,6 @@
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Interfaces\IHaveConverter.cs">
       <Link>Interfaces\IHaveConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Media\ColorHelper.cs">
-      <Link>Helpers\ColorHelper.cs</Link>
     </Compile>
     <Compile Include="..\TrumpSoftware.Shared\Mvvm\NavigationHost.cs">
       <Link>Mvvm\NavigationHost.cs</Link>
