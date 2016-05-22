@@ -46,7 +46,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Collections\Controllers\CollectionController.cs" />
+    <Compile Include="Collections\Controllers\RemovableItemsController.cs" />
     <Compile Include="Collections\Controllers\CollectionItemsController.cs" />
     <Compile Include="Collections\Controllers\CollectionSynchronizer.cs" />
     <Compile Include="Collections\RemovableItemsCollection.cs" />

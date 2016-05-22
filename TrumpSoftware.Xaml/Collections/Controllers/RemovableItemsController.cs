@@ -6,7 +6,7 @@ using TrumpSoftware.Common.Interfaces;
 
 namespace TrumpSoftware.Xaml.Collections.Controllers
 {
-    public class CollectionController<T> : CollectionItemsController<T>
+    public class RemovableItemsController<T> : CollectionItemsController<T>
         where T : class, IRemovable
     {
         #region Fields
@@ -17,7 +17,7 @@ namespace TrumpSoftware.Xaml.Collections.Controllers
 
         #region Ctor
 
-        public CollectionController(IDefaultFactory<T> defaultFactory, Action<T> itemAddedAction, Action<T> itemRemovedAction)
+        public RemovableItemsController(IDefaultFactory<T> defaultFactory, Action<T> itemAddedAction, Action<T> itemRemovedAction)
             : base(itemAddedAction, itemRemovedAction)
         {
             if (defaultFactory == null)
@@ -25,17 +25,17 @@ namespace TrumpSoftware.Xaml.Collections.Controllers
             _defaultFactory = defaultFactory;
         }
 
-        public CollectionController(Func<T> createNewItemFunc, Action<T> itemAddedAction, Action<T> itemRemovedAction)
+        public RemovableItemsController(Func<T> createNewItemFunc, Action<T> itemAddedAction, Action<T> itemRemovedAction)
             : this(new DefaultFactory<T>(createNewItemFunc), itemAddedAction, itemRemovedAction)
         {
         }
 
-        public CollectionController(IDefaultFactory<T> defaultFactory)
+        public RemovableItemsController(IDefaultFactory<T> defaultFactory)
             : this(defaultFactory, null, null)
         {
         }
 
-        public CollectionController(Func<T> createNewItemFunc)
+        public RemovableItemsController(Func<T> createNewItemFunc)
             : this(createNewItemFunc, null, null)
         {
         }
