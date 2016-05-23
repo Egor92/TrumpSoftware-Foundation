@@ -19,21 +19,27 @@ namespace TrumpSoftware.WinRT.Converters.Cases
 
         #endregion
 
+        #region Properties
+
         public double Min { get; set; }
 
         public double Max { get; set; }
+
         public bool IsMinStrictly { get; set; }
+
         public bool IsMaxStrictly { get; set; }
 
         public object Value { get; set; }
+
+        #endregion
 
         public bool IsMatched(object value)
         {
             double @double;
             if (!ConvertEx.TryConvert(value, out @double))
                 return false;
-            return (IsMinStrictly && Min <= @double || !IsMinStrictly && Min < @double)
-                   && (IsMaxStrictly && Max >= @double || !IsMaxStrictly && Max > @double);
+            return (IsMinStrictly && Min < @double || !IsMinStrictly && Min <= @double)
+                   && (IsMaxStrictly && Max > @double || !IsMaxStrictly && Max >= @double);
         }
     }
 }
