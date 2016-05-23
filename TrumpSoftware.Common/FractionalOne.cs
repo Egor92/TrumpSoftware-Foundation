@@ -1,4 +1,5 @@
 ﻿using System;
+using TrumpSoftware.Common.Extensions;
 using TrumpSoftware.Common.Helpers;
 
 namespace TrumpSoftware.Common
@@ -15,7 +16,7 @@ namespace TrumpSoftware.Common
 
         public FractionalOne(double value = 0)
         {
-            _value = StructHelper.Limit(value, 0.0, 1.0);
+            _value = value.Limit(0.0, 1.0);
         }
 
         public static implicit operator double(FractionalOne fractionalOne)
