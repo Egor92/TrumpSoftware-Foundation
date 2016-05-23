@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrumpSoftware.Common.Extensions;
 
 namespace TrumpSoftware.Common.Helpers
 {
@@ -24,7 +25,7 @@ namespace TrumpSoftware.Common.Helpers
 
         public static bool GetBool(double trueChance = 0.5)
         {
-            trueChance = StructHelper.Limit(trueChance, 0.0, 1.0);
+            trueChance = trueChance.Limit(0.0, 1.0);
             return Random.NextDouble() < trueChance;
         }
 

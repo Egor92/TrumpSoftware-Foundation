@@ -52,7 +52,7 @@
     <Compile Include="Extensions\TimeSpanExtensions.cs" />
     <Compile Include="FractionalOne.cs" />
     <Compile Include="Tree\GluedNode.cs" />
-    <Compile Include="Helpers\StructHelper.cs" />
+    <Compile Include="Extensions\ComparableExtensions.cs" />
     <Compile Include="Hierarchicals\EventsPropagationDirection.cs" />
     <Compile Include="Hierarchicals\HierarchcalEventHandler.cs" />
     <Compile Include="Hierarchicals\HierarchicalEvent.cs" />
