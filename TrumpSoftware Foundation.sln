@@ -38,6 +38,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.Common.Test",
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		TrumpSoftware.Shared\TrumpSoftware.Shared.projitems*{ac4bef4d-5dbb-474f-b214-75afb9b281d0}*SharedItemsImports = 4
+		TrumpSoftware.Shared\TrumpSoftware.Shared.projitems*{dcf6e040-379e-4c4d-ab33-0c075e040355}*SharedItemsImports = 4
 		TrumpSoftware.Shared\TrumpSoftware.Shared.projitems*{ba9ed5fb-a6f4-4926-ad68-5e1ba53aa098}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
