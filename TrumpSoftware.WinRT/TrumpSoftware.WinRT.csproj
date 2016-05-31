@@ -50,126 +50,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\TrumpSoftware.Shared\Controls\UniformGrid.cs">
-      <Link>Controls\UniformGrid.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolConverter.cs">
-      <Link>Converters\BoolConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolConverterBase.cs">
-      <Link>Converters\BoolConverterBase.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolToBrushConverter.cs">
-      <Link>Converters\BoolToBrushConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\BoolToVisibilityConverter.cs">
-      <Link>Converters\BoolToVisibilityConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\ByteArrayToBitmapImageConverter.cs">
-      <Link>Converters\ByteArrayToBitmapImageConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\ContainsValueCase.cs">
-      <Link>Converters\Cases\ContainsValueCase.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\EqualsCase.cs">
-      <Link>Converters\Cases\EqualsCase.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\ICase.cs">
-      <Link>Converters\Cases\ICase.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\RangeCase.cs">
-      <Link>Converters\Cases\RangeCase.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\Cases\TypeCase.cs">
-      <Link>Converters\Cases\TypeCase.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\ChainConverter.cs">
-      <Link>Converters\ChainConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\ChainMultiConverter.cs">
-      <Link>Converters\ChainMultiConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\ConverterDecorator.cs">
-      <Link>Converters\ConverterDecorator.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleMultiplierConverter.cs">
-      <Link>Converters\DoubleMultiplierConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\DoubleToGridLenghtConverter.cs">
-      <Link>Converters\DoubleToGridLenghtConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\Enums\BinaryLogicalOperation.cs">
-      <Link>Converters\Enums\BinaryLogicalOperation.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\GetResxResourceConverter.cs">
-      <Link>Converters\GetResxResourceConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\GetXamlResourceConverter.cs">
-      <Link>Converters\GetXamlResourceConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\HasItemsConverter.cs">
-      <Link>Converters\HasItemsConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\Helpers\ChainConverterHelper.cs">
-      <Link>Converters\Helpers\ChainConverterHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\IChainConverter.cs">
-      <Link>Converters\IChainConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\IChainMultiConverter.cs">
-      <Link>Converters\IChainMultiConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\InvertBoolConverter.cs">
-      <Link>Converters\InvertBoolConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\IsNullConverter.cs">
-      <Link>Converters\IsNullConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\MultiBoolConverter.cs">
-      <Link>Converters\MultiBoolConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\MultiplierConverter.cs">
-      <Link>Converters\MultiplierConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\ObjectToStringConverter.cs">
-      <Link>Converters\ObjectToStringConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\StopIfConverter.cs">
-      <Link>Converters\StopIfConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\StoppableChainConverter.cs">
-      <Link>Converters\StoppableChainConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\StringToBrushConverter.cs">
-      <Link>Converters\StringToBrushConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\StringToGeometryConverter.cs">
-      <Link>Converters\StringToGeometryConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Converters\SwitchConverter.cs">
-      <Link>Converters\SwitchConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Extensions\TypeExtensions.cs">
-      <Link>Extensions\TypeExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Helpers\ColorHelper.cs">
-      <Link>Helpers\ColorHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Helpers\ObjectHelper.cs">
-      <Link>Helpers\ObjectHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Helpers\SelectorHelper.cs">
-      <Link>Helpers\SelectorHelper.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Helpers\VisualTreeHelperExtended.cs">
-      <Link>Helpers\VisualTreeHelperExtended.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Interfaces\IHaveConverter.cs">
-      <Link>Interfaces\IHaveConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\TrumpSoftware.Shared\Mvvm\NavigationHost.cs">
-      <Link>Mvvm\NavigationHost.cs</Link>
-    </Compile>
     <Compile Include="Extensions\FrameworkElementExtensions.cs" />
     <Compile Include="PlatformSpecifics\UIThread.cs" />
     <Compile Include="WindowOrientation.cs" />
@@ -194,6 +74,7 @@
       <HintPath>C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\PresentationFramework.dll</HintPath>
     </Reference>
   </ItemGroup>
+  <Import Project="..\TrumpSoftware.Shared\TrumpSoftware.Shared.projitems" Label="Shared" Condition="Exists('..\TrumpSoftware.Shared\TrumpSoftware.Shared.projitems')" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

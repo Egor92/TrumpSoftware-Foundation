@@ -9,8 +9,6 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #endif
-using TrumpSoftware.Xaml.Mvvm;
-using TrumpSoftware.Xaml.Mvvm.Interfaces;
 using TrumpSoftware.Xaml.Navigation;
 
 #if WPF
