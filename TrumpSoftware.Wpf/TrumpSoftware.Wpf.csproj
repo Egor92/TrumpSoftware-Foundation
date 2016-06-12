@@ -70,7 +70,12 @@
   <ItemGroup>
     <Compile Include="Commons\BindingProxy.cs" />
     <Compile Include="Controls\RowDefinitionExtended.cs" />
-    <Compile Include="MarkupExtensions\ConverterBinding.cs" />
+    <Compile Include="MarkupExtensions\Bindings\ConverterBinding.cs" />
+    <Compile Include="MarkupExtensions\Bindings\ConverterPropertyInjections\ConverterPropertyInjectionBase.cs" />
+    <Compile Include="MarkupExtensions\Bindings\ConverterPropertyInjections\EqualsCasePropertyInjection.cs" />
+    <Compile Include="MarkupExtensions\Bindings\ConverterPropertyInjections\IConverterPropertyInjection.cs" />
+    <Compile Include="MarkupExtensions\Bindings\ConverterPropertyInjections\CasePropertyInjectionBase.cs" />
+    <Compile Include="MarkupExtensions\Bindings\ValueInjector.cs" />
     <Compile Include="MarkupExtensions\EnumValuesExtension.cs" />
     <Compile Include="MarkupExtensions\ValueExtension.cs" />
     <Compile Include="Helpers\PasswordHelper.cs" />
@@ -92,6 +97,7 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="..\TrumpSoftware.Shared\TrumpSoftware.Shared.projitems" Label="Shared" Condition="Exists('..\TrumpSoftware.Shared\TrumpSoftware.Shared.projitems')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />

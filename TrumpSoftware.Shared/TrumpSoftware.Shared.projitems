@@ -21,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\ICase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ChainConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Enums\BinaryLogicalOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IHaveCasesChainConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\MultiBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ChainMultiConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConverterDecorator.cs" />

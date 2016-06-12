@@ -2,7 +2,7 @@
 using System.Windows.Data;
 using System.Windows.Markup;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TrumpSoftware.Wpf.MarkupExtensions;
+using TrumpSoftware.Wpf.MarkupExtensions.Bindings;
 
 namespace TrumpSoftware.Wpf.Test.MarkupExtensions
 {

@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
 
-namespace TrumpSoftware.Wpf.MarkupExtensions
+namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings
 {
     public class ConverterBindingAdapter : IMultiValueConverter
     {
@@ -24,7 +24,7 @@ namespace TrumpSoftware.Wpf.MarkupExtensions
             var resultValue = values[0];
             if (Converter != null)
             {
-                resultValue= Converter.Convert(values[0], targetType, converterParameter, culture);
+                resultValue = Converter.Convert(values[0], targetType, converterParameter, culture);
             }
 
             return resultValue;
