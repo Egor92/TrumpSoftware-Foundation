@@ -1,24 +1,38 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using System.Windows.Data;
 using System.Windows.Markup;
+using TrumpSoftware.Wpf.MarkupExtensions.Bindings.ConverterPropertyInjections;
 
 namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings
 {
     public class ConverterBindingAdapter : IMultiValueConverter
     {
         public IValueConverter Converter { get; set; }
-
         public object ConverterParameter { get; set; }
+        public bool HasConverterParameterBinding { get; set; }
+        public IList<ValueInjector> ValueInjectors { get; set; }
 
         #region Implementation of IMultiValueConverter
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            int valueInjectorsIndex = 1;
+
             var converterParameter = ConverterParameter;
-            if (values.Length > 1)
+            if (HasConverterParameterBinding)
             {
-                converterParameter = values[2];
+                valueInjectorsIndex++;
+                converterParameter = values[1];
+            }
+
+            for (int i = 0; i < ValueInjectors.Count; i++)
+            {
+                var valueInjector = ValueInjectors[i];
+                var value = values[valueInjectorsIndex + i];
+                valueInjector.Inject(value);
             }
 
             var resultValue = values[0];
@@ -32,7 +46,7 @@ namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            return new[]
+           return new[]
             {
                 Converter.ConvertBack(value, targetTypes[0], null, culture)
             };
@@ -41,6 +55,7 @@ namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings
         #endregion
     }
 
+    [ContentProperty("PropertyInjections")]
     public class ConverterBinding : MarkupExtension
     {
         public Binding Binding { get; set; }
@@ -48,6 +63,7 @@ namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings
         public object ConverterParameter { get; set; }
         public Binding ConverterParameterBinding { get; set; }
         public UpdateSourceTrigger UpdateSourceTrigger { get; set; } = UpdateSourceTrigger.Default;
+        public IList<IConverterPropertyInjection> PropertyInjections { get; private set; } = new List<IConverterPropertyInjection>();
 
         public override object ProvideValue(IServiceProvider serviceProvider)
         {
@@ -59,14 +75,30 @@ namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings
                 UpdateSourceTrigger = UpdateSourceTrigger
             };
 
+            bool hasConverterParameterBinding = false;
             multiBinding.Bindings.Add(Binding);
             if (ConverterParameterBinding != null)
+            {
+                hasConverterParameterBinding = true;
                 multiBinding.Bindings.Add(ConverterParameterBinding);
+            }
+
+            IList<ValueInjector> valueInjectors = new List<ValueInjector>();
+            if (Converter != null)
+            {
+                valueInjectors = PropertyInjections.SelectMany(x => x.GetInjectors(Converter)).ToList();
+                foreach (var valueInjector in valueInjectors)
+                {
+                    multiBinding.Bindings.Add(valueInjector.Binding);
+                }
+            }
 
             var adapter = new ConverterBindingAdapter
             {
                 Converter = Converter,
-                ConverterParameter = ConverterParameter
+                ConverterParameter = ConverterParameter,
+                HasConverterParameterBinding = hasConverterParameterBinding,
+                ValueInjectors = valueInjectors,
             };
 
             multiBinding.Converter = adapter;
