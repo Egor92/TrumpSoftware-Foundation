@@ -72,6 +72,7 @@
     <Compile Include="Controls\RowDefinitionExtended.cs" />
     <Compile Include="MarkupExtensions\Bindings\ConverterBinding.cs" />
     <Compile Include="MarkupExtensions\Bindings\Injections\ConverterPropertyInjectionBase.cs" />
+    <Compile Include="MarkupExtensions\Bindings\Injections\TypeCasePropertyInjection.cs" />
     <Compile Include="MarkupExtensions\Bindings\Injections\RangeCasePropertyInjection.cs" />
     <Compile Include="MarkupExtensions\Bindings\Injections\EqualsCasePropertyInjection.cs" />
     <Compile Include="MarkupExtensions\Bindings\Injections\IConverterPropertyInjection.cs" />

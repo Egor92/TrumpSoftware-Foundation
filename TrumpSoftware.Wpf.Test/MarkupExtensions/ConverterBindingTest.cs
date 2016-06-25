@@ -97,6 +97,30 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         }
 
         #endregion
+
+        #region IsStrictly
+
+        private bool _isStrictly;
+
+        public bool IsStrictly
+        {
+            get { return _isStrictly; }
+            set { this.RaiseAndSetIfChanged(ref _isStrictly, value); }
+        }
+
+        #endregion
+
+        #region Type
+
+        private Type _type;
+
+        public Type Type
+        {
+            get { return _type; }
+            set { this.RaiseAndSetIfChanged(ref _type, value); }
+        }
+
+        #endregion
     }
 
     [TestClass]
@@ -177,7 +201,9 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
             viewModel.Key = new object();
             viewModel.Value = new object();
 
-            Assert.AreEqual(viewModel.Key, ((EqualsCase) converter.Cases[0]).Key, "key");
+            var @case = (EqualsCase) converter.Cases[0];
+
+            Assert.AreEqual(viewModel.Key, @case.Key, "key");
             Assert.AreEqual(viewModel.Value, converter.Cases[0].Value, "value");
         }
 
@@ -216,7 +242,9 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
             viewModel.Key = new object();
             viewModel.Value = new object();
 
-            Assert.AreEqual(viewModel.Key, ((EqualsCase) converter.Cases[1]).Key, "key");
+            var @case = (EqualsCase) converter.Cases[1];
+
+            Assert.AreEqual(viewModel.Key, @case.Key, "key");
             Assert.AreEqual(viewModel.Value, converter.Cases[1].Value, "value");
         }
 
@@ -255,17 +283,62 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
             viewModel.Min = 6.2;
             viewModel.Value = new object();
 
-            Assert.AreEqual(viewModel.IsMaxStrictly, ((RangeCase)converter.Cases[0]).IsMaxStrictly, "IsMaxStrictly (0)");
-            Assert.AreEqual(viewModel.IsMinStrictly, ((RangeCase)converter.Cases[0]).IsMinStrictly, "IsMinStrictly (0)");
-            Assert.AreEqual(viewModel.Max, ((RangeCase)converter.Cases[0]).Max, "Max");
-            Assert.AreEqual(viewModel.Min, ((RangeCase)converter.Cases[0]).Min, "Min");
+            var @case = (RangeCase)converter.Cases[0];
+
+            Assert.AreEqual(viewModel.IsMaxStrictly, @case.IsMaxStrictly, "IsMaxStrictly (0)");
+            Assert.AreEqual(viewModel.IsMinStrictly, @case.IsMinStrictly, "IsMinStrictly (0)");
+            Assert.AreEqual(viewModel.Max, @case.Max, "Max");
+            Assert.AreEqual(viewModel.Min, @case.Min, "Min");
             Assert.AreEqual(viewModel.Value, converter.Cases[0].Value, "value");
 
             viewModel.IsMaxStrictly = false;
             viewModel.IsMinStrictly = false;
 
-            Assert.AreEqual(viewModel.IsMaxStrictly, ((RangeCase)converter.Cases[0]).IsMaxStrictly, "IsMaxStrictly (1)");
-            Assert.AreEqual(viewModel.IsMinStrictly, ((RangeCase)converter.Cases[0]).IsMinStrictly, "IsMinStrictly (1)");
+            Assert.AreEqual(viewModel.IsMaxStrictly, @case.IsMaxStrictly, "IsMaxStrictly (1)");
+            Assert.AreEqual(viewModel.IsMinStrictly, @case.IsMinStrictly, "IsMinStrictly (1)");
+        }
+
+
+        [TestMethod]
+        public void CanBindTypeCaseProperties()
+        {
+            var converter = Parse<SwitchConverter>(@"
+<converters:SwitchConverter>
+    <cases:TypeCase />
+</converters:SwitchConverter>
+");
+
+            var converterBinding = new ConverterBinding()
+            {
+                Binding = new Binding("DirectValue"),
+                Converter = converter
+            };
+            converterBinding.PropertyInjections.AddRange(new IConverterPropertyInjection[]
+            {
+                new TypeCasePropertyInjection()
+                {
+                    TypeBinding = new Binding("Type"),
+                    IsStrictlyBinding = new Binding("IsStrictly"),
+                    ValueBinding = new Binding("Value"),
+                }
+            });
+
+            var control = GetControl(converterBinding);
+            var viewModel = (ViewModel) control.DataContext;
+
+            viewModel.Type = typeof(ViewModel);
+            viewModel.IsStrictly = true;
+            viewModel.Value = new object();
+
+            var @case = (TypeCase)converter.Cases[0];
+
+            Assert.AreEqual(viewModel.Type, @case.Type, "Type");
+            Assert.AreEqual(viewModel.IsStrictly, @case.IsStrictly, "IsStrictly (0)");
+            Assert.AreEqual(viewModel.Value, converter.Cases[0].Value, "value");
+
+            viewModel.IsStrictly = false;
+
+            Assert.AreEqual(viewModel.IsStrictly, @case.IsStrictly, "IsStrictly (1)");
         }
 
         private static ContentControl GetControl(ConverterBinding converterBinding)
