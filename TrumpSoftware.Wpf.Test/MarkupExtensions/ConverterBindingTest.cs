@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
@@ -121,6 +122,18 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         }
 
         #endregion
+
+        #region Default
+
+        private object _default;
+
+        public object Default
+        {
+            get { return _default; }
+            set { this.RaiseAndSetIfChanged(ref _default, value); }
+        }
+
+        #endregion
     }
 
     [TestClass]
@@ -166,10 +179,9 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
             var control = GetControl(converterBinding);
             var viewModel = (ViewModel) control.DataContext;
 
-            const double directValue = 5.6;
-            viewModel.DirectValue = directValue;
+            viewModel.DirectValue = new object();
 
-            Assert.AreEqual(directValue, control.Content);
+            Assert.AreEqual(viewModel.DirectValue, control.Content);
         }
 
         [TestMethod]
@@ -203,8 +215,8 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
 
             var @case = (EqualsCase) converter.Cases[0];
 
-            Assert.AreEqual(viewModel.Key, @case.Key, "key");
-            Assert.AreEqual(viewModel.Value, converter.Cases[0].Value, "value");
+            AssertAreEqual(viewModel, @case, "Key");
+            AssertAreEqual(viewModel, @case, "Value");
         }
 
         [TestMethod]
@@ -244,8 +256,8 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
 
             var @case = (EqualsCase) converter.Cases[1];
 
-            Assert.AreEqual(viewModel.Key, @case.Key, "key");
-            Assert.AreEqual(viewModel.Value, converter.Cases[1].Value, "value");
+            AssertAreEqual(viewModel, @case, "Key");
+            AssertAreEqual(viewModel, @case, "Value");
         }
 
         [TestMethod]
@@ -285,19 +297,18 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
 
             var @case = (RangeCase)converter.Cases[0];
 
-            Assert.AreEqual(viewModel.IsMaxStrictly, @case.IsMaxStrictly, "IsMaxStrictly (0)");
-            Assert.AreEqual(viewModel.IsMinStrictly, @case.IsMinStrictly, "IsMinStrictly (0)");
-            Assert.AreEqual(viewModel.Max, @case.Max, "Max");
-            Assert.AreEqual(viewModel.Min, @case.Min, "Min");
-            Assert.AreEqual(viewModel.Value, converter.Cases[0].Value, "value");
+            AssertAreEqual(viewModel, @case, "IsMaxStrictly");
+            AssertAreEqual(viewModel, @case, "IsMinStrictly");
+            AssertAreEqual(viewModel, @case, "Max");
+            AssertAreEqual(viewModel, @case, "Min");
+            AssertAreEqual(viewModel, @case, "Value");
 
             viewModel.IsMaxStrictly = false;
             viewModel.IsMinStrictly = false;
 
-            Assert.AreEqual(viewModel.IsMaxStrictly, @case.IsMaxStrictly, "IsMaxStrictly (1)");
-            Assert.AreEqual(viewModel.IsMinStrictly, @case.IsMinStrictly, "IsMinStrictly (1)");
+            AssertAreEqual(viewModel, @case, "IsMaxStrictly");
+            AssertAreEqual(viewModel, @case, "IsMinStrictly");
         }
-
 
         [TestMethod]
         public void CanBindTypeCaseProperties()
@@ -332,13 +343,41 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
 
             var @case = (TypeCase)converter.Cases[0];
 
-            Assert.AreEqual(viewModel.Type, @case.Type, "Type");
-            Assert.AreEqual(viewModel.IsStrictly, @case.IsStrictly, "IsStrictly (0)");
-            Assert.AreEqual(viewModel.Value, converter.Cases[0].Value, "value");
+            AssertAreEqual(viewModel, @case, "Type");
+            AssertAreEqual(viewModel, @case, "IsStrictly");
+            AssertAreEqual(viewModel, @case, "Value");
 
             viewModel.IsStrictly = false;
 
-            Assert.AreEqual(viewModel.IsStrictly, @case.IsStrictly, "IsStrictly (1)");
+            AssertAreEqual(viewModel, @case, "IsStrictly");
+        }
+
+        [TestMethod]
+        public void CanBindSwitchConverterProperties()
+        {
+            var converter = Parse<SwitchConverter>(@"
+<converters:SwitchConverter />
+");
+
+            var converterBinding = new ConverterBinding()
+            {
+                Binding = new Binding("DirectValue"),
+                Converter = converter
+            };
+            converterBinding.PropertyInjections.AddRange(new IConverterPropertyInjection[]
+            {
+                new SwitchConverterPropertyInjection()
+                {
+                    DefaultBinding = new Binding("Default"),
+                }
+            });
+
+            var control = GetControl(converterBinding);
+            var viewModel = (ViewModel) control.DataContext;
+
+            viewModel.Default = new object();
+
+            AssertAreEqual(viewModel, converter, "Default");
         }
 
         private static ContentControl GetControl(ConverterBinding converterBinding)
@@ -367,6 +406,20 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
             parserContext.XmlnsDictionary.Add("wpf", @"clr-namespace:TrumpSoftware.Wpf;assembly=TrumpSoftware.Wpf");
 
             return (T) XamlReader.Parse(xaml, parserContext);
+        }
+
+        private void AssertAreEqual(object source, object target, string propertyName)
+        {
+            var expected = GetPropertyValue(source, propertyName);
+            var actual = GetPropertyValue(target, propertyName);
+            Assert.AreEqual(expected, actual, propertyName);
+        }
+
+        private object GetPropertyValue(object source, string propertyName)
+        {
+            var type = source.GetType();
+            var propertyInfo = type.GetProperty(propertyName);
+            return propertyInfo.GetValue(source, null);
         }
     }
 }
