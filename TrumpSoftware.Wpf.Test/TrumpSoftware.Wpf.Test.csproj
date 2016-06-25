@@ -90,6 +90,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\TrumpSoftware.Common\TrumpSoftware.Common.csproj">
+      <Project>{63e0f799-f0b6-4e21-8c5b-7a0a779f13c7}</Project>
+      <Name>TrumpSoftware.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TrumpSoftware.Wpf\TrumpSoftware.Wpf.csproj">
       <Project>{DCF6E040-379E-4C4D-AB33-0C075E040355}</Project>
       <Name>TrumpSoftware.Wpf</Name>

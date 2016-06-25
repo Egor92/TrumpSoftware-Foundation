@@ -48,5 +48,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelperExtended.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHaveConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Booleans.cs" />
   </ItemGroup>
 </Project>

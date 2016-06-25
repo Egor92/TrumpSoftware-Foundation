@@ -71,10 +71,11 @@
     <Compile Include="Commons\BindingProxy.cs" />
     <Compile Include="Controls\RowDefinitionExtended.cs" />
     <Compile Include="MarkupExtensions\Bindings\ConverterBinding.cs" />
-    <Compile Include="MarkupExtensions\Bindings\ConverterPropertyInjections\ConverterPropertyInjectionBase.cs" />
-    <Compile Include="MarkupExtensions\Bindings\ConverterPropertyInjections\EqualsCasePropertyInjection.cs" />
-    <Compile Include="MarkupExtensions\Bindings\ConverterPropertyInjections\IConverterPropertyInjection.cs" />
-    <Compile Include="MarkupExtensions\Bindings\ConverterPropertyInjections\CasePropertyInjectionBase.cs" />
+    <Compile Include="MarkupExtensions\Bindings\Injections\ConverterPropertyInjectionBase.cs" />
+    <Compile Include="MarkupExtensions\Bindings\Injections\RangeCasePropertyInjection.cs" />
+    <Compile Include="MarkupExtensions\Bindings\Injections\EqualsCasePropertyInjection.cs" />
+    <Compile Include="MarkupExtensions\Bindings\Injections\IConverterPropertyInjection.cs" />
+    <Compile Include="MarkupExtensions\Bindings\Injections\CasePropertyInjectionBase.cs" />
     <Compile Include="MarkupExtensions\Bindings\ValueInjector.cs" />
     <Compile Include="MarkupExtensions\EnumValuesExtension.cs" />
     <Compile Include="MarkupExtensions\ValueExtension.cs" />

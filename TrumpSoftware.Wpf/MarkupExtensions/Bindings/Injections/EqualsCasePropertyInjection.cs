@@ -2,12 +2,11 @@
 using System.Windows.Data;
 using TrumpSoftware.Wpf.Converters.Cases;
 
-namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings.ConverterPropertyInjections
+namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings.Injections
 {
     public class EqualsCasePropertyInjection : CasePropertyInjectionBase<EqualsCase>
     {
         public Binding KeyBinding { get; set; }
-
         public Binding ValueBinding { get; set; }
 
         protected override IEnumerable<ValueInjector> GetInjectors(EqualsCase @case)

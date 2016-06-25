@@ -2,12 +2,12 @@
 using System.Windows.Data;
 using TrumpSoftware.Wpf.Converters;
 
-namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings.ConverterPropertyInjections
+namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings.Injections
 {
     public abstract class ConverterPropertyInjectionBase<TConverter> : IConverterPropertyInjection
         where TConverter : class, IChainConverter
     {
-        public int Depth { get; set; }
+        public int Level { get; set; }
 
         public IEnumerable<ValueInjector> GetInjectors(IValueConverter converter)
         {
@@ -29,7 +29,7 @@ namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings.ConverterPropertyInjection
             var targetConverter = GetTargetConverter(converter);
             if (targetConverter != null)
             {
-                if (Depth == matchCount)
+                if (Level == matchCount)
                 {
                     return GetInjectors(targetConverter);
                 }

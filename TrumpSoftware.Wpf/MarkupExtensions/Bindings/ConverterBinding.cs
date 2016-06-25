@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 using System.Windows.Markup;
-using TrumpSoftware.Wpf.MarkupExtensions.Bindings.ConverterPropertyInjections;
+using TrumpSoftware.Wpf.MarkupExtensions.Bindings.Injections;
 
 namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings
 {
@@ -19,6 +20,9 @@ namespace TrumpSoftware.Wpf.MarkupExtensions.Bindings
 
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values.Any(x => x == DependencyProperty.UnsetValue))
+                return DependencyProperty.UnsetValue;
+
             int valueInjectorsIndex = 1;
 
             var converterParameter = ConverterParameter;
