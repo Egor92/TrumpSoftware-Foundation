@@ -1,19 +1,24 @@
-﻿using System;
+﻿using TrumpSoftware.Common.Extensions;
+using System.Linq;
+using System;
 using System.Collections.Generic;
 #if WPF
 using System.Windows;
 using System.Windows.Media;
+
 #elif WINRT
 using TrumpSoftware.WinRT.Extensions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
+
 #endif
 
 #if WPF
-namespace TrumpSoftware.Wpf
+
+namespace TrumpSoftware.Wpf.Helpers
 #elif WINRT
 
-namespace TrumpSoftware.WinRT
+namespace TrumpSoftware.WinRT.Helpers
 #endif
 {
     public static class VisualTreeHelperExtended
@@ -42,7 +47,9 @@ namespace TrumpSoftware.WinRT
             return GetAncestor<T>(source, x => false, includingItself);
         }
 
-        public static T GetAncestor<T>(this DependencyObject source, Func<DependencyObject, bool> abortCondition, bool includingItself = false)
+        public static T GetAncestor<T>(this DependencyObject source,
+                                       Func<DependencyObject, bool> abortCondition,
+                                       bool includingItself = false)
             where T : DependencyObject
         {
             return (T) source.GetAncestor(typeof (T), abortCondition, includingItself);
@@ -50,26 +57,32 @@ namespace TrumpSoftware.WinRT
 
         public static DependencyObject GetAncestor(this DependencyObject source, Type ancestorType, bool includingItself = false)
         {
-            return GetAncestor(source, ancestorType, null, includingItself);
+            return source.GetAncestor(ancestorType, null, includingItself);
         }
 
-        public static DependencyObject GetAncestor(this DependencyObject source, Type ancestorType, Func<DependencyObject, bool> abortCondition, bool includingItself = false)
+        public static DependencyObject GetAncestor(this DependencyObject source,
+                                                   Type ancestorType,
+                                                   Func<DependencyObject, bool> abortCondition,
+                                                   bool includingItself = false)
         {
             if (!typeof (DependencyObject).IsAssignableFrom(ancestorType))
                 throw new ArgumentException("AncestorType must be assignable to 'System.Windows.DependencyObject'", "ancestorType");
+
+            abortCondition = abortCondition ?? (x => false);
+            if (abortCondition(source))
+                return null;
+
             if (includingItself)
             {
                 if (ancestorType.IsInstanceOfType(source))
                     return source;
             }
+
             var parent = source.GetParent();
             if (parent == null)
                 return null;
-            if (abortCondition != null && abortCondition(parent))
-                return null;
-            if (ancestorType.IsInstanceOfType(parent))
-                return parent;
-            return GetAncestor(parent, ancestorType, abortCondition);
+
+            return parent.GetAncestor(ancestorType, abortCondition, true);
         }
 
         public static IEnumerable<T> GetDescendants<T>(this DependencyObject source, bool includingItself = false)
@@ -83,64 +96,73 @@ namespace TrumpSoftware.WinRT
         {
             if (source == null)
                 throw new ArgumentNullException("source");
+
             condition = condition ?? (x => true);
-            var results = new List<T>();
+            var descendants = new List<T>();
+
             if (includingItself)
             {
                 var t = source as T;
                 if (t != null && (condition(t)))
-                    results.Add(t);
+                    descendants.Add(t);
             }
-            FindDescendants(source, condition, results);
-            return results;
+
+            CollectDescendants(source, condition, descendants);
+            return descendants;
         }
 
-        private static void FindDescendants<T>(this DependencyObject source, Func<T, bool> condition, ICollection<T> results)
+        private static void CollectDescendants<T>(this DependencyObject source, Func<T, bool> condition, ICollection<T> descendants)
             where T : DependencyObject
         {
-            condition = condition ?? (x => true);
-            var childrenCount = VisualTreeHelper.GetChildrenCount(source);
-            for (int i = 0; i < childrenCount; i++)
+            var children = source.GetChildren();
+
+            var targetDescendants = children.OfType<T>().Where(condition);
+            descendants.AddRange(targetDescendants);
+
+            foreach (var child in children)
             {
-                var child = VisualTreeHelper.GetChild(source, i);
-                var t = child as T;
-                if (t != null && (condition(t)))
-                    results.Add(t);
-                FindDescendants(child, condition, results);
+                CollectDescendants(child, condition, descendants);
             }
         }
 
-        public static T GetFirstDescendant<T>(this DependencyObject source, Func<T, bool> condition, int maxNestingLevel, bool includingItself = false)
+        public static T GetFirstDescendant<T>(this DependencyObject source,
+                                              Func<T, bool> condition,
+                                              int maxNestingLevel,
+                                              bool includingItself = false)
             where T : DependencyObject
         {
             if (source == null)
                 throw new ArgumentNullException("source");
+
             condition = condition ?? (x => true);
+
             if (includingItself)
             {
                 maxNestingLevel--;
-                var t = source as T;
-                if (t != null && (condition(t)))
-                    return t;
+                var targetDescendant = source as T;
+                if (targetDescendant != null && (condition(targetDescendant)))
+                    return targetDescendant;
             }
+
+            maxNestingLevel--;
             if (maxNestingLevel < 0)
                 return null;
+
+            return source.GetChildren()
+                         .Select(x => x.GetFirstDescendant(condition, maxNestingLevel, true))
+                         .FirstOrDefault(x => x != null);
+        }
+
+        public static IEnumerable<DependencyObject> GetChildren(this DependencyObject source)
+        {
+            if (source == null)
+                throw new ArgumentNullException("source");
+
             var childrenCount = VisualTreeHelper.GetChildrenCount(source);
             for (int i = 0; i < childrenCount; i++)
             {
-                var child = VisualTreeHelper.GetChild(source, i);
-                var t = child as T;
-                if (t != null && (condition(t)))
-                    return t;
+                yield return VisualTreeHelper.GetChild(source, i);
             }
-            for (int i = 0; i < childrenCount; i++)
-            {
-                var child = VisualTreeHelper.GetChild(source, i);
-                var descendant = GetFirstDescendant(child, condition, maxNestingLevel--);
-                if (descendant != null)
-                    return descendant;
-            }
-            return null;
         }
     }
 }
