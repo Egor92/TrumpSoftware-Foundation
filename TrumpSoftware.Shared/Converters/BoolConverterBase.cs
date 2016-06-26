@@ -1,6 +1,6 @@
-﻿using System;
+﻿using TrumpSoftware.Common;
+using System;
 #if WPF
-using System.Globalization;
 using CultureArgumentType = System.Globalization.CultureInfo;
 #elif WINRT
 using CultureArgumentType = System.String;
@@ -14,46 +14,25 @@ namespace TrumpSoftware.WinRT.Converters
 {
     public abstract class BoolConverterBase<T> : ChainConverter<bool,T>
     {
-        private bool _isTrueValueInitialized;
-        private bool _isFalseValueInitialized;
-        private T _trueValue;
-        private T _falseValue;
+        #region TrueValue
+
+        private readonly Instance<T> _trueValueInstance = new Instance<T>();
 
         public T TrueValue
         {
             get
             {
-                if (!_isTrueValueInitialized)
+                if (!_trueValueInstance.IsInitialized)
                 {
-                    _trueValue = GetDefaultTrueValue();
-                    _isTrueValueInitialized = true;
+                    var defaultTrueValue = GetDefaultTrueValue();
+                    _trueValueInstance.SetValue(defaultTrueValue);
                 }
-                return _trueValue;
-
-            }
-            set 
-            { 
-                _trueValue = value;
-                _isTrueValueInitialized = true;
-            }
-        }
-
-        public T FalseValue
-        {
-            get
-            {
-                if (!_isFalseValueInitialized)
-                {
-                    _falseValue = GetDefaultFalseValue();
-                    _isFalseValueInitialized = true;
-                }
-                return _falseValue;
+                return _trueValueInstance.Value;
 
             }
             set
             {
-                _falseValue = value;
-                _isFalseValueInitialized = true;
+                _trueValueInstance.SetValue(value);
             }
         }
 
@@ -62,10 +41,37 @@ namespace TrumpSoftware.WinRT.Converters
             return default (T);
         }
 
+        #endregion
+
+        #region FalseValue
+
+        private readonly Instance<T> _falseValueInstance = new Instance<T>();
+
+        public T FalseValue
+        {
+            get
+            {
+                if (!_falseValueInstance.IsInitialized)
+                {
+                    var defaultFalseValue = GetDefaultFalseValue();
+                    _falseValueInstance.SetValue(defaultFalseValue);
+                }
+                return _falseValueInstance.Value;
+            }
+            set
+            {
+                _falseValueInstance.SetValue(value);
+            }
+        }
+
         protected virtual T GetDefaultFalseValue()
         {
             return default (T);
         }
+
+        #endregion
+
+        #region Overridden members
 
         protected override sealed T Convert(bool value, Type targetType, object parameter, CultureArgumentType cultureArgument)
         {
@@ -76,6 +82,8 @@ namespace TrumpSoftware.WinRT.Converters
         {
             return ConvertToBool(value);
         }
+
+        #endregion
 
         private T ConvertFromBool(bool value)
         {

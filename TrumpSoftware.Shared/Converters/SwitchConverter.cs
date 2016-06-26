@@ -22,7 +22,7 @@ namespace TrumpSoftware.WinRT.Converters
 #elif WINRT
     [ContentProperty(Name = "Cases")]
 #endif
-    public class SwitchConverter : ChainConverter<object, object>
+    public class SwitchConverter : ChainConverter<object, object>, IHaveCasesChainConverter
     {
         public SwitchConverter()
         {

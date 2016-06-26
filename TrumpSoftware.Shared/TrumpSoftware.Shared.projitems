@@ -10,7 +10,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Controls\UniformGrid.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolConverterBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToBrushConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\BoolToVisibilityConverter.cs" />
@@ -22,6 +21,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Cases\ICase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ChainConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Enums\BinaryLogicalOperation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converters\IHaveCasesChainConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\MultiBoolConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ChainMultiConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\ConverterDecorator.cs" />
@@ -29,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\DoubleToGridLenghtConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\GetResxResourceConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\GetXamlResourceConverter.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\HasItemsConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\Helpers\ChainConverterHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IChainConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converters\IChainMultiConverter.cs" />
@@ -49,5 +48,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelperExtended.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHaveConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationHost.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Booleans.cs" />
   </ItemGroup>
 </Project>

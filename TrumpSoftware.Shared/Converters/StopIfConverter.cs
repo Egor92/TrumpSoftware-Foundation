@@ -22,7 +22,7 @@ namespace TrumpSoftware.WinRT.Converters
 #elif WINRT
     [ContentProperty(Name = "Cases")]
 #endif
-    public class StopIfConverter : StoppableChainConverter<object, object>
+    public class StopIfConverter : StoppableChainConverter<object, object>, IHaveCasesChainConverter
     {
         public StopIfConverter()
         {

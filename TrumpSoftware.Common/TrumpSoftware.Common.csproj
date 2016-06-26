@@ -39,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Instance.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Tests\AsyncAssert.cs" />
     <Compile Include="DefaultFactory.cs" />
