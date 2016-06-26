@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Markup;
@@ -8,6 +7,7 @@ using ReactiveUI;
 using TrumpSoftware.Common.Extensions;
 using TrumpSoftware.Wpf.Converters;
 using TrumpSoftware.Wpf.Converters.Cases;
+using TrumpSoftware.Wpf.Interfaces;
 using TrumpSoftware.Wpf.MarkupExtensions.Bindings;
 using TrumpSoftware.Wpf.MarkupExtensions.Bindings.Injections;
 
@@ -185,6 +185,49 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         }
 
         [TestMethod]
+        public void CanUseLevelInConverterPropertyInjection()
+        {
+            var converter = Parse<SwitchConverter>(@"
+<converters:SwitchConverter>
+    <converters:SwitchConverter.Converter>
+        <converters:SwitchConverter>
+            <converters:SwitchConverter.Converter>
+                <converters:SwitchConverter>
+                    <converters:SwitchConverter.Converter>
+                        <converters:SwitchConverter />
+                    </converters:SwitchConverter.Converter>
+                </converters:SwitchConverter>
+            </converters:SwitchConverter.Converter>
+        </converters:SwitchConverter>
+    </converters:SwitchConverter.Converter>
+</converters:SwitchConverter>
+");
+
+            var converterBinding = new ConverterBinding()
+            {
+                Binding = new Binding("DirectValue"),
+                Converter = converter
+            };
+            converterBinding.PropertyInjections.AddRange(new IConverterPropertyInjection[]
+            {
+                new SwitchConverterPropertyInjection()
+                {
+                    Level = 2,
+                    DefaultBinding = new Binding("Default"),
+                }
+            });
+
+            var control = GetControl(converterBinding);
+            var viewModel = (ViewModel) control.DataContext;
+
+            viewModel.Default = new object();
+
+            var thirdConverter = ((IHaveConverter)((IHaveConverter)converter).Converter).Converter;
+
+            AssertAreEqual(viewModel, thirdConverter, "Default");
+        }
+
+        [TestMethod]
         public void CanBindEqualsCaseProperties()
         {
             var converter = Parse<SwitchConverter>(@"
@@ -220,7 +263,7 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         }
 
         [TestMethod]
-        public void CanBindToSecondCaseProperty()
+        public void CaseUseCaseIndexInPropertyInjection()
         {
             var converter = Parse<SwitchConverter>(@"
 <converters:SwitchConverter>
