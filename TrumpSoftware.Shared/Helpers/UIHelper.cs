@@ -118,10 +118,9 @@ namespace TrumpSoftware.WinRT.Helpers
             return parent.GetAncestor(ancestorType, targetElementCondition, abortCondition, true);
         }
 
-        #region 
-
-
         #endregion
+
+        #region GetAncestors methods
 
         public static ICollection<T> GetAncestors<T>(this DependencyObject source,
                                                      Func<T, bool> targetElementCondition,

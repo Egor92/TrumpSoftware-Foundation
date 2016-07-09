@@ -21,26 +21,25 @@ namespace TrumpSoftware.Wpf.Test
             ParserContext.XmlnsDictionary.Add("wpf", @"clr-namespace:TrumpSoftware.Wpf;assembly=TrumpSoftware.Wpf");
         }
 
-        internal static T Parse<T>(string xaml, bool toLoad = true)
+        internal static T Parse<T>(string xaml, bool toArrange = true)
         {
             var element = (T)XamlReader.Parse(xaml, ParserContext);
-            if (toLoad)
+            if (toArrange)
             {
-                LoadElement(element);
+                ArrangeElement(element);
             }
+
             return element;
         }
 
-        private static void LoadElement<T>(T element)
+        private static void ArrangeElement<T>(T element)
         {
-            var window = new Window
-            {
-                Content = element,
-                Visibility = Visibility.Collapsed,
-            };
-            window.Show();
-            window.Hide();
-            window.Content = null;
+            var frameworkElement = element as FrameworkElement;
+            if (frameworkElement == null)
+                return;
+
+            var rect = new Rect(new Size(1, 1));
+            frameworkElement.Arrange(rect);
         }
     }
 }
