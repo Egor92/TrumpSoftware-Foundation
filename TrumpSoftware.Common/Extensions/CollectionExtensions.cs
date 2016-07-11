@@ -67,9 +67,10 @@ namespace TrumpSoftware.Common.Extensions
 
             var oldAndNewItemPairsToUpdate = new Dictionary<TItem, TNewItem>();
             if (updateItemAction != null)
-                oldAndNewItemPairsToUpdate =
-                    newItemsByKey.Where(x => oldItemsByKey.Keys.Contains(x.Key))
-                                 .ToDictionary(x => oldItemsByKey[x.Key], x => x.Value));
+            {
+                oldAndNewItemPairsToUpdate = newItemsByKey.Where(x => oldItemsByKey.Keys.Contains(x.Key))
+                                                          .ToDictionary(x => oldItemsByKey[x.Key], x => x.Value);
+            }
 
             sourceItems.RemoveRange(itemsToDelete);
             sourceItems.AddRange(itemsToAdd);

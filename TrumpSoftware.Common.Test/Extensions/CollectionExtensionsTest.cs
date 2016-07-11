@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TrumpSoftware.Common.Extensions;
@@ -29,10 +31,11 @@ namespace TrumpSoftware.Common.Test.Extensions
         {
             IList<double> list = Enumerable.Range(0, 10).Select(x => RandomHelper.GetDouble(0.0, 1.0))
                                                  .ToList();
-            list.Sort<double>();
+            var comparer = new CustomComparer<double>(x => -x);
+            list.Sort<double>(comparer);
             for (int i = 0; i < list.Count - 1; i++)
             {
-                if (list[i] > list[i + 1])
+                if (comparer.Compare(list[i], list[i + 1]) > 0)
                 {
                     Assert.Fail();
                 }
