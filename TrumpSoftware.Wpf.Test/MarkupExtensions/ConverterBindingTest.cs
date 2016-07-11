@@ -187,7 +187,7 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         [TestMethod]
         public void CanUseLevelInConverterPropertyInjection()
         {
-            var converter = Parse<SwitchConverter>(@"
+            var converter = XamlParser.Parse<SwitchConverter>(@"
 <converters:SwitchConverter>
     <converters:SwitchConverter.Converter>
         <converters:SwitchConverter>
@@ -230,7 +230,7 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         [TestMethod]
         public void CanBindEqualsCaseProperties()
         {
-            var converter = Parse<SwitchConverter>(@"
+            var converter = XamlParser.Parse<SwitchConverter>(@"
 <converters:SwitchConverter>
     <cases:EqualsCase />
 </converters:SwitchConverter>
@@ -265,7 +265,7 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         [TestMethod]
         public void CaseUseCaseIndexInPropertyInjection()
         {
-            var converter = Parse<SwitchConverter>(@"
+            var converter = XamlParser.Parse<SwitchConverter>(@"
 <converters:SwitchConverter>
     <cases:EqualsCase />
     <cases:EqualsCase>
@@ -306,7 +306,7 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         [TestMethod]
         public void CanBindRangeCaseProperties()
         {
-            var converter = Parse<SwitchConverter>(@"
+            var converter = XamlParser.Parse<SwitchConverter>(@"
 <converters:SwitchConverter>
     <cases:RangeCase />
 </converters:SwitchConverter>
@@ -356,7 +356,7 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         [TestMethod]
         public void CanBindTypeCaseProperties()
         {
-            var converter = Parse<SwitchConverter>(@"
+            var converter = XamlParser.Parse<SwitchConverter>(@"
 <converters:SwitchConverter>
     <cases:TypeCase />
 </converters:SwitchConverter>
@@ -398,7 +398,7 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
         [TestMethod]
         public void CanBindSwitchConverterProperties()
         {
-            var converter = Parse<SwitchConverter>(@"
+            var converter = XamlParser.Parse<SwitchConverter>(@"
 <converters:SwitchConverter />
 ");
 
@@ -433,22 +433,6 @@ namespace TrumpSoftware.Wpf.Test.MarkupExtensions
             BindingOperations.SetBinding(contentControl, ContentControl.ContentProperty, multiBinding);
 
             return contentControl;
-        }
-
-        private static T Parse<T>(string xaml)
-        {
-            var parserContext = new ParserContext();
-            parserContext.XmlnsDictionary.Add("", @"http://schemas.microsoft.com/winfx/2006/xaml/presentation");
-            parserContext.XmlnsDictionary.Add("x", @"http://schemas.microsoft.com/winfx/2006/xaml");
-            parserContext.XmlnsDictionary.Add("system", @"clr-namespace:System;assembly=mscorlib");
-            parserContext.XmlnsDictionary.Add("ex", @"clr-namespace:TrumpSoftware.Wpf.MarkupExtensions.Bindings;assembly=TrumpSoftware.Wpf");
-            parserContext.XmlnsDictionary.Add("converters", @"clr-namespace:TrumpSoftware.Wpf.Converters;assembly=TrumpSoftware.Wpf");
-            parserContext.XmlnsDictionary.Add("cases", @"clr-namespace:TrumpSoftware.Wpf.Converters.Cases;assembly=TrumpSoftware.Wpf");
-            parserContext.XmlnsDictionary.Add("injections", @"clr-namespace:TrumpSoftware.Wpf.MarkupExtensions.Bindings.Injections;assembly=TrumpSoftware.Wpf");
-            parserContext.XmlnsDictionary.Add("local", @"clr-namespace:TrumpSoftware.Wpf.Test.MarkupExtensions;assembly=TrumpSoftware.Wpf.Test");
-            parserContext.XmlnsDictionary.Add("wpf", @"clr-namespace:TrumpSoftware.Wpf;assembly=TrumpSoftware.Wpf");
-
-            return (T) XamlReader.Parse(xaml, parserContext);
         }
 
         private void AssertAreEqual(object source, object target, string propertyName)

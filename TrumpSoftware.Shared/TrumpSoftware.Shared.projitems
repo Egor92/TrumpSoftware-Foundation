@@ -45,7 +45,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ColorHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\ObjectHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SelectorHelper.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Helpers\VisualTreeHelperExtended.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Helpers\UIHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHaveConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationHost.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Booleans.cs" />
