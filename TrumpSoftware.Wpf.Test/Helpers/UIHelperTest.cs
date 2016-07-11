@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -307,7 +308,7 @@ namespace TrumpSoftware.Wpf.Test.Helpers
         }
 
         [TestMethod]
-        public void AbortConditionControlIsInclidedToAncestorsList()
+        public void AbortConditionControlIsInclidedIntoAncestorsList()
         {
             var rootObject = XamlParser.Parse<UIElement>(@"
 <ContentControl>
@@ -330,6 +331,80 @@ namespace TrumpSoftware.Wpf.Test.Helpers
             var targetAcestors = targetElement.GetAncestors<Border>(null, abortCondition, true);
 
             Assert.AreEqual(3, targetAcestors.Count);
+        }
+
+        [TestMethod]
+        public void CanGetDescendantsByType()
+        {
+            var rootObject = XamlParser.Parse<UIElement>(@"
+<ContentControl>
+    <Border>
+        <Border>
+            <Border>
+                <ContentControl>
+                    <Border />
+                </ContentControl>
+            </Border>
+        </Border>
+    </Border>
+</ContentControl>
+            ");
+            var borders = rootObject.GetDescendants<Border>().ToList();
+            Assert.AreEqual(4, borders.Count);
+        }
+
+        [TestMethod]
+        public void CanGetDescendantsIncludingItself()
+        {
+            var rootObject = XamlParser.Parse<UIElement>(@"
+<Border>
+    <Border>
+        <Border>
+            <Border>
+                <Border />
+            </Border>
+        </Border>
+    </Border>
+</Border>
+            ");
+            var borders = rootObject.GetDescendants<Border>(true).ToList();
+            Assert.AreEqual(5, borders.Count);
+        }
+
+        [TestMethod]
+        public void CanGetDescendantsExcludingItself()
+        {
+            var rootObject = XamlParser.Parse<UIElement>(@"
+<Border>
+    <Border>
+        <Border>
+            <Border>
+                <Border />
+            </Border>
+        </Border>
+    </Border>
+</Border>
+            ");
+            var borders = rootObject.GetDescendants<Border>(false).ToList();
+            Assert.AreEqual(4, borders.Count);
+        }
+
+        [TestMethod]
+        public void CanGetDescendantsByCondition()
+        {
+            var rootObject = XamlParser.Parse<UIElement>(@"
+<Border Background='Red'>
+    <Border Background='Green'>
+        <Border Background='Red'>
+            <Border Background='{x:Null}'>
+                <Border Background='Blue' />
+            </Border>
+        </Border>
+    </Border>
+</Border>
+            ");
+            var borders = rootObject.GetDescendants<Border>(x => Equals(x.Background, Brushes.Red), true).ToList();
+            Assert.AreEqual(2, borders.Count);
         }
     }
 }
