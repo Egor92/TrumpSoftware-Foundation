@@ -39,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CustomComparer.cs" />
     <Compile Include="Instance.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Tests\AsyncAssert.cs" />

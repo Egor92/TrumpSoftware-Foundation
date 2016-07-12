@@ -1,42 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrumpSoftware.Common.Interfaces;
 
 namespace TrumpSoftware.Common.Extensions
 {
+    public delegate void UpdateDelegate<in TTarget, in TSource>(TTarget target, TSource source);
+
     public static class CollectionExtensions
     {
-        public static void Sort<T>(this ICollection<T> source, IComparer<T> comparer)
+        public static void Sort<T>(this ICollection<T> collection, IComparer<T> comparer = null)
         {
-            var list = new List<T>(source);
+            comparer = comparer ?? Comparer<T>.Default;
+            var list = new List<T>(collection);
             list.Sort(comparer);
-            source.Clear();
-            foreach (var item in list)
-                source.Add(item);
+            collection.ReplaceItems(list);
         }
 
-        public static void AddRange<T>(this ICollection<T> source, IEnumerable<T> newItems)
+        public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> newItems)
         {
             foreach (var newItem in newItems)
-                source.Add(newItem);
+                collection.Add(newItem);
         }
 
-        public static void RemoveRange<T>(this ICollection<T> source, IEnumerable<T> removingItems)
+        public static void RemoveRange<T>(this ICollection<T> collection, IEnumerable<T> removingItems)
         {
-            foreach (var newItem in removingItems)
-                source.Remove(newItem);
+            foreach (var removingItem in removingItems)
+                collection.Remove(removingItem);
         }
 
-        public static void AddOrRemoveOrUpdate<TItem, TNewItem, TKey>(this ICollection<TItem> source,
+        public static void RemoveIf<T>(this ICollection<T> collection, Func<T, bool> condition)
+        {
+            foreach (var item in collection.Where(condition).ToList())
+            {
+                collection.Remove(item);
+            }
+        }
+
+        public static void AddOrRemoveOrUpdate<TItem, TNewItem, TKey>(this ICollection<TItem> collection,
                                                                       IEnumerable<TNewItem> newItems,
                                                                       Func<TItem, TKey> getItemKey,
                                                                       Func<TNewItem, TKey> getNewItemKey,
                                                                       Func<TNewItem, TItem> getItemFunc,
-                                                                      Action<TItem, TNewItem> updateItemAction,
+                                                                      UpdateDelegate<TItem, TNewItem> updateItemAction,
                                                                       IEqualityComparer<TKey> comparer = null)
         {
-            if (source == null)
-                throw new ArgumentNullException("source");
+            if (collection == null)
+                throw new ArgumentNullException("collection");
             if (getItemKey == null)
                 throw new ArgumentNullException("getItemKey");
             if (getNewItemKey == null)
@@ -45,24 +55,27 @@ namespace TrumpSoftware.Common.Extensions
                 throw new ArgumentNullException("getItemFunc");
 
             comparer = comparer ?? EqualityComparer<TKey>.Default;
-            if ((newItems == null || !newItems.Any()) && source.Any())
+            if ((newItems == null || !newItems.Any()) && collection.Any())
             {
-                source.Clear();
+                collection.Clear();
                 return;
             }
 
-            var oldItemsByKey = source.ToLookup(getItemKey, comparer).ToDictionary(x => x.Key, x => x.FirstOrDefault());
+            var oldItemsByKey = collection.ToLookup(getItemKey, comparer).ToDictionary(x => x.Key, x => x.FirstOrDefault());
             var newItemsByKey = newItems.ToLookup(getNewItemKey, comparer).ToDictionary(x => x.Key, x => x.FirstOrDefault());
 
             var itemsToDelete = oldItemsByKey.Where(x => !newItemsByKey.Keys.Contains(x.Key, comparer)).Select(x => x.Value).ToList();
             var itemsToAdd = newItemsByKey.Where(x => !oldItemsByKey.Keys.Contains(x.Key)).Select(x => getItemFunc(x.Value)).ToList();
 
-            var oldAndNewItemPairsToUpdate = new List<KeyValuePair<TItem, TNewItem>>();
+            var oldAndNewItemPairsToUpdate = new Dictionary<TItem, TNewItem>();
             if (updateItemAction != null)
-                oldAndNewItemPairsToUpdate = newItemsByKey.Where(x => oldItemsByKey.Keys.Contains(x.Key)).Select(x => new KeyValuePair<TItem, TNewItem>(oldItemsByKey[x.Key], x.Value)).ToList();
+            {
+                oldAndNewItemPairsToUpdate = newItemsByKey.Where(x => oldItemsByKey.Keys.Contains(x.Key))
+                                                          .ToDictionary(x => oldItemsByKey[x.Key], x => x.Value);
+            }
 
-            source.RemoveRange(itemsToDelete);
-            source.AddRange(itemsToAdd);
+            collection.RemoveRange(itemsToDelete);
+            collection.AddRange(itemsToAdd);
 
             if (updateItemAction != null)
             {
@@ -78,10 +91,10 @@ namespace TrumpSoftware.Common.Extensions
             }
         }
 
-        public static void AddOrRemoveOrUpdate<TItem, TNewItem>(this ICollection<TItem> source,
+        public static void AddOrRemoveOrUpdate<TItem, TNewItem>(this ICollection<TItem> collection,
                                                                 IEnumerable<TNewItem> newItems,
                                                                 Func<TNewItem, TItem> newItemToOldItemFunc,
-                                                                Action<TItem, TNewItem> updateItemAction,
+                                                                UpdateDelegate<TItem, TNewItem> updateItemAction,
                                                                 IEqualityComparer<TItem> comparer = null)
         {
             Func<TNewItem, TItem> createItemAction = x =>
@@ -90,77 +103,104 @@ namespace TrumpSoftware.Common.Extensions
                 updateItemAction(item, x);
                 return item;
             };
-            AddOrRemoveOrUpdate(source, newItems, x => x, newItemToOldItemFunc, createItemAction, updateItemAction, comparer);
+            AddOrRemoveOrUpdate(collection, newItems, x => x, newItemToOldItemFunc, createItemAction, updateItemAction, comparer);
         }
 
-        public static void AddOrRemoveOrUpdate<T>(this ICollection<T> source,
+        public static void AddOrRemoveOrUpdate<T>(this ICollection<T> collection,
                                                   IEnumerable<T> newItems,
-                                                  Action<T, T> updateItemAction,
+                                                  UpdateDelegate<T, T> updateItemAction,
                                                   IEqualityComparer<T> comparer = null)
         {
-            AddOrRemoveOrUpdate(source, newItems, x => x, updateItemAction, comparer);
+            AddOrRemoveOrUpdate(collection, newItems, x => x, updateItemAction, comparer);
         }
 
-        public static void AddOrRemove<TItem, TNewItem>(this ICollection<TItem> source,
+        public static void AddOrRemoveOrUpdate<TItem, TNewItem, TKey>(this ICollection<TItem> collection,
+                                                                      IEnumerable<TNewItem> newItems,
+                                                                      Func<TItem, TKey> getItemKey,
+                                                                      Func<TNewItem, TKey> getNewItemKey,
+                                                                      Func<TNewItem, TItem> getItemFunc,
+                                                                      IEqualityComparer<TKey> comparer = null)
+            where TItem : IUpdatable<TNewItem>
+        {
+            var updateItemAction = GetUpdateItemAction<TItem, TNewItem>();
+            AddOrRemoveOrUpdate(collection, newItems, getItemKey, getNewItemKey, getItemFunc, updateItemAction, comparer);
+        }
+
+        public static void AddOrRemoveOrUpdate<TItem, TNewItem>(this ICollection<TItem> collection,
+                                                                IEnumerable<TNewItem> newItems,
+                                                                Func<TNewItem, TItem> newItemToOldItemFunc,
+                                                                IEqualityComparer<TItem> comparer = null)
+            where TItem : IUpdatable<TNewItem>
+        {
+            var updateItemAction = GetUpdateItemAction<TItem, TNewItem>();
+            AddOrRemoveOrUpdate(collection, newItems, newItemToOldItemFunc, updateItemAction, comparer);
+        }
+
+        public static void AddOrRemoveOrUpdate<T>(this ICollection<T> collection,
+                                                  IEnumerable<T> newItems,
+                                                  IEqualityComparer<T> comparer = null)
+            where T : IUpdatable<T>
+        {
+            var updateItemAction = GetUpdateItemAction<T, T>();
+            AddOrRemoveOrUpdate(collection, newItems, x => x, updateItemAction, comparer);
+        }
+
+        private static UpdateDelegate<TTarget, TSource> GetUpdateItemAction<TTarget, TSource>()
+            where TTarget : IUpdatable<TSource>
+        {
+            return (target, source) => target.Update(source);
+        }
+
+        public static void AddOrRemove<TItem, TNewItem>(this ICollection<TItem> collection,
                                                         IEnumerable<TNewItem> newItems,
                                                         Func<TNewItem, TItem> getItemFunc,
                                                         IEqualityComparer<TItem> comparer = null)
         {
-            if (source == null)
-                throw new ArgumentNullException("source");
+            if (collection == null)
+                throw new ArgumentNullException("collection");
             if (getItemFunc == null)
                 throw new ArgumentNullException("getItemFunc");
 
             var convertedNewItems = newItems.Select(getItemFunc).ToList();
 
-            var itemsToDelete = source.Except(convertedNewItems, comparer).ToList();
-            var itemsToAdd = convertedNewItems.Except(source, comparer).ToList();
+            var itemsToDelete = collection.Except(convertedNewItems, comparer).ToList();
+            var itemsToAdd = convertedNewItems.Except(collection, comparer).ToList();
 
-            source.RemoveRange(itemsToDelete);
-            source.AddRange(itemsToAdd);
+            collection.RemoveRange(itemsToDelete);
+            collection.AddRange(itemsToAdd);
         }
 
-        public static void AddOrRemove<T>(this ICollection<T> source,
+        public static void AddOrRemove<T>(this ICollection<T> collection,
                                           IEnumerable<T> newItems,
                                           IEqualityComparer<T> comparer = null)
         {
-            AddOrRemove(source, newItems, x => x, comparer);
+            AddOrRemove(collection, newItems, x => x, comparer);
         }
 
-        public static void ReplaceItems<TItem, TNewItem>(this ICollection<TItem> source,
+        public static void ReplaceItems<TItem, TNewItem>(this ICollection<TItem> collection,
                                                          IEnumerable<TNewItem> newItems,
                                                          Func<TNewItem, TItem> createItemAction)
         {
-            if (source == null)
-                throw new ArgumentNullException("source");
+            if (collection == null)
+                throw new ArgumentNullException("collection");
             if (newItems == null)
                 throw new ArgumentNullException("newItems");
             if (createItemAction == null)
                 throw new ArgumentNullException("createItemAction");
 
-            source.Clear();
-            foreach (var newItem in newItems.Select(createItemAction))
-            {
-                source.Add(newItem);
-            }
+            collection.Clear();
+            var convertedNewItems = newItems.Select(createItemAction);
+            collection.AddRange(convertedNewItems);
         }
 
-        public static void ReplaceItems<T>(this ICollection<T> source, IEnumerable<T> newItems)
+        public static void ReplaceItems<T>(this ICollection<T> collection, IEnumerable<T> newItems)
         {
-            if (source == null)
-                throw new ArgumentNullException("source");
+            if (collection == null)
+                throw new ArgumentNullException("collection");
             if (newItems == null)
                 throw new ArgumentNullException("newItems");
 
-            source.ReplaceItems(newItems, x => x);
-        }
-
-        public static void RemoveIf<T>(this ICollection<T> source, Func<T, bool> condition)
-        {
-            foreach (var item in source.Where(condition).ToList())
-            {
-                source.Remove(item);
-            }
+            collection.ReplaceItems(newItems, x => x);
         }
     }
 }
