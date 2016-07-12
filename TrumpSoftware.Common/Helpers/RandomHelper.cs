@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using TrumpSoftware.Common.Extensions;
 
 namespace TrumpSoftware.Common.Helpers
@@ -65,8 +66,20 @@ namespace TrumpSoftware.Common.Helpers
             return TimeSpan.FromMilliseconds(randMilliseconds);
         }
 
+        public static T GetValue<T>(IEnumerable<T> values)
+        {
+            if (values == null)
+                throw new ArgumentNullException("values");
+
+            var valuesList = values.ToList();
+            var index = GetInt(valuesList.Count);
+            return valuesList[index];
+        }
+
         public static T GetValue<T>(IDictionary<T, double> probabilitiesByValue)
         {
+            if (probabilitiesByValue == null)
+                throw new ArgumentNullException("probabilitiesByValue");
             if (probabilitiesByValue.Values.Any(x => x < 0.0))
                 throw new ArgumentException("Values must be not negative", "probabilitiesByValue");
             var max = probabilitiesByValue.Values.Sum();
@@ -84,6 +97,17 @@ namespace TrumpSoftware.Common.Helpers
                     return value;
             }
             throw new Exception("Algorithm fail");
+        }
+
+        public static T GetEnumValue<T>()
+            where T : struct, IComparable, IFormattable
+        {
+            var enumType = typeof (T);
+            if (!enumType.GetTypeInfo().IsEnum)
+                throw new InvalidOperationException("Type is not Enum");
+
+            var values = (T[]) Enum.GetValues(enumType);
+            return GetValue(values);
         }
     }
 }
