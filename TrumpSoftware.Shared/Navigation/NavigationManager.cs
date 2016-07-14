@@ -149,11 +149,11 @@ namespace TrumpSoftware.WinRT.Navigation
             Navigate(nextViewModel, nextView, arg, toRememberInHistory);
         }
 
-        private void Navigate(NavigationItem historyItem)
+        private void Navigate(NavigationItem historyItem, NavigationDirection direction)
         {
             var nextViewModel = historyItem.ViewModel;
             var view = historyItem.View;
-            Navigate(nextViewModel, view, null, false);
+            Navigate(nextViewModel, view, direction, false);
         }
 
         private void Navigate(object nextViewModel, FrameworkElement nextView, object arg, bool toRememberInHistory)
@@ -227,7 +227,7 @@ namespace TrumpSoftware.WinRT.Navigation
             if (!_history.CanStepBack)
                 return;
             var historyItem = _history.StepBack();
-            Navigate(historyItem);
+            Navigate(historyItem, NavigationDirection.Back);
         }
 
         public void GoForward()
@@ -235,7 +235,7 @@ namespace TrumpSoftware.WinRT.Navigation
             if (!_history.CanStepForward)
                 return;
             var historyItem = _history.StepForward();
-            Navigate(historyItem);
+            Navigate(historyItem, NavigationDirection.Forward);
         }
 
         private void RememberInHistory(object viewModel, FrameworkElement view)

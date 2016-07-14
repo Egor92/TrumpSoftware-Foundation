@@ -60,6 +60,7 @@
     <Compile Include="Navigation\NavigatedEventArgs.cs" />
     <Compile Include="Navigation\INavigationManager.cs" />
     <Compile Include="Navigation\NavigatingEventArgs.cs" />
+    <Compile Include="Navigation\NavigationDirection.cs" />
     <Compile Include="Navigation\NavigationParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\ActiveAwareViewModel.cs" />
