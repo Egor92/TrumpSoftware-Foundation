@@ -299,12 +299,12 @@ namespace TrumpSoftware.WinRT.Controls
 
         #region Implementation of INavigationAware
 
-        public virtual void OnNavigatedTo(object previousPageVM)
+        public virtual void OnNavigatedTo(NavigationParameters parameters)
         {
             SubscribeToSizeChanged();
         }
 
-        public virtual void OnNavigatedFrom(object nextPageVM)
+        public virtual void OnNavigatingFrom(NavigationParameters parameters)
         {
             UnsubscribeFromSizeChanged();
         }

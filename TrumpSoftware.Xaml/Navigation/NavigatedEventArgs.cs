@@ -4,18 +4,22 @@ namespace TrumpSoftware.Xaml.Navigation
 {
     public class NavigatedEventArgs : EventArgs
     {
-        public object PageViewModel { get; private set; }
-        public object Page { get; private set; }
+        public object PrevViewModel { get; private set; }
+        public object PrevView { get; private set; }
+        public object Arg { get; private set; }
 
-        public NavigatedEventArgs(object pageVM, object page)
+        public NavigatedEventArgs(object prevViewModel, object prevView, object arg)
         {
-            if (pageVM == null)
-                throw new ArgumentNullException("pageVM");
-            if (page == null)
-                throw new ArgumentNullException("page");
+            if (prevViewModel == null)
+                throw new ArgumentNullException("prevViewModel");
+            if (prevView == null)
+                throw new ArgumentNullException("prevView");
+            if (arg == null)
+                throw new ArgumentNullException("arg");
 
-            PageViewModel = pageVM;
-            Page = page;
+            PrevViewModel = prevViewModel;
+            PrevView = prevView;
+            Arg = arg;
         }
     }
 }
