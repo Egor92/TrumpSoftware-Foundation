@@ -12,7 +12,7 @@ namespace TrumpSoftware.WinRT.Navigation
 {
     internal class NavigationItem
     {
-        public NavigationItem(object viewModel, FrameworkElement view)
+        internal NavigationItem(object viewModel, FrameworkElement view)
         {
             ViewModel = viewModel;
             View = view;

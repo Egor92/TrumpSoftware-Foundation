@@ -47,6 +47,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\SelectorHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Helpers\UIHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Interfaces\IHaveConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigatedEventArgs.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigatingEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationHistory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationItem.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationManager.cs" />

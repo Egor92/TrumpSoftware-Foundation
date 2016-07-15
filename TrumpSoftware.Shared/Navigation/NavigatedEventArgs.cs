@@ -1,14 +1,19 @@
 ﻿using System;
+#if WPF
+using System.Windows;
+#elif WINRT
+using Windows.UI.Xaml;
+#endif
 
-namespace TrumpSoftware.Xaml.Navigation
+#if WPF
+namespace TrumpSoftware.Wpf.Navigation
+#elif WINRT
+namespace TrumpSoftware.WinRT.Navigation
+#endif
 {
     public class NavigatedEventArgs : EventArgs
     {
-        public object PrevViewModel { get; private set; }
-        public object PrevView { get; private set; }
-        public object Arg { get; private set; }
-
-        public NavigatedEventArgs(object prevViewModel, object prevView, object arg)
+        public NavigatedEventArgs(object prevViewModel, FrameworkElement prevView, object arg)
         {
             if (prevViewModel == null)
                 throw new ArgumentNullException("prevViewModel");
@@ -21,5 +26,9 @@ namespace TrumpSoftware.Xaml.Navigation
             PrevView = prevView;
             Arg = arg;
         }
+
+        public object PrevViewModel { get; private set; }
+        public FrameworkElement PrevView { get; private set; }
+        public object Arg { get; private set; }
     }
 }

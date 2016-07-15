@@ -1,15 +1,19 @@
 ﻿using System;
+#if WPF
+using System.Windows;
+#elif WINRT
+using Windows.UI.Xaml;
+#endif
 
-namespace TrumpSoftware.Xaml.Navigation
+#if WPF
+namespace TrumpSoftware.Wpf.Navigation
+#elif WINRT
+namespace TrumpSoftware.WinRT.Navigation
+#endif
 {
     public class NavigatingEventArgs
     {
-        public object NextViewModel { get; private set; }
-        public object NextView { get; private set; }
-        public object Arg { get; private set; }
-        public bool IsCanceled { get; private set; }
-
-        public NavigatingEventArgs(object nextViewModel, object nextView, object arg)
+        public NavigatingEventArgs(object nextViewModel, FrameworkElement nextView, object arg)
         {
             if (nextViewModel == null)
                 throw new ArgumentNullException("nextViewModel");
@@ -22,6 +26,11 @@ namespace TrumpSoftware.Xaml.Navigation
             NextView = nextView;
             Arg = arg;
         }
+
+        public object NextViewModel { get; private set; }
+        public FrameworkElement NextView { get; private set; }
+        public object Arg { get; private set; }
+        public bool IsCanceled { get; private set; }
 
         public void Cancel()
         {
