@@ -51,6 +51,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigatingEventArgs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationHistory.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationItem.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationManagerBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Navigation\NavigationManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Booleans.cs" />
   </ItemGroup>

@@ -10,15 +10,15 @@ namespace TrumpSoftware.Wpf.Navigation
 namespace TrumpSoftware.WinRT.Navigation
 #endif
 {
-    internal class NavigationItem
+    public class NavigationItem
     {
-        internal NavigationItem(object viewModel, FrameworkElement view)
+        public NavigationItem(object viewModel, FrameworkElement view)
         {
             ViewModel = viewModel;
             View = view;
         }
 
-        internal object ViewModel { get; private set; }
-        internal FrameworkElement View { get; private set; }
+        public object ViewModel { get; private set; }
+        public FrameworkElement View { get; private set; }
     }
 }
