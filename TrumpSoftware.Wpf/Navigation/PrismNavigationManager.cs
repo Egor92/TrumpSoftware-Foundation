@@ -1,22 +1,13 @@
-﻿using System.Linq;
-using NavigationParameters = Prism.Regions.NavigationParameters;
-using TrumpSoftware.Xaml.Navigation;
-using Prism.Regions;
+﻿using Prism.Regions;
+using System.Linq;
 using System;
 using System.Collections.Generic;
-#if WPF
+using TrumpSoftware.Xaml.Navigation;
+using NavigationParameters = Prism.Regions.NavigationParameters;
 using System.Windows;
 using System.Windows.Controls;
-#elif WINRT
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-#endif
 
-#if WPF
 namespace TrumpSoftware.Wpf.Navigation
-#elif WINRT
-namespace TrumpSoftware.WinRT.Navigation
-#endif
 {
     public class PrismNavigationManager : INavigationManager
     {
