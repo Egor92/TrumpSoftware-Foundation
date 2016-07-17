@@ -103,7 +103,7 @@ namespace TrumpSoftware.WinRT.Navigation
         #endregion
 
         #endregion
-
+        
         #region Navigation methods
 
         public void Navigate<TViewModel>(object arg)

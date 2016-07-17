@@ -40,11 +40,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrumpSoftware.Wpf.Test", "T
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		TrumpSoftware.Shared\TrumpSoftware.Shared.projitems*{ac4bef4d-5dbb-474f-b214-75afb9b281d0}*SharedItemsImports = 4
 		TrumpSoftware.Shared\TrumpSoftware.Shared.projitems*{dcf6e040-379e-4c4d-ab33-0c075e040355}*SharedItemsImports = 4
 		TrumpSoftware.Shared\TrumpSoftware.Shared.projitems*{ba9ed5fb-a6f4-4926-ad68-5e1ba53aa098}*SharedItemsImports = 13
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug (WPF only)|Any CPU = Debug (WPF only)|Any CPU
+		Debug (WPF only)|ARM = Debug (WPF only)|ARM
+		Debug (WPF only)|x64 = Debug (WPF only)|x64
+		Debug (WPF only)|x86 = Debug (WPF only)|x86
 		Debug|Any CPU = Debug|Any CPU
 		Debug|ARM = Debug|ARM
 		Debug|x64 = Debug|x64
@@ -55,6 +58,10 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7D176D10-162B-4E78-9B1F-85723992D392}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{7D176D10-162B-4E78-9B1F-85723992D392}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|Any CPU
+		{7D176D10-162B-4E78-9B1F-85723992D392}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|Any CPU
+		{7D176D10-162B-4E78-9B1F-85723992D392}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|Any CPU
 		{7D176D10-162B-4E78-9B1F-85723992D392}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7D176D10-162B-4E78-9B1F-85723992D392}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D176D10-162B-4E78-9B1F-85723992D392}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -65,6 +72,11 @@ Global
 		{7D176D10-162B-4E78-9B1F-85723992D392}.Release|ARM.ActiveCfg = Release|Any CPU
 		{7D176D10-162B-4E78-9B1F-85723992D392}.Release|x64.ActiveCfg = Release|Any CPU
 		{7D176D10-162B-4E78-9B1F-85723992D392}.Release|x86.ActiveCfg = Release|Any CPU
+		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug (WPF only)|Any CPU.Deploy.0 = Debug (WPF only)|Any CPU
+		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|Any CPU
+		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|Any CPU
+		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|Any CPU
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -75,6 +87,11 @@ Global
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Release|ARM.ActiveCfg = Release|Any CPU
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Release|x64.ActiveCfg = Release|Any CPU
 		{61EC9F63-E6BA-482A-BF41-42E576ED3F35}.Release|x86.ActiveCfg = Release|Any CPU
+		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Debug (WPF only)|Any CPU.Build.0 = Debug (WPF only)|Any CPU
+		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|Any CPU
+		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|Any CPU
+		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|Any CPU
 		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -85,6 +102,11 @@ Global
 		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Release|ARM.ActiveCfg = Release|Any CPU
 		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Release|x64.ActiveCfg = Release|Any CPU
 		{63E0F799-F0B6-4E21-8C5B-7A0A779F13C7}.Release|x86.ActiveCfg = Release|Any CPU
+		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Debug (WPF only)|Any CPU.Build.0 = Debug (WPF only)|Any CPU
+		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|Any CPU
+		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|Any CPU
+		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|Any CPU
 		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -95,6 +117,11 @@ Global
 		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Release|ARM.ActiveCfg = Release|Any CPU
 		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Release|x64.ActiveCfg = Release|Any CPU
 		{6416B410-4C2D-4EBF-A497-9E484F422B6C}.Release|x86.ActiveCfg = Release|Any CPU
+		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Debug (WPF only)|Any CPU.Build.0 = Debug (WPF only)|Any CPU
+		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|Any CPU
+		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|Any CPU
+		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|Any CPU
 		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -105,6 +132,10 @@ Global
 		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Release|ARM.ActiveCfg = Release|Any CPU
 		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Release|x64.ActiveCfg = Release|Any CPU
 		{DCF6E040-379E-4C4D-AB33-0C075E040355}.Release|x86.ActiveCfg = Release|Any CPU
+		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|Any CPU
+		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|Any CPU
+		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|Any CPU
 		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -115,6 +146,16 @@ Global
 		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Release|ARM.ActiveCfg = Release|Any CPU
 		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Release|x64.ActiveCfg = Release|Any CPU
 		{AC4BEF4D-5DBB-474F-B214-75AFB9B281D0}.Release|x86.ActiveCfg = Release|Any CPU
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|ARM
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|ARM.Build.0 = Debug (WPF only)|ARM
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|ARM.Deploy.0 = Debug (WPF only)|ARM
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|x64
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|x64.Build.0 = Debug (WPF only)|x64
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|x64.Deploy.0 = Debug (WPF only)|x64
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|x86
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|x86.Build.0 = Debug (WPF only)|x86
+		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug (WPF only)|x86.Deploy.0 = Debug (WPF only)|x86
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
@@ -139,6 +180,11 @@ Global
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x86.ActiveCfg = Release|x86
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x86.Build.0 = Release|x86
 		{7B1EBD8B-5AE1-412E-8E46-AF202BB9F826}.Release|x86.Deploy.0 = Release|x86
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug (WPF only)|Any CPU.Build.0 = Debug (WPF only)|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|Any CPU
+		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|Any CPU
 		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -149,6 +195,11 @@ Global
 		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Release|ARM.ActiveCfg = Release|Any CPU
 		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Release|x64.ActiveCfg = Release|Any CPU
 		{255A56F8-FCC4-48A2-9B0E-C45E43702781}.Release|x86.ActiveCfg = Release|Any CPU
+		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Debug (WPF only)|Any CPU.Build.0 = Debug (WPF only)|Any CPU
+		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|Any CPU
+		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|Any CPU
+		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|Any CPU
 		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Debug|ARM.ActiveCfg = Debug|Any CPU
@@ -159,6 +210,11 @@ Global
 		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Release|ARM.ActiveCfg = Release|Any CPU
 		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Release|x64.ActiveCfg = Release|Any CPU
 		{998D31D3-0C75-445E-BBE2-FBA65B439DEB}.Release|x86.ActiveCfg = Release|Any CPU
+		{B82CC90B-5746-4A60-9C15-E93985D9F464}.Debug (WPF only)|Any CPU.ActiveCfg = Debug (WPF only)|Any CPU
+		{B82CC90B-5746-4A60-9C15-E93985D9F464}.Debug (WPF only)|Any CPU.Build.0 = Debug (WPF only)|Any CPU
+		{B82CC90B-5746-4A60-9C15-E93985D9F464}.Debug (WPF only)|ARM.ActiveCfg = Debug (WPF only)|Any CPU
+		{B82CC90B-5746-4A60-9C15-E93985D9F464}.Debug (WPF only)|x64.ActiveCfg = Debug (WPF only)|Any CPU
+		{B82CC90B-5746-4A60-9C15-E93985D9F464}.Debug (WPF only)|x86.ActiveCfg = Debug (WPF only)|Any CPU
 		{B82CC90B-5746-4A60-9C15-E93985D9F464}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B82CC90B-5746-4A60-9C15-E93985D9F464}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B82CC90B-5746-4A60-9C15-E93985D9F464}.Debug|ARM.ActiveCfg = Debug|Any CPU

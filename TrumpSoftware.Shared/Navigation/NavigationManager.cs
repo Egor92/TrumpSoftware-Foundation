@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 #elif WINRT
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 #endif
@@ -44,7 +43,7 @@ namespace TrumpSoftware.WinRT.Navigation
             var viewModelType = typeof (TViewModel);
             if (_navigationItemByViewModelType.ContainsKey(viewModelType))
             {
-                var message = string.Format("parameters of type {0} has been registered", viewModelType.FullName);
+                var message = string.Format("ViewModel of type {0} has been registered", viewModelType.FullName);
                 throw new Exception(message);
             }
             _navigationItemByViewModelType[viewModelType] = new NavigationItem(viewModel, view);
@@ -59,15 +58,19 @@ namespace TrumpSoftware.WinRT.Navigation
 
         #endregion
 
+        #region Overridden members
+
         protected override NavigationItem GetNavigationItem<TViewModel>()
         {
-            Type viewModelType = typeof(TViewModel);
+            Type viewModelType = typeof (TViewModel);
             if (!_navigationItemByViewModelType.ContainsKey(viewModelType))
             {
-                var message = string.Format("parameters of type {0} hasn't been registered", viewModelType.FullName);
+                var message = string.Format("ViewModel of type {0} hasn't been registered", viewModelType.FullName);
                 throw new InvalidOperationException(message);
             }
             return _navigationItemByViewModelType[viewModelType];
         }
+
+        #endregion
     }
 }
