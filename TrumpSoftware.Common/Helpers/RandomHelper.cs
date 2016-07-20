@@ -81,7 +81,7 @@ namespace TrumpSoftware.Common.Helpers
             if (probabilitiesByValue == null)
                 throw new ArgumentNullException("probabilitiesByValue");
             if (probabilitiesByValue.Values.Any(x => x < 0.0))
-                throw new ArgumentException("Values must be not negative", "probabilitiesByValue");
+                throw new ArgumentException("Probabilities must be not negative", "probabilitiesByValue");
             var max = probabilitiesByValue.Values.Sum();
             if (!(max > 0.0))
                 throw new ArgumentException("Summa of values must be positive", "probabilitiesByValue");

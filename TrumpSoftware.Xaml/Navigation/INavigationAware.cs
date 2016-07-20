@@ -2,8 +2,8 @@
 {
     public interface INavigationAware
     {
-        void OnNavigatedTo(object previousPageVM);
+        void OnNavigatedTo(NavigationParameters parameters);
 
-        void OnNavigatedFrom(object nextPageVM);
+        void OnNavigatingFrom(NavigationParameters parameters);
     }
 }
