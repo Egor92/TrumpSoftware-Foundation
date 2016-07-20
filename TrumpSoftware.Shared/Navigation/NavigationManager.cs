@@ -18,7 +18,7 @@ namespace TrumpSoftware.WinRT.Navigation
     {
         #region Fields
 
-        private readonly IDictionary<Type, NavigationItem> _navigationItemByViewModelType = new Dictionary<Type, NavigationItem>();
+        private readonly IDictionary<Type, NavigationItem> _navigationItemsByViewModelType = new Dictionary<Type, NavigationItem>();
 
         #endregion
 
@@ -41,12 +41,12 @@ namespace TrumpSoftware.WinRT.Navigation
                 throw new ArgumentNullException("view");
 
             var viewModelType = typeof (TViewModel);
-            if (_navigationItemByViewModelType.ContainsKey(viewModelType))
+            if (_navigationItemsByViewModelType.ContainsKey(viewModelType))
             {
                 var message = string.Format("ViewModel of type {0} has been registered", viewModelType.FullName);
                 throw new Exception(message);
             }
-            _navigationItemByViewModelType[viewModelType] = new NavigationItem(viewModel, view);
+            _navigationItemsByViewModelType[viewModelType] = new NavigationItem(viewModel, view);
         }
 
         public void Register<TViewModel, TView>(TViewModel viewModel)
@@ -63,12 +63,12 @@ namespace TrumpSoftware.WinRT.Navigation
         protected override NavigationItem GetNavigationItem<TViewModel>()
         {
             Type viewModelType = typeof (TViewModel);
-            if (!_navigationItemByViewModelType.ContainsKey(viewModelType))
+            if (!_navigationItemsByViewModelType.ContainsKey(viewModelType))
             {
                 var message = string.Format("ViewModel of type {0} hasn't been registered", viewModelType.FullName);
                 throw new InvalidOperationException(message);
             }
-            return _navigationItemByViewModelType[viewModelType];
+            return _navigationItemsByViewModelType[viewModelType];
         }
 
         #endregion
