@@ -9,7 +9,7 @@ namespace TrumpSoftware.Common
     {
         private static IFormatProvider DefaultFormatProvider
         {
-            get { return CultureInfo.CurrentCulture; }
+            get { return CultureInfo.InvariantCulture; }
         }
 
         public static bool TryConvert(object value, Type targetType, IFormatProvider formatProvider, out object result)
