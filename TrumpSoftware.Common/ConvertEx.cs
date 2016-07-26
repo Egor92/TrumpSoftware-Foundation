@@ -73,8 +73,15 @@ namespace TrumpSoftware.Common
 
         public static bool TryConvert<T>(object value, IFormatProvider formatProvider, out T result)
         {
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+            if (formatProvider == null)
+                throw new ArgumentNullException(nameof(formatProvider));
+            var targetType = typeof(T);
+            if (targetType == null)
+                throw new ArgumentNullException("T");
             object internalResult;
-            bool isConvertedSuccessfully = TryConvert(value, typeof(T), formatProvider, out internalResult);
+            bool isConvertedSuccessfully = TryConvert(value, targetType, formatProvider, out internalResult);
             result = (T)internalResult;
             return isConvertedSuccessfully;
         }
