@@ -73,8 +73,6 @@ namespace TrumpSoftware.Common
 
         public static bool TryConvert<T>(object value, IFormatProvider formatProvider, out T result)
         {
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
             if (formatProvider == null)
                 throw new ArgumentNullException(nameof(formatProvider));
             var targetType = typeof(T);

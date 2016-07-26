@@ -73,7 +73,7 @@ namespace TrumpSoftware.Common.Test
         [TestMethod]
         public void CanConvertStringToDouble()
         {
-            CanConvert<double>("4,3", 4.3);
+            CanConvert<double>("4.3", 4.3);
         }
 
         [TestMethod]
@@ -97,7 +97,7 @@ namespace TrumpSoftware.Common.Test
         [TestMethod]
         public void CanConvertDoubleToString()
         {
-            CanConvert<string>(4.3, "4,3");
+            CanConvert<string>(4.3, "4.3");
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace TrumpSoftware.Common.Test
         [TestMethod]
         public void CanConvertStringToNullableDouble()
         {
-            CanConvert<double?>("4,3", 4.3);
+            CanConvert<double?>("4.3", 4.3);
         }
 
         [TestMethod]
