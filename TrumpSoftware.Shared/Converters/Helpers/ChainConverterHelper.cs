@@ -11,12 +11,13 @@ namespace TrumpSoftware.WinRT.Converters.Helpers
     {
         public static T CastValue<T>(object value, object converter)
         {
-            T result;
-            if (!ConvertEx.TryConvert(value, out result))
+            var convertResult = ConvertEx.TryConvert<T>(value);
+            if (!convertResult.IsSuccess)
             {
                 var message = string.Format("Can not convert {0} to type '{1}' in converter of type '{2}'", GetValueTypeString(value), typeof(T), converter.GetType());
                 throw new Exception(message);
             }
+            T result = convertResult.Data;
             return result;
         }
 

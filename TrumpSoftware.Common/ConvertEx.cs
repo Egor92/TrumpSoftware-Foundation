@@ -12,28 +12,25 @@ namespace TrumpSoftware.Common
             get { return CultureInfo.InvariantCulture; }
         }
 
-        public static bool TryConvert(object value, Type targetType, IFormatProvider formatProvider, out object result)
+        public static Result<object> TryConvert(object value, Type targetType, IFormatProvider formatProvider)
         {
             var targetTypeInfo = targetType.GetTypeInfo();
 
             if (value != null && targetTypeInfo.IsAssignableFrom(value.GetType().GetTypeInfo()))
             {
-                result = value;
-                return true;
+                return new Result<object>(true, value);
             }
 
             if (value == null && !targetTypeInfo.IsValueType)
             {
-                result = null;
-                return true;
+                return new Result<object>(true, null);
             }
 
             var nullableUnderlyingType = Nullable.GetUnderlyingType(targetType);
 
             if (value == null && nullableUnderlyingType != null)
             {
-                result = null;
-                return true;
+                return new Result<object>(true, null);
             }
 
             if (nullableUnderlyingType != null)
@@ -44,57 +41,55 @@ namespace TrumpSoftware.Common
 
             if (value == null && targetTypeInfo.IsValueType)
             {
-                result = targetType.GetDefault();
-                return false;
+                var result = targetType.GetDefault();
+                return new Result<object>(false, result);
             }
 
             if (!targetTypeInfo.IsPrimitive && targetType != typeof (string))
             {
-                result = targetType.GetDefault();
-                return false;
+                var result = targetType.GetDefault();
+                return new Result<object>(false, result);
             }
 
             try
             {
-                result = System.Convert.ChangeType(value, targetType, formatProvider);
+                var result = System.Convert.ChangeType(value, targetType, formatProvider);
+                return new Result<object>(true, result);
             }
             catch (Exception)
             {
-                result = targetType.GetDefault();
-                return false;
+                var result = targetType.GetDefault();
+                return new Result<object>(false, result);
             }
-            return true;
         }
 
-        public static bool TryConvert(object value, Type targetType, out object result)
+        public static Result<object> TryConvert(object value, Type targetType)
         {
-            return TryConvert(value, targetType, DefaultFormatProvider, out result);
+            return TryConvert(value, targetType, DefaultFormatProvider);
         }
 
-        public static bool TryConvert<T>(object value, IFormatProvider formatProvider, out T result)
+        public static Result<T> TryConvert<T>(object value, IFormatProvider formatProvider)
         {
             if (formatProvider == null)
                 throw new ArgumentNullException(nameof(formatProvider));
             var targetType = typeof(T);
             if (targetType == null)
                 throw new ArgumentNullException("T");
-            object internalResult;
-            bool isConvertedSuccessfully = TryConvert(value, targetType, formatProvider, out internalResult);
-            result = (T)internalResult;
-            return isConvertedSuccessfully;
+            Result<object> convertResult = TryConvert(value, targetType, formatProvider);
+            return (Result<T>)convertResult;
         }
 
-        public static bool TryConvert<T>(object value, out T result)
+        public static Result<T> TryConvert<T>(object value)
         {
-            return TryConvert(value, DefaultFormatProvider, out result);
+            return TryConvert<T>(value, DefaultFormatProvider);
         }
 
         public static object Convert(object value, Type targetType, IFormatProvider formatProvider)
         {
-            object result;
-            if (!TryConvert(value, targetType, formatProvider, out result))
+            var convertResult = TryConvert(value, targetType, formatProvider);
+            if (!convertResult.IsSuccess)
                 throw new Exception(string.Format("Can not convert {0} to type '{1}'", GetValueTypeString(value), targetType));
-            return result;
+            return convertResult.Data;
         }
 
         public static object Convert(object value, Type targetType)

@@ -249,11 +249,12 @@ namespace TrumpSoftware.Common.Test
             Convert<T>(value, false);
         }
 
-        private T Convert<T>(object value, bool expectedResult)
+        private static T Convert<T>(object value, bool expectedResult)
         {
-            T convertedValue;
-            var converted = ConvertEx.TryConvert<T>(value, out convertedValue);
-            Assert.AreEqual(expectedResult, converted);
+            var convertResult = ConvertEx.TryConvert<T>(value);
+            var convertedSuccessfully = convertResult.IsSuccess;
+            Assert.AreEqual(expectedResult, convertedSuccessfully);
+            T convertedValue = convertResult.Data;
             return convertedValue;
         }
     }
