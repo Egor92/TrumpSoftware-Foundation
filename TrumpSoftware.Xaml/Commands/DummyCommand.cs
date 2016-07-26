@@ -41,6 +41,11 @@ namespace TrumpSoftware.Xaml.Commands
 
         public event EventHandler CanExecuteChanged;
 
+        protected virtual void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         #endregion
     }
 }
