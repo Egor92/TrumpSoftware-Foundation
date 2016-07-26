@@ -92,7 +92,7 @@ namespace TrumpSoftware.Common.Time
             if (_isRunning)
                 return;
             _isRunning = true;
-            StartTimerAsync();
+            StartTimer();
         }
 
         public void Pause()
@@ -110,7 +110,7 @@ namespace TrumpSoftware.Common.Time
 
         protected abstract TimeSpan AggregateTime(TimeSpan left, TimeSpan right);
 
-        private async Task StartTimerAsync()
+        private async void StartTimer()
         {
             _intervalStartTime = DateTime.Now;
             while (true)
