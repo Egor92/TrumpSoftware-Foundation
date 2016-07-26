@@ -35,9 +35,11 @@ namespace TrumpSoftware.WinRT.Converters.Cases
 
         public bool IsMatched(object value)
         {
-            double @double;
-            if (!ConvertEx.TryConvert(value, out @double))
+            var convertResult = ConvertEx.TryConvert<double>(value);
+            if (!convertResult.IsSuccess)
                 return false;
+
+            double @double = convertResult.Data;
             return (IsMinStrictly && Min < @double || !IsMinStrictly && Min <= @double)
                    && (IsMaxStrictly && Max > @double || !IsMaxStrictly && Max >= @double);
         }

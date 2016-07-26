@@ -6,10 +6,10 @@ namespace TrumpSoftware.WinRT.PlatformSpecifics
 {
     public class UIThread : IUIThread
     {
-        public void Invoke(Action action)
+        public async void Invoke(Action action)
         {
             var coreWindow = CoreWindow.GetForCurrentThread();
-            coreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
+            await coreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
         }
     }
 }

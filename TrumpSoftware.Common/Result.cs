@@ -32,5 +32,25 @@ namespace TrumpSoftware.Common
         {
             Data = data;
         }
+
+        public static explicit operator Result<T>(Result<object> result)
+        {
+            var isSuccess = result.IsSuccess;
+            var message = result.Message;
+            return new Result<T>(isSuccess, message)
+            {
+                Data = (T)result.Data,
+            };
+        }
+
+        public static explicit operator Result<object>(Result<T> result)
+        {
+            var isSuccess = result.IsSuccess;
+            var message = result.Message;
+            return new Result<object>(isSuccess, message)
+            {
+                Data = result.Data,
+            };
+        }
     }
 }
